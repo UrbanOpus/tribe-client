@@ -1,0 +1,7 @@
+# auto-generated caches
+.git/
+.idea/
+
+# build files/plugins
+platforms/
+plugins/

@@ -1,0 +1,8 @@
+{
+    "development": {
+        "api": "localhost:3000/api/"
+    },
+    "production": {
+        "api": "http://108.59.80.64:3000/api/"
+    }
+}

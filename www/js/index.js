@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var app = {
+var api = /*REP*/ 'localhost:3000/api/' /*REP*/,
+    app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();

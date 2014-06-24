@@ -16,8 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var api = /*REP*/ 'localhost:3000/api/' /*REP*/,
-    app = {
+var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -35,8 +34,7 @@ var api = /*REP*/ 'localhost:3000/api/' /*REP*/,
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        StatusBar.overlaysWebView(false);
-        StatusBar.backgroundColorByName("grey");
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

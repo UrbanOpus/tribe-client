@@ -3,7 +3,8 @@
 // uses node to install plugin dependencies
 
 var pluginlist = [
-    "org.apache.cordova.statusbar"
+    "org.apache.cordova.statusbar",
+    "org.apache.cordova.device"
 ];
 
 var fs   = require('fs'),

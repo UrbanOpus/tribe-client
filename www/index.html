@@ -35,15 +35,20 @@
         <a href="#settingsPage" id="settingsButton" class="ui-btn-right" data-role="button" data-icon="gear">Settings</a>
     </div>
     <div data-role="content">
+        <span id="environment"></span>
         <form action="#" method="post" id="moodForm">
             <div data-role="fieldcontain">
                 <label for="mood">How are you feeling?</label>
                 <input type="range" name="value" id="mood" value="0" min="-100" max="100"/>
             </div>
+            <div data-role="fieldcontain">
+                <button class="ui-btn ui-icon-location ui-btn-icon-left ui-corner-all" id="locationButton">Tap for location</button>
+            </div>
+            <input type="hidden" name="loc_latitude" id="loc_latitude" value=""/>
+            <input type="hidden" name="loc_longitude" id="loc_longitude" value=""/>
             <button id="moodSubmit">Submit</button>
         </form>
-        <span id="formStatus"></span>
-        <div id="deviceProps"></div>
+        <div id="moodHistory"></div>
     </div>
 </div>
 
@@ -61,10 +66,31 @@
 </div>
 
 
+<script id="moodHistoryTemplate" type="text/ractive">
+    <h2>Mood History</h2>
+    <div id="formStatus">
+        {{status}}
+    </div>
+    <table id="historyTable" class="ui-responsive">
+        <tr>
+            <th>Time</th>
+            <th class="align-center">Value</th>
+        </tr>
+        {{#moods}}
+        <tr>
+            <td>{{formatTime(createdAt)}}</td>
+            <td class="align-center">{{value}}</td>
+        </tr>
+        {{/moods}}
+        <tr>
+        </tr>
+    </table>
+</script>
 
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js/vendor/jquery.min.js"></script>
 <script src="js/vendor/jquery.mobile.min.js"></script>
+<script src="js/vendor/ractive.js"></script>
 <script type="text/javascript" src="js/config.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/tribe.js"></script>

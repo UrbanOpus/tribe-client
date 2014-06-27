@@ -29,10 +29,12 @@
     <title>Tribe App</title>
 </head>
 <body>
+
+<!-- Home Page -->
 <div data-role="page" id="mainPage">
     <div data-role="header">
+        <a href="#menu" data-icon="bars">Menu</a>
         <h1>Tribe App</h1>
-        <a href="#settingsPage" id="settingsButton" class="ui-btn-right" data-role="button" data-icon="gear">Settings</a>
     </div>
     <div data-role="content">
         <span id="environment"></span>
@@ -50,18 +52,21 @@
         </form>
         <div id="moodHistory"></div>
     </div>
+    <div data-role="panel" id="menu">
+        <ul data-role="listview" id="nav">
+            <li><a href="#mainPage">Home</a></li>
+            <li><a href="#questionPage">Questions</a></li>
+        </ul>
+    </div>
 </div>
 
-
-
-
-<div data-role="page" id="settingsPage" data-add-back-btn="true" >
+<!-- Question Page -->
+<div data-role="page" id="questionPage">
     <div data-role="header">
-        <a href="#mainPage" class="ui-btn ui-icon-delete ui-btn-icon-left"
-           data-rel="back">Cancel</a>
-        <h1>Tribe - Settings</h1>
+        <h1>Tribe App</h1>
     </div>
     <div data-role="content">
+        <h1>Questions</h1>
     </div>
 </div>
 
@@ -96,6 +101,7 @@
 <script type="text/javascript" src="js/tribe.js"></script>
 <script type="text/javascript">
     app.initialize();
+    jQuery.mobile.phonegapNavigationEnabled = true
 </script>
 </body>
 </html>

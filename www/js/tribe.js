@@ -124,6 +124,16 @@
                 }
             }
 
+            // reconfigure location data
+            if (post_data.loc_latitude && post_data.loc_longitude) {
+                post_data.location = {
+                    latitude:  post_data.loc_latitude,
+                    longitude: post_data.loc_longitude
+                };
+                post_data.loc_latitude  = undefined;
+                post_data.loc_longitude = undefined;
+            }
+
             post_data.userID = userid;
 
             $.ajax({

@@ -63,10 +63,16 @@
 <!-- Question Page -->
 <div data-role="page" id="questionPage">
     <div data-role="header">
+        <a href="#menu" data-icon="bars">Menu</a>
         <h1>Tribe App</h1>
     </div>
-    <div data-role="content">
-        <h1>Questions</h1>
+    <div data-role="content" id="question">
+    </div>
+    <div data-role="panel" id="menu">
+        <ul data-role="listview" id="nav">
+            <li><a href="#mainPage">Home</a></li>
+            <li><a href="#questionPage">Questions</a></li>
+        </ul>
     </div>
 </div>
 
@@ -91,6 +97,78 @@
         </tr>
     </table>
 </script>
+<script id="questionTemplate" type="text/ractive">
+    <h2>Question of the Day</h2>
+    <div id="questionStatus">{{status}}</div>
+    {{#question}}
+        <em>{{formatDate(createdAt)}}</em>
+        <h3>{{content}}</h3>
+        <form id="questionResponse">
+            <input type="hidden" name="questionID" id="questionID" value="{{_id}}">
+            {{# type === 'mc' }}
+                {{>mcQuestionPartial}}
+            {{/ type === 'mc' }}
+            {{# type === 'emc' }}
+                {{>emcQuestionPartial}}
+            {{/ type === 'emc' }}
+            {{# type === 'num' }}
+                {{>numQuestionPartial}}
+            {{/ type === 'num' }}
+
+        {{^submitted}}
+            <div data-role="fieldcontain">
+                <button class="ui-btn ui-icon-location ui-btn-icon-left ui-corner-all" id="locationButton">Tap for location</button>
+            </div>
+            <input type="hidden" name="loc_latitude" id="loc_latitude" value=""/>
+            <input type="hidden" name="loc_longitude" id="loc_longitude" value=""/>
+            <button type="submit" id="submit-question">Submit</button>
+        {{/submitted}}
+        </form>
+    {{/question}}
+</script>
+
+<script id="mcQuestionPartial" type="text/ractive">
+        <input type="hidden" name="questionType" id="questionType" value="mc">
+        <div id="answers" data-role="fieldcontain">
+            <fieldset data-role="controlgroup">
+            {{^submitted}}
+                <legend>Choose all that apply:</legend>
+            {{/submitted}}
+            {{#possibleAnswers:num}}
+                <input disabled="{{submitted}}" checked="{{isResponse}}" type="checkbox" name="response_{{num}}" id="response{{num}}" value="{{value}}">
+                <label for="response{{num}}">{{value}}</label>
+            {{/possibleAnswers}}
+            </fieldset>
+        </div>
+</script>
+
+<script id="emcQuestionPartial" type="text/ractive">
+        <input type="hidden" name="questionType" id="questionType" value="emc">
+        <div id="answers" data-role="fieldcontain">
+            <fieldset data-role="controlgroup">
+            {{^submitted}}
+                <legend>Choose one:</legend>
+            {{/submitted}}
+            {{#possibleAnswers:num}}
+                <input disabled="{{submitted}}" checked="{{isResponse}}" type="radio" name="value" id="response{{num}}" value="{{num}}">
+                <label for="response{{num}}">{{value}}</label>
+            {{/possibleAnswers}}
+            </fieldset>
+        </div>
+</script>
+
+<script id="numQuestionPartial" type="text/ractive">
+        <input type="hidden" name="questionType" id="questionType" value="num">
+        <div id="answers" data-role="fieldcontain">
+            <fieldset data-role="controlgroup">
+                {{^submitted}}
+                    <legend>Drag the slider</legend>
+                {{/submitted}}
+                <input disabled="{{submitted}}" type="range" name="value" id="response" value="{{response_or_default}}" min="{{possibleAnswers.min}}" max="{{possibleAnswers.max}}">
+            </fieldset>
+        </div>
+</script>
+
 
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js/vendor/jquery.min.js"></script>

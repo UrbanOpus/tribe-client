@@ -106,6 +106,9 @@
     <div id="formStatus">
         {{status}}
     </div>
+    <div>
+        You've submitted <strong>{{moods.length}}</strong> moods so far.
+    </div>
     <table id="historyTable" class="ui-responsive">
         <tr>
             <th>Time</th>
@@ -114,7 +117,7 @@
         {{#moods}}
         <tr>
             <td>{{formatTime(createdAt)}}</td>
-            <td class="align-center">{{value}}</td>
+            <td class="align-center">{{formatHappiness(value)}}</td>
         </tr>
         {{/moods}}
         <tr>

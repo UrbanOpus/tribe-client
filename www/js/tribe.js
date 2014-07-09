@@ -5,11 +5,11 @@
 var userid = null,
     regid = null,
     onNotification = function (e) {
-    window.plugins.toast.showLongBottom(e);
+    //window.plugins.toast.showLongBottom(e);
     switch (e.event) {
         case 'registered':
             if (e.regid.length > 0) {
-                window.plugins.toast.showLongBottom(e.regid);
+                //window.plugins.toast.showLongBottom(e.regid);
                 regid = e.regid;
                 if (userid) {
                     $.ajax({
@@ -333,6 +333,7 @@ var userid = null,
 
         },
         unregisterGCM = function () {
+            // TODO: GCM does not guarantee registration IDs will last forever; integrate this
             var successHandler = function (result) {
                 console.log(result);
             },
@@ -388,8 +389,10 @@ var userid = null,
                 userid = user._id;
             },
             error: function (error) {
-                // no user exists, prompt to create one
-                createUser();
+                // no user exists, prompt to create one (if on android)
+                if (device.platform === 'android' || device.platform === 'Android') {
+                    createUser();
+                }
             }
         });
 

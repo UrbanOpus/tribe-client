@@ -1,7 +1,11 @@
 /**
  * Created by faide on 2014-06-23.
  */
-// this has to be defined globally
+
+var __APPVERSION = '0.1';
+
+// these have to be defined globally
+
 var userid = null,
     regid = null,
     onNotification = function (e) {
@@ -305,7 +309,10 @@ var userid = null,
             data: {
                 moods: [],
                 status: "",
-                formatTime: formatTime
+                formatTime: formatTime,
+                formatHappiness: function (val) {
+                    return val
+                }
             }
         }),
         registerGCM = function () {
@@ -403,8 +410,21 @@ var userid = null,
         bindLocationButton();
 
         //report environment
-        if (config.env) {
+        if (config.env && config.env !== 'PRODUCTION') {
             $('span#environment').text('(' + config.env + ')');
+        }
+
+        if (config.env === 'PRODUCTION') {
+            // get the latest app version
+            $.ajax({
+                url: config.api + 'app_version',
+                type: 'GET',
+                success: function (v) {
+                    if (v === __APPVERSION) {
+                        $('span#environment').css('color', 'red').text('ALPHA ' + __APPVERSION);
+                    }
+                }
+            });
         }
 
 

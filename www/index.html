@@ -39,9 +39,11 @@
     </div>
     <div data-role="content">
         <span id="environment"></span>
+        <h2>Moods</h2>
         <form action="#" method="post" id="moodForm">
+            <legend>Tell us how you're feeling:</legend>
             <div data-role="fieldcontain">
-                <label for="mood">How are you feeling?</label>
+                <label for="mood">Enter a value between -100 (very unhappy) and 100 (very happy)</label>
                 <input type="range" name="value" id="mood" value="0" min="-100" max="100"/>
             </div>
             <div data-role="fieldcontain">
@@ -54,7 +56,7 @@
         <div id="moodHistory"></div>
     </div>
     <div data-role="panel" id="mainPageMenu">
-        <ul data-role="listview" id="nav">
+        <ul data-role="listview" id="mainPageNav">
             <li><a href="#mainPage">Home</a></li>
             <li><a href="#questionPage">Questions</a></li>
         </ul>
@@ -70,7 +72,7 @@
     <div data-role="content" id="question">
     </div>
     <div data-role="panel" id="questionPageMenu">
-        <ul data-role="listview" id="nav">
+        <ul data-role="listview" id="questionPageNav">
             <li><a href="#mainPage">Home</a></li>
             <li><a href="#questionPage">Questions</a></li>
         </ul>

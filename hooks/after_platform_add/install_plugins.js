@@ -4,7 +4,9 @@
 
 var pluginlist = [
     "org.apache.cordova.statusbar",
-    "org.apache.cordova.device"
+    "org.apache.cordova.device",
+    "com.phonegap.plugins.PushPlugin",
+    "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git"
 ];
 
 var fs   = require('fs'),

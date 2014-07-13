@@ -1,15 +1,16 @@
-angular.module('starter.controllers', [])
+angular.module('tribe.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('MainCtrl', function($scope) {
+    $scope.data = {};
+    $scope.data.message = 'Hello world';
 })
 
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
+.controller('MoodCtrl', function($scope) {
+    $scope.data = {};
+    $scope.data.message = 'Hello mood';
 })
 
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
+.controller('QuestionCtrl', function($scope) {
+    $scope.data = {};
+    $scope.data.message = 'Hello questions';
 })
-
-.controller('AccountCtrl', function($scope) {
-});

@@ -1,0 +1,27 @@
+<div class="modal">
+    <ion-header-bar>
+        <h1 class="title">Create a new Mood</h1>
+    </ion-header-bar>
+    <ion-content class="has-header padding">
+        <form ng-submit="submitForm()">
+            <div class="range {{data.rangeColor}}">
+                <i class="icon ion-sad"></i>
+                <input type="range" name="volume" ng-model="data.rangeValue" value="{{data.rangeValue}}" ng-change="setColor()" min="-100" max="100">
+                <i class="icon ion-happy"></i>
+            </div>
+            <ul class="list">
+                <li class="item item-toggle">
+                    {{data.location.status}}
+                    <label class="toggle toggle-balanced">
+                        <input type="checkbox" ng-disabled="data.location.unavailable" ng-model="data.location.enabled" checked="{{data.location.enabled}}" ng-change="setLocation()">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </li>
+            </ul>
+            <button ng-click="submit()" class="button button-block button-positive">Submit</button>
+            <button ng-click="closeModal()" class="button button-block button-light">Cancel</button>
+        </form>
+    </ion-content>
+</div>

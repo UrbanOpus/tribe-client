@@ -1,26 +1,43 @@
-angular.module('starter.services', [])
+angular.module('tribe.services', [])
 
-/**
- * A simple example service that returns some data.
- */
-.factory('Friends', function() {
-  // Might use a resource here that returns a JSON array
+    .factory('UserService', function () {
+        var user = {};
 
-  // Some fake testing data
-  var friends = [
-    { id: 0, name: 'Scruff McGruff' },
-    { id: 1, name: 'G.I. Joe' },
-    { id: 2, name: 'Miss Frizzle' },
-    { id: 3, name: 'Ash Ketchum' }
-  ];
+        return {
+            set: function (attr, value) {
+                console.log('setting user.' + attr + ' to ' + value);
+                user[attr] = value;
+            },
+            get: function (attr) {
+                return user[attr];
+            },
+            getUser: function (user) {
+                return user;
+            }
+        };
+    })
 
-  return {
-    all: function() {
-      return friends;
-    },
-    get: function(friendId) {
-      // Simple index lookup
-      return friends[friendId];
-    }
-  }
-});
+    .factory('APIService', function ($http) {
+        var url = 'http://108.59.80.64:3000/api/';
+
+        console.log('api service init');
+
+        return {
+            getUser: function (uuid) {
+                console.log('getting user', uuid);
+                return $http.get(url + 'users/' + uuid);
+            },
+            getMoods: function (uuid) {
+                return $http.get(url + 'moods/users/' + uuid);
+            },
+            postMood: function (mood) {
+                return $http.post(url + 'moods/users/' + mood.uuid, mood);
+            },
+            getQuestion: function (date) {
+                return $http.get(url + 'questions/date' + ((date) ? ('/' + date) : ''));
+            },
+            postQuestion: function (questionID, response) {
+                return $http.post(url + 'questions/' + questionID + '/responses', response);
+            }
+        }
+    });

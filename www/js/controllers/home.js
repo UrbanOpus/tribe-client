@@ -6,5 +6,4 @@ angular.module('tribe.home', [])
     .controller('HomeCtrl', function($scope, UserService) {
         $scope.data = {};
         $scope.data.message = 'Hello world';
-        $scope.data.user = UserService.getUser();
     })

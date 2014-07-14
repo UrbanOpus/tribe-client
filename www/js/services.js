@@ -38,6 +38,9 @@ angular.module('tribe.services', [])
             },
             postQuestion: function (questionID, response) {
                 return $http.post(url + 'questions/' + questionID + '/responses', response);
+            },
+            createUser: function (user) {
+                return $http.post(url + 'users', user);
             }
         }
     });

@@ -29,6 +29,25 @@ angular.module('tribe.welcome', [])
         }
 
         $scope.dontNotifyUser = function () {
+            // we have to create the user so that the welcome dialog does not popup every time the app starts up
+            var submission = {
+                uuid: UserService.get('uuid')
+            };
+
+            APIService.createUser(submission).success(function (user) {
+                $ionicPopup.alert({
+                    title: 'Success!',
+                    template: 'User created'
+                }).then(function () {
+                    $location.path('/app/home');
+                });
+            }).error(function (error) {
+                $ionicPopup.alert({
+                    title: 'Error!',
+                    template: error
+                });
+            });
+
             $location.path('/app/home');
         }
     });

@@ -4,15 +4,29 @@
         <div class="h1 title"></div>
         <button class="button button-positive" ng-click="openModal()">New</button>
     </ion-nav-buttons>
-    <ion-content class="padding">
-        <div id="map" data-tap-disabled="true">Future site of map</div>
+        <ion-tabs class="tabs-dark">
+            <ion-tab title="Your Moods" icon-on="ion-ios7-person" icon-off="ion-ios7-person-outline" on-select="userTab()">
+                <ion-content animation=slide-left-right">
+                    <google-map center="map.center" zoom="map.zoom" options="map.options">
+                        <markers models="map.markers" coords="'self'" fit="true"></markers>
+                    </google-map>
 
-        <ion-list class="list list-inset">
-            <ion-item class="item" ng-repeat="mood in data.moods">
-                {{mood.value | asPercentage}}
+                    <h4 style="text-align: center">History</h4>
+                    <div class="list list-inset">
+                        <ion-item class="item" ng-repeat="mood in data.moods">
+                            {{mood.value | asPercentage}}
 
-                <span class="item-note"><i ng-if="mood.location" class="icon ion-location"></i> {{mood.createdAt | date:'short'}}</span>
-            </ion-item>
-        </ion-list>
-    </ion-content>
+                            <span class="item-note"><i ng-if="mood.location" class="icon ion-location"></i> {{mood.createdAt | date:'short'}}</span>
+                        </ion-item>
+                    </div>
+                </ion-content>
+            </ion-tab>
+            <ion-tab title="All Moods" icon-on="ion-ios7-people" icon-off="ion-ios7-people-outline" on-select="globalTab()">
+                <ion-content animation="slide-left-right">
+                    <google-map center="map.center" zoom="map.zoom" options="map.options">
+                        <markers models="map.markers" coords="'self'" fit="true"></markers>
+                    </google-map>
+                </ion-content>
+            </ion-tab>
+        </ion-tabs>
 </ion-view>

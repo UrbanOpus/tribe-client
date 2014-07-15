@@ -18,6 +18,8 @@ angular.module('tribe.services', [])
     })
 
     .factory('APIService', function ($http) {
+        // dev; comment out when commiting
+        //var url = 'http://localhost:3000/api/';
         var url = 'http://108.59.80.64:3000/api/';
 
         console.log('api service init');
@@ -28,7 +30,11 @@ angular.module('tribe.services', [])
                 return $http.get(url + 'users/' + uuid);
             },
             getMoods: function (uuid) {
-                return $http.get(url + 'moods/users/' + uuid);
+                if (uuid) {
+                    return $http.get(url + 'moods/users/' + uuid);
+                } else {
+                    return $http.get(url + 'moods');
+                }
             },
             postMood: function (mood) {
                 return $http.post(url + 'moods/users/' + mood.uuid, mood);

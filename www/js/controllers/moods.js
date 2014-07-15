@@ -1,7 +1,7 @@
 /**
  * Created by faide on 2014-07-14.
  */
-angular.module('tribe.moods', [])
+angular.module('tribe.moods', ['google-maps'])
 
 
     .filter('asPercentage', function () {
@@ -14,7 +14,7 @@ angular.module('tribe.moods', [])
         };
     })
 
-    .controller('MoodCtrl', function($scope, $ionicLoading, $ionicModal, APIService, UserService) {
+    .controller('MoodCtrl', function($scope, $ionicLoading, $ionicModal, $compile, APIService, UserService, asPercentageFilter) {
         var uuid = UserService.get('uuid');
         APIService.getMoods(uuid).success(function (result) {
             console.log(result);
@@ -127,14 +127,98 @@ angular.module('tribe.moods', [])
 
         $scope.data.moods = [];
 
+        var markers = [],
+            allMarkers = [];
+
         var getMoods = function () {
             APIService.getMoods(uuid).success(function (result) {
                 console.log(result);
                 $scope.data.moods = result;
+                generateMarkers($scope.data.moods, markers);
             }).error(function (error) {
                 console.log(error);
             });
         };
-
         getMoods();
+
+        $scope.userTab = function () {
+            $scope.map.markers = markers;
+        };
+
+        $scope.globalTab = function () {
+            if ($scope.data.allMoods) {
+                $scope.map.markers = allMarkers;
+            } else {
+                $scope.data.allMoods = [];
+                APIService.getMoods().success(function (result) {
+                    $scope.data.allMoods = result;
+                    generateMarkers($scope.data.allMoods, allMarkers);
+                }).error(function (err) {
+                    console.log(err);
+                });
+            }
+        };
+
+
+        // -----------------
+        // map functionality
+        // -----------------
+
+        var backgroundBlue = '#2d3947';
+
+        $scope.map = {
+            center: {
+                latitude: 49.25,
+                longitude: -123.1
+            },
+            zoom: 10,
+            options: {
+                disableDefaultUI: true,
+                styles: [
+                    {
+                        stylers: [
+                            { hue: backgroundBlue },
+                            { visibility: 'simplified' },
+                            { gamma: 0.5 },
+                            { weight: 0.5 }
+                        ]
+                    },
+                    {
+                        elementType: 'labels',
+                        stylers: [
+                            { visibility: 'off' }
+                        ]
+                    },
+                    {
+                        featureType: 'water',
+                        stylers: [
+                            { color: backgroundBlue }
+                        ]
+                    }
+                ]
+            },
+            markers: []
+        };
+
+        var generateMarkers = function (moods, list) {
+            var i, l = moods.length, mood;
+
+            for (i = 0; i < l; i += 1) {
+                mood = moods[i];
+                if (mood.location) {
+                    console.log('new marker', mood);
+                    list.push({
+                        id: mood._id,
+                        latitude: mood.location.latitude,
+                        longitude: mood.location.longitude,
+                        title: asPercentageFilter(mood.value)
+                    });
+                }
+            }
+
+            $scope.map.markers = list;
+        };
+
+
+
     });

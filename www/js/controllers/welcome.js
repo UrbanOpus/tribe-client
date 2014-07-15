@@ -26,7 +26,7 @@ angular.module('tribe.welcome', [])
                     template: error
                 });
             });
-        }
+        };
 
         $scope.dontNotifyUser = function () {
             // we have to create the user so that the welcome dialog does not popup every time the app starts up

@@ -49,6 +49,7 @@ angular.module('tribe.questions', [])
                     console.log('already answered', $scope.data.question.responses[i]);
                     $scope.data.question.isAnswered = true;
                     $scope.data.response = $scope.data.question.responses[i];
+                    $scope.data.location.enabled = !(!$scope.data.response.location);
                 }
             }
 

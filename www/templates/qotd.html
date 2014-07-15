@@ -28,7 +28,7 @@
             <div class="item item-toggle">
                 {{data.location.status}}
                 <label class="toggle toggle-balanced">
-                    <input type="checkbox" ng-disabled="data.location.unavailable || data.question.isAnswered" ng-model="data.location.enabled" checked="{{data.location.enabled}}" ng-change="setLocation()">
+                    <input type="checkbox" ng-disabled="data.location.unavailable || data.question.isAnswered" ng-model="data.location.enabled" ng-change="setLocation()">
                     <div class="track">
                         <div class="handle"></div>
                     </div>

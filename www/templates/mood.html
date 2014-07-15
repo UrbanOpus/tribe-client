@@ -10,7 +10,8 @@
         <ion-list class="list list-inset">
             <ion-item class="item" ng-repeat="mood in data.moods">
                 {{mood.value | asPercentage}}
-                <span class="item-note">{{mood.createdAt | date:'short'}}</span>
+
+                <span class="item-note"><i ng-if="mood.location" class="icon ion-location"></i> {{mood.createdAt | date:'short'}}</span>
             </ion-item>
         </ion-list>
     </ion-content>

@@ -2,5 +2,9 @@
 .git/
 .idea/
 
+# node auto-install magic
+node_modules/
+www/lib/
+
 # build files/plugins
 platforms/

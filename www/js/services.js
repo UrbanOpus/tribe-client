@@ -48,5 +48,6 @@ angular.module('tribe.services', [])
             createUser: function (user) {
                 return $http.post(url + 'users', user);
             }
-        }
+        };
     });
+

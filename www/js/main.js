@@ -1,4 +1,8 @@
-var app = angular.module('tribe', ['ionic', 'tribe.home', 'tribe.moods', 'tribe.questions', 'tribe.welcome', 'tribe.services', 'tribe.gcm', 'tribe.filters', 'angular-datepicker']);
+var app = angular.module('tribe',
+                         ['ionic',
+                          'tribe.home', 'tribe.moods','tribe.questions', 'tribe.welcome',
+                          'tribe.settings',
+                          'tribe.services', 'tribe.gcm', 'tribe.filters', 'angular-datepicker']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -66,7 +70,17 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 controller: 'WelcomeCtrl'
             }
         }
-    })
+    });
+
+   $stateProvider.state('app.settings', {
+        url: '/settings',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/settings.html',
+                controller: 'SettingsCtrl'
+            }
+        }
+    });
 });
 
 app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, $location, UserService, APIService, PushProcessingService) {

@@ -11,7 +11,7 @@
             <div class="item" ng-repeat="(value, responses) in data.responses">
                 <i class="icon ion-person" ng-if="isAnswer(value)"></i>
                 <strong>{{value}}</strong>
-                <span ng-class="getResponseClass(value)">{{responses.length}}</span>
+                <span ng-class="getResponseClass(value)">{{(responses.length * 100 / data.totalResponses).toFixed(0 )}}%</span>
             </div>
             <div class="item item-divider" style="text-align:right">
                 &nbsp;

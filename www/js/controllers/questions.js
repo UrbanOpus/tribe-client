@@ -19,6 +19,16 @@ angular.module('tribe.questions', [])
         }
     })
 
+    .directive('responseBar', function () {
+        function link(scope, element, attrs) {
+            
+        }
+        return {
+            link: link,
+            restrict: 'A'
+        }
+    })
+
     .controller('QuestionCtrl', function($scope, $ionicLoading, APIService, UserService) {
         var uuid = UserService.get('uuid'),
             setAnswered;

@@ -56,8 +56,18 @@ angular.module('tribe.services', [])
     })
 
     .factory('$localNotificationService',
-             ['$window', '$location', 'amMoment', '$toastService', 
-              function ($window, $location, amMoment, $toastService) {
+             ['$window', '$location', 'amMoment', 'toastService',
+              function ($window, $location, amMoment, toastService) {
+
+        var services;
+
+        // helper method
+        function getScheduleDate(timeString) {
+            var duration = moment.duration(timeString);
+            console.log("duration", timeString, duration);
+
+            return moment().startOf('day').add(duration).toDate();
+        }
 
         // check if notification is supported, otherwise return a stub implementation
         if (!$window.plugin || !$window.plugin.notification) {
@@ -69,15 +79,8 @@ angular.module('tribe.services', [])
         }
 
         console.log("Notification enabled on device");
-                 
-        var service = $window.plugin.notification.local;
 
-        function getScheduleDate(timeString) {
-            var duration = moment.duration(timeString);
-            console.log("duration", timeString, duration);
-
-            return moment().startOf('day').add(duration).toDate();
-        }
+        service = $window.plugin.notification.local;
 
         // register event on notification click
         service.onclick = function(id, state, json) {
@@ -86,31 +89,37 @@ angular.module('tribe.services', [])
             window.location = "#/app/mood";
         };
 
-        service.onadd = function(id, state, json) {
-            $toastService.toast("Scheduled notification successfully",
-                                "long", "bottom");
-        };
-                 
+//        service.onadd = function(id, state, json) {
+//            console.log("added notication ", id);
+//        };
+
         return {
-            cancel: function(successCallback) {
+            cancel: function(callback) {
+                callback = callback
+                    || toastService.toast.bind(null, "Disabled mood mapping notifications", "short", "bottom");
+
                 console.log("removing moodNotify task");
-                service.cancel("moodNotify", successCallback || function() {});
+                service.cancel("moodNotify", callback);
             },
             scheduleMood: function(time) {
-                console.log("scheduling tasks for time", time);
-                service.add({
+                var msg =  {
                     id: "moodNotify",
                     date:  getScheduleDate(time),
                     title: "Time to map your mood!",
                     message: "How about telling us how you're feeling right now?",
-                    repeat: 'daily',
+                    repeat: 'minutely',
+                    autoCancel: true,
                     ongoing: false
+                };
+
+                service.add(msg, function() {
+                    toastService.toast("Scheduled notifications for "+ time, "long", "bottom");
                 });
             }
         };
     }])
 
-    .factory('$toastService', ['$window', function ($window) {
+    .factory('toastService', ['$window', function ($window) {
 
         if (!$window.plugins || !$window.plugins.toast) {
             console.log("no toast support");

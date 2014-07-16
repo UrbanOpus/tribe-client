@@ -20,24 +20,23 @@ angular.module('tribe.settings', ['ionic'])
     }])
 
     .controller('SettingsCtrl', function($scope, $localstorage,
-                                         $localNotificationService, $toastService) {
+                                         $localNotificationService, toastService) {
         var mood_notify_defaults = {
             checked: false,
             time: 0
         };
 
-        // attempt to fetch notification time if possible
+        // attempt to fetch notification time if possible, otherwise
+        // get defaults
         $scope.mood_notify = $localstorage.getObject('mood_notify') || mood_notify_defaults;
-        
-        $scope.updateSettings = function() {
-            console.log('saving');
-            $localstorage.setObject('mood_notify', $scope.mood_notify);
 
-            var onSuccess = $scope.mood_notify.checked
-                    ? $localNotificationService.scheduleMood.bind(this, $scope.mood_notify.time)
-                    : function () {};
-            
+        $scope.updateSettings = function() {
+            var current = $scope.mood_notify,
+                onSuccess = current.checked
+                    && $localNotificationService.scheduleMood.bind(this,$scope.mood_notify.time);
+
             $localNotificationService.cancel(onSuccess);
-            $toastService.toast("Scheduled notifications for " + $scope.mood_notify.time);
+
+            $localstorage.setObject('mood_notify', current);
         };
     });

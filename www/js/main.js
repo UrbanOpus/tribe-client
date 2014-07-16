@@ -1,8 +1,8 @@
 var app = angular.module('tribe',
                          ['ionic',
                           'tribe.home', 'tribe.moods','tribe.questions', 'tribe.welcome',
-                          'tribe.settings',
-                          'tribe.services', 'tribe.gcm', 'tribe.filters', 'angular-datepicker']);
+                          'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
+                          'angular-datepicker', 'angularMoment']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -104,7 +104,8 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
         }
 
         // get device uuid
-
+        var device = device || {uuid: "browser-test", platform: "browser"};
+        
         var uuid = device.uuid;
         console.log('uuid');
 

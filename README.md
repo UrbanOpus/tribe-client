@@ -1,9 +1,16 @@
 # Pre-reqs, setting up Cordova
 
-Install cordova like so:
+Install cordova, ionic and gulp like so:
 
 ```
-npm install -g cordova
+npm install -g cordova ionic gulp
+```
+
+Install dependencies by running
+
+```
+npm install
+gulp install
 ```
 
 Install android dependencies via SDK and add it to path
@@ -11,9 +18,7 @@ Install android dependencies via SDK and add it to path
 And finally
 
 ```
-cordova create tribe net.urbanopus.tribe Tribe
-cordova platform add android
-cordova platform add ios
+ionic platform add android
 ```
 
 
@@ -28,11 +33,15 @@ android create avd -n tribe -t 33
 ### To Build
 
 ```
-cordova build
+ionic build android
 ```
+
+The platform must be specified with ionic (unlike cordova)
 
 ### To Run
 
 ```
-cordova emulate android
+ionic emulate android
 ```
+
+To run on ios, replace `android` with `ios` above (except for the emulator setup)

@@ -19,6 +19,16 @@ angular.module('tribe.questions', [])
         }
     })
 
+    .directive('responseBar', function () {
+        function link(scope, element, attrs) {
+            
+        }
+        return {
+            link: link,
+            restrict: 'A'
+        }
+    })
+
     .controller('QuestionCtrl', function($scope, $ionicLoading, APIService, UserService) {
         var uuid = UserService.get('uuid'),
             setAnswered;
@@ -29,9 +39,12 @@ angular.module('tribe.questions', [])
             value: []
         };
 
+        $scope.data.responses = [];
+
         setAnswered = function(response) {
             $scope.data.question.isAnswered = true;
             $scope.data.response = response;
+            fetchResponses($scope.data.question._id);
         };
 
         APIService.getQuestion().success(function (result) {
@@ -48,8 +61,11 @@ angular.module('tribe.questions', [])
                 if ($scope.data.question.responses[i].userID === uuid) {
                     console.log('already answered', $scope.data.question.responses[i]);
                     $scope.data.question.isAnswered = true;
+
                     $scope.data.response = $scope.data.question.responses[i];
                     $scope.data.location.enabled = !(!$scope.data.response.location);
+                    fetchResponses($scope.data.question._id);
+                    break;
                 }
             }
 
@@ -109,9 +125,56 @@ angular.module('tribe.questions', [])
                 console.log(result);
                 $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
                 setAnswered(submission);
+                fetchResponses($scope.data.question._id);
             }).error(function (error) {
                 $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
                 console.log(error);
             });
         };
+
+        function fetchResponses(questionID) {
+            console.log('fetching responses');
+            APIService.getResponses(questionID).success(function (result) {
+                $scope.data.responses = result;
+                var r, total = 0, most;
+                for (r in result) {
+                    if (result.hasOwnProperty(r)) {
+                        if (most === undefined || result[most].length < result[r].length) {
+                            most = r;
+                        }
+                        total += result[r].length;
+                    }
+                }
+                $scope.data.totalResponses = total;
+                $scope.data.mostResponses = most;
+            }).error(function (error) {
+                console.log(error);
+            })
+        }
+
+        $scope.isAnswer = function (r) {
+            console.log('isAnswer');
+            if ($scope.data.responses[r]) {
+                console.log('r', r);
+                console.log('response', $scope.data.response);
+                console.log('possibleAnswers', $scope.data.question.possibleAnswers);
+                return (($scope.data.response.value == r) ||
+                    ($scope.data.response.indexOf
+                        && $scope.data.question.possibleAnswers.indexOf(r) !== -1
+                        && $scope.data.response.value[$scope.data.question.possibleAnswers.indexOf(r)] !== null));
+            }
+        }
+
+        $scope.getResponseClass = function (r) {
+            console.log('response class ',r);
+            console.log('responses', $scope.data.responses);
+            if ($scope.data.responses[r]) {
+                if (r === $scope.data.mostResponses) {
+                    return 'badge badge-assertive';
+                } else {
+                    return 'badge badge-stable';
+                }
+            }
+        }
+
     });

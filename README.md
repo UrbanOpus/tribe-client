@@ -1,17 +1,47 @@
-Tribe-Ionic
-===========
+# Pre-reqs, setting up Cordova
 
-This is the ionic rebuild of the Tribe app.  
+Install cordova, ionic and gulp like so:
 
-To build the project, navigate to the project's directory.
+```
+npm install -g cordova ionic gulp
+```
 
-    npm install -g cordova ionic gulp
-    npm install
-    gulp install
-    
-    ionic platform add ___
-    ionic build ___
-    ionic emulate ___
-    
-    
-Where `___` is either `ios` or `android`
+Install dependencies by running
+
+```
+npm install
+gulp install
+```
+
+Install android dependencies via SDK and add it to path
+
+And finally
+
+```
+ionic platform add android
+```
+
+
+### Optional (Setup Emulator)
+
+You're probably using an x86 thing, so use this
+
+```
+android create avd -n tribe -t 33
+```
+
+### To Build
+
+```
+ionic build android
+```
+
+The platform must be specified with ionic (unlike cordova)
+
+### To Run
+
+```
+ionic emulate android
+```
+
+To run on ios, replace `android` with `ios` above (except for the emulator setup)

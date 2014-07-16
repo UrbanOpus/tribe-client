@@ -1,14 +1,14 @@
 <ion-view title="Moods">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-        <h1 class="h1 title"></h1>
-        <button class="button button-positive" ng-click="openModal()">New</button>
+        <div class="h1 title"></div>
+        <button class="button button-positive" ng-show="isLocal" ng-click="openModal()">New</button>
     </ion-nav-buttons>
-        <ion-tabs class="tabs-dark">
+        <ion-tabs class="tabs-dark tabs-icon-top">
             <ion-tab title="Your Moods" icon-on="ion-ios7-person" icon-off="ion-ios7-person-outline" on-select="userTab()">
                 <ion-content animation=slide-left-right">
                     <google-map center="map.center" zoom="map.zoom" options="map.options">
-                        <markers models="map.markers" coords="'self'" fit="true"></markers>
+                        <markers models="map.markers" coords="'self'" fit="true" icon="'icon'"></markers>
                     </google-map>
 
                     <h4 style="text-align: center">History</h4>
@@ -23,10 +23,21 @@
             </ion-tab>
             <ion-tab title="All Moods" icon-on="ion-ios7-people" icon-off="ion-ios7-people-outline" on-select="globalTab()">
                 <ion-content animation="slide-left-right">
-                    <google-map center="map.center" zoom="map.zoom" options="map.options">
-                        <markers models="map.markers" coords="'self'" fit="true"></markers>
+                    <google-map center="map.center" zoom="map.zoom" options="map.options" refresh="map.changed">
+                        <markers models="map.markers" coords="'self'" fit="true" icon="'icon'"></markers>
                     </google-map>
+                    <tribe-mood-timeline moods="data.allMoods" timeline="data.timeline" on-scroll="fetchDateRange()"/>
+                    test
+                    <div class="card">
+                        Hello test card
+                    </div>
                 </ion-content>
+                <ion-footer-bar>
+                    <div class="buttons">
+                       <div style="text-align: center">Swipe the timeline back and forth to see response history</div>
+                    </div>
+                </ion-footer-bar>
+
             </ion-tab>
         </ion-tabs>
 </ion-view>

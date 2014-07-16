@@ -1,0 +1,8 @@
+
+<ion-scroll direction="x" class="wide-as-needed" delegate-handle="timeline" on-scroll="fetchDateRange()">
+    <ul class="timeline-days">
+        <tribe-timeline-day class="timeline-day" ng-repeat="day in timeline.days" style="width:{{timeline.widthPX}}px;" width-px="timeline.widthPX" width-ms="timeline.widthMS"/>
+    </ul>
+    <div class="date-now"></div>
+    <tribe-mood ng-repeat="mood in moods" origin="timeline.origin"/>
+</ion-scroll>

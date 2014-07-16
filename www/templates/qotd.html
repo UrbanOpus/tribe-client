@@ -4,6 +4,25 @@
     </ion-nav-buttons>
     <ion-content class="padding">
         <h4 class="title" style="text-align:center;">{{data.question.provideDate | toDate}}</h4>
+        <div ng-show="data.question.isAnswered" class="card">
+            <div class="item item-divider">
+                Response distribution
+            </div>
+            <div class="item" ng-repeat="(value, responses) in data.responses">
+                <i class="icon ion-person" ng-if="isAnswer(value)"></i>
+                <strong>{{value}}</strong>
+                <span ng-class="getResponseClass(value)">{{responses.length}}</span>
+            </div>
+            <div class="item item-divider" style="text-align:right">
+                &nbsp;
+                <i class="icon ion-person"></i> Your Response
+            </div>
+
+            <div class="item item-divider" style="text-align:center">
+                &nbsp;
+                <span class="badge badge-assertive">Most Popular</span>
+            </div>
+        </div>
         <h5 class="title" style="text-align:center;">{{data.question.isAnswered | answered}}</h5>
         <div class="card" ng-switch="data.question.type">
             <div class="item item-divider">

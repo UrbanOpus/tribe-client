@@ -47,6 +47,9 @@ angular.module('tribe.services', [])
             },
             createUser: function (user) {
                 return $http.post(url + 'users', user);
+            },
+            getResponses: function (question) {
+                return $http.get(url + 'questions/' + question + '/responses/sorted');
             }
         }
     });

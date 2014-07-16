@@ -1,0 +1,59 @@
+<ion-view title="Question of the Day">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-content class="padding">
+        <h4 class="title" style="text-align:center;">{{data.question.provideDate | toDate}}</h4>
+        <div ng-show="data.question.isAnswered" class="card">
+            <div class="item item-divider">
+                Response distribution
+            </div>
+            <div class="item" ng-repeat="(value, responses) in data.responses">
+                <i class="icon ion-person" ng-if="isAnswer(value)"></i>
+                <strong>{{value}}</strong>
+                <span ng-class="getResponseClass(value)">{{(responses.length * 100 / data.totalResponses).toFixed(0 )}}%</span>
+            </div>
+            <div class="item item-divider" style="text-align:right">
+                &nbsp;
+                <i class="icon ion-person"></i> Your Response
+            </div>
+
+            <div class="item item-divider" style="text-align:center">
+                &nbsp;
+                <span class="badge badge-assertive">Most Popular</span>
+            </div>
+        </div>
+        <h5 class="title" style="text-align:center;">{{data.question.isAnswered | answered}}</h5>
+        <div class="card" ng-switch="data.question.type">
+            <div class="item item-divider">
+                {{data.question.content}}
+            </div>
+            <div ng-switch-when="mc">
+                <ion-checkbox ng-disabled="data.question.isAnswered" ng-repeat="answer in data.question.possibleAnswers track by $index" ng-model="data.response.value[$index]">{{answer}}</ion-checkbox>
+            </div>
+            <div ng-switch-when="emc">
+                <ion-radio ng-disabled="data.question.isAnswered" ng-repeat="answer in data.question.possibleAnswers" ng-model="data.response.value" value="{{answer}}">{{answer}}</ion-radio>
+            </div>
+            <div ng-switch-when="num">
+                <div class="item range range-positive">
+                    {{data.question.possibleAnswers.min}}
+                    <input type="range" ng-disabled="data.question.isAnswered" ng-model="data.response.value" min="{{data.question.possibleAnswers.min}}" max="{{data.question.possibleAnswers.max}}">
+                    {{data.question.possibleAnswers.max}}
+                </div>
+                <div class="item item-divider">
+                    Response: {{data.response.value}}
+                </div>
+            </div>
+            <div class="item item-toggle">
+                {{data.location.status}}
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-disabled="data.location.unavailable || data.question.isAnswered" ng-model="data.location.enabled" ng-change="setLocation()">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <button ng-disabled="data.question.isAnswered" class="button button-block button-assertive" ng-click="submitResponse()">Submit</button>
+    </ion-content>
+</ion-view>

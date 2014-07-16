@@ -1,219 +1,30 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-    <link rel="stylesheet" href="css/vendor/jquery.mobile.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/vendor/jqm-datebox.min.css" />
-    <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
-    <meta name="msapplication-tap-highlight" content="no" />
-    <title>Tribe App</title>
-</head>
-<body>
-
-<!-- Home Page -->
-<div data-role="page" id="mainPage">
-    <div data-role="header">
-        <a href="#mainPageMenu" data-icon="bars">Menu</a>
-        <h1>Tribe</h1>
-    </div>
-    <div data-role="content">
-        <span id="environment"></span>
-        <h2>Moods</h2>
-        <form action="#" method="post" id="moodForm">
-            <legend>Tell us how you're feeling:</legend>
-            <div data-role="fieldcontain">
-                <label for="mood">Enter a value between -100 (very unhappy) and 100 (very happy)</label>
-                <input type="range" name="value" id="mood" value="0" min="-100" max="100"/>
-            </div>
-            <div data-role="fieldcontain">
-                <button class="ui-btn ui-icon-location ui-btn-icon-left ui-corner-all" id="locationButton">Tap for location</button>
-            </div>
-            <input type="hidden" name="loc_latitude" id="loc_latitude" value=""/>
-            <input type="hidden" name="loc_longitude" id="loc_longitude" value=""/>
-            <button id="moodSubmit">Submit</button>
-        </form>
-        <div id="moodHistory"></div>
-    </div>
-    <div data-role="panel" id="mainPageMenu">
-        <ul data-role="listview" id="mainPageNav">
-            <li><a href="#mainPage">Home</a></li>
-            <li><a href="#questionPage">Questions</a></li>
-        </ul>
-    </div>
-</div>
-
-<!-- Question Page -->
-<div data-role="page" id="questionPage">
-    <div data-role="header">
-        <a href="#questionPageMenu" data-icon="bars">Menu</a>
-        <h1>Tribe</h1>
-    </div>
-    <div data-role="content" id="question">
-    </div>
-    <div data-role="panel" id="questionPageMenu">
-        <ul data-role="listview" id="questionPageNav">
-            <li><a href="#mainPage">Home</a></li>
-            <li><a href="#questionPage">Questions</a></li>
-        </ul>
-    </div>
-</div>
-
-<!-- User creation page -->
-<div data-role="page" id="userCreatePage">
-    <div data-role="header">
-        <h1>Tribe</h1>
-    </div>
-    <div data-role="content" id="createUser">
-        <h2>Welcome!</h2>
-        <p>We want to let you know when new questions are available.</p>
-        <p>Please choose when you would like to be notified about new questions:</p>
-        <form id="newUserForm">
-            <div data-role="fieldcontain">
-                <label for="notificationTime"></label>
-                <input name="notificationTime" id="notificationTime" type="date" data-role="datebox"
-                       data-options='{"mode": "timeflipbox", "useFocus": true, "timeFormatOverride": 24}'>
-            </div>
-            <div data-role="fieldcontain">
-                <button type="button" data-theme="b" id="setNotifications">Confirm</button>
-                <button type="button" id="noNotifications">I don't want to be notified</button>
-            </div>
-        </form>
-    </div>
-</div>
+    <head>
+        <link rel="stylesheet" href="lib/ionic/css/ionic.min.css"/>
+        <link rel="stylesheet" href="css/angular-datepicker.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
 
 
-<script id="moodHistoryTemplate" type="text/ractive">
-    <h2>Mood History</h2>
-    <div id="formStatus">
-        {{status}}
-    </div>
-    <div>
-        You've submitted <strong>{{moods.length}}</strong> moods so far.
-    </div>
-    <table id="historyTable" class="ui-responsive">
-        <tr>
-            <th>Time</th>
-            <th class="align-center">Value</th>
-        </tr>
-        {{#moods}}
-        <tr>
-            <td>{{formatTime(createdAt)}}</td>
-            <td class="align-center">{{formatHappiness(value)}}</td>
-        </tr>
-        {{/moods}}
-        <tr>
-        </tr>
-    </table>
-</script>
-<script id="questionTemplate" type="text/ractive">
-    <h2>Question of the Day</h2>
-    <div id="questionStatus">{{status}}</div>
-    {{#question}}
-        <em>{{formatDate(createdAt)}}</em>
-        <h3>{{content}}</h3>
-        <form id="questionResponse">
-            <input type="hidden" name="questionID" id="questionID" value="{{_id}}">
-            {{# type === 'mc' }}
-                {{>mcQuestionPartial}}
-            {{/ type === 'mc' }}
-            {{# type === 'emc' }}
-                {{>emcQuestionPartial}}
-            {{/ type === 'emc' }}
-            {{# type === 'num' }}
-                {{>numQuestionPartial}}
-            {{/ type === 'num' }}
+        <!-- ionic/angularjs js -->
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-        {{^submitted}}
-            <div data-role="fieldcontain">
-                <button class="ui-btn ui-icon-location ui-btn-icon-left ui-corner-all" id="locationButton">Tap for location</button>
-            </div>
-            <input type="hidden" name="loc_latitude" id="loc_latitude" value=""/>
-            <input type="hidden" name="loc_longitude" id="loc_longitude" value=""/>
-            <button type="submit" id="submit-question">Submit</button>
-        {{/submitted}}
-        </form>
-    {{/question}}
-</script>
-
-<script id="mcQuestionPartial" type="text/ractive">
-        <input type="hidden" name="questionType" id="questionType" value="mc">
-        <div id="answers" data-role="fieldcontain">
-            <fieldset data-role="controlgroup">
-            {{^submitted}}
-                <legend>Choose all that apply:</legend>
-            {{/submitted}}
-            {{#possibleAnswers:num}}
-                <input disabled="{{submitted}}" checked="{{isResponse}}" type="checkbox" name="response_{{num}}" id="response{{num}}" value="{{value}}">
-                <label for="response{{num}}">{{value}}</label>
-            {{/possibleAnswers}}
-            </fieldset>
-        </div>
-</script>
-
-<script id="emcQuestionPartial" type="text/ractive">
-        <input type="hidden" name="questionType" id="questionType" value="emc">
-        <div id="answers" data-role="fieldcontain">
-            <fieldset data-role="controlgroup">
-            {{^submitted}}
-                <legend>Choose one:</legend>
-            {{/submitted}}
-            {{#possibleAnswers:num}}
-                <input disabled="{{submitted}}" checked="{{isResponse}}" type="radio" name="value" id="response{{num}}" value="{{num}}">
-                <label for="response{{num}}">{{value}}</label>
-            {{/possibleAnswers}}
-            </fieldset>
-        </div>
-</script>
-
-<script id="numQuestionPartial" type="text/ractive">
-        <input type="hidden" name="questionType" id="questionType" value="num">
-        <div id="answers" data-role="fieldcontain">
-            <fieldset data-role="controlgroup">
-                {{^submitted}}
-                    <legend>Drag the slider</legend>
-                {{/submitted}}
-                <input disabled="{{submitted}}" type="range" name="value" id="response" value="{{response_or_default}}" min="{{possibleAnswers.min}}" max="{{possibleAnswers.max}}">
-            </fieldset>
-        </div>
-</script>
-
-
-<script type="text/javascript" src="cordova.js"></script>
-<script src="js/vendor/jquery.min.js"></script>
-<script src="js/vendor/jquery.mobile.min.js"></script>
-<script type="text/javascript" src="js/vendor/jqm-datebox.core.min.js"></script>
-<script type="text/javascript" src="js/vendor/jqm-datebox.mode.datebox.min.js"></script>
-<script type="text/javascript" src="js/vendor/jqm-datebox.mode.flipbox.min.js"></script>
-<script type="text/javascript" src="js/vendor/jqm-datebox.mode.calbox.min.js"></script>
-<script type="text/javascript" src="js/vendor/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
-<script src="js/vendor/ractive.js"></script>
-<script type="text/javascript" src="js/config.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/tribe.js"></script>
-<script type="text/javascript">
-    app.initialize();
-    jQuery.mobile.phonegapNavigationEnabled = true
-</script>
-</body>
+        <!-- cordova script (this will be a 404 during development) -->
+        <script src="cordova.js"></script>
+        <script src="js/main.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script src="lib/lodash/dist/lodash.underscore.min.js"></script>
+        <script src="lib/angular-google-maps/dist/angular-google-maps.min.js"></script>
+        <script src="js/angular-datepicker.js"></script>
+        <script src="js/controllers/home.js"></script>
+        <script src="js/controllers/moods.js"></script>
+        <script src="js/controllers/questions.js"></script>
+        <script src="js/controllers/welcome.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/gcm.js"></script>
+    </head>
+    <body ng-app="tribe">
+        <ion-nav-view></ion-nav-view>
+    </body>
 </html>

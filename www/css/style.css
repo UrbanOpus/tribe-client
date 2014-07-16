@@ -1,0 +1,51 @@
+/* Empty. Add your own CSS if you like */
+.angular-google-map-container {
+    height: 15em;
+}
+
+.wide-as-needed {
+    position: relative;
+    overflow: scroll;
+    white-space: nowrap;
+    height: 80px;
+
+}
+
+.timeline-day {
+    position: relative;
+    top: 0;
+    display: inline-block;
+    height: 50px;
+    margin: auto;
+
+    border-top: 1px solid #DDD;
+    border-left: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+}
+
+.mood-timeline-entry {
+    width:  1px;
+    height: 1px;
+}
+
+.day-item {
+    position: relative;
+    top: 55px;
+    text-align: center;
+    color: #AAA;
+    font-size: 14px;
+}
+
+.median {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    border-top: 1px dashed #DDD;
+}
+
+.date-now {
+    height: 100%;
+    width: 1px;
+    border-left: 1px solid #BBB;
+}

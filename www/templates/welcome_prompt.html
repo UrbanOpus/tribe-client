@@ -1,0 +1,15 @@
+<ion-view title="Welcome">
+    <ion-content class="has-header padding">
+        <h2 class="title">Hello</h2>
+        <div class="card padding">
+            We'd like to notify you when new questions are available.
+            Please choose the time that suits you the best.
+        </div>
+        <div class="list">
+            <label class="item item-input">
+                <input type="time" ng-model="data.time" />
+            </label>
+            <button class="button button-block button-positive" ng-click="notifyUser()">Submit</button>
+            <button class="button button-block button-light" ng-click="dontNotifyUser()">I don't want to be notified</button>
+    </ion-content>
+</ion-view>

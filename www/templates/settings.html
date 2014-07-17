@@ -1,0 +1,33 @@
+<ion-view title="Settings">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="padding">
+    <div class="card">
+      <div class="item item-divider">
+        Mood Mapping Notifications
+      </div>
+      <div class="item item-text-wrap">
+        <p>
+        We're really interested in knowing how you feel. Enable this
+          to schedule 
+          Specifies the time you want to be notified to answer new
+          Questions of the Day.
+        </p>
+      </div>
+      <ion-toggle ng-model="mood_notify.checked"
+                  ng-click="updateSettings()">
+        Enable Mood Notifications
+      </ion-toggle>
+      <div class="item item-text-wrap" ng-show="mood_notify.checked">
+        Schedule Time
+        <span class="item-note">
+          <!-- add time styling -->
+          <input type="time" ng-model="mood_notify.time"
+                 ng-change="updateSettings()"
+                 placeholder="Select Time" />
+        </span>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

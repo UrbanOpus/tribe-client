@@ -23,7 +23,7 @@ angular.module('tribe.settings', ['ionic'])
                                          $localNotificationService, toastService) {
         var mood_notify_defaults = {
             checked: false,
-            time: 0
+            time: "9:00"
         };
 
         // attempt to fetch notification time if possible, otherwise
@@ -31,12 +31,19 @@ angular.module('tribe.settings', ['ionic'])
         $scope.mood_notify = $localstorage.getObject('mood_notify') || mood_notify_defaults;
 
         $scope.updateSettings = function() {
-            var current = $scope.mood_notify,
-                onSuccess = current.checked
-                    && $localNotificationService.scheduleMood.bind(this,$scope.mood_notify.time);
+            var onSuccess;
+            // if someone cleared the input -- treat it as an implicit
+            // disable by setting it to the default
+            if ($scope.mood_notify.time == "") {
+                $scope.mood_notify.checked = mood_notify_defaults.checked;
+                $scope.mood_notify.time = mood_notify_defaults.time;
+            }
+            
+            onSuccess = $scope.mood_notify.checked
+                && $localNotificationService.scheduleMood.bind(this,$scope.mood_notify.time);
 
             $localNotificationService.cancel(onSuccess);
 
-            $localstorage.setObject('mood_notify', current);
+            $localstorage.setObject('mood_notify', $scope.mood_notify);
         };
     });

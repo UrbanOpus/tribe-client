@@ -91,7 +91,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
         }
     })
 
-    .controller('MoodCtrl', function($scope, $ionicLoading, $ionicModal, $ionicScrollDelegate, $compile, APIService, UserService, asPercentageFilter) {
+    .controller('MoodCtrl', function($scope, $ionicLoading, $ionicModal, $ionicScrollDelegate, $location, $timeout, APIService, UserService, asPercentageFilter) {
         var uuid = UserService.get('uuid');
         APIService.getMoods(uuid).success(function (result) {
         });
@@ -363,4 +363,12 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
         }, 500);
 
 
+        // open modal on #create
+
+        console.log($location.hash())
+
+        if ($location.hash() === 'create') {
+            // delay to let the modal load
+            $timeout($scope.openModal, 1000);
+        }
     });

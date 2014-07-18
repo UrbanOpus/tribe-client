@@ -56,8 +56,8 @@ angular.module('tribe.services', [])
     })
 
     .factory('$localNotificationService',
-             ['$window', '$location', 'amMoment', 'toastService',
-              function ($window, $location, amMoment, toastService) {
+             ['$window', '$location', 'amMoment', 'toastService', '$state',
+              function ($window, $location, amMoment, toastService, $state) {
 
         var services;
 
@@ -86,7 +86,7 @@ angular.module('tribe.services', [])
         service.onclick = function(id, state, json) {
             console.log(id, state, json);
             console.log($location.path());
-            window.location = "#/app/mood";
+            window.location = "#/app/mood#createp";
         };
 
 //        service.onadd = function(id, state, json) {

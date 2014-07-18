@@ -6,22 +6,22 @@ var app = angular.module('tribe',
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
-    $httpProvider.interceptors.push(function ($rootScope) {
-        return {
-            request: function (config) {
-                console.group('request');
-                console.log(config);
-                //$rootScope.$broadcast('loading:show');
-                return config;
-            },
-            response: function (response) {
-                console.log('response',response);
-                console.groupEnd();
-                //$rootScope.$broadcast('loading:hide');
-                return response;
-            }
-        }
-    });
+//    $httpProvider.interceptors.push(function ($rootScope) {
+//        return {
+//            request: function (config) {
+//                console.group('request');
+//                console.log(config);
+//                //$rootScope.$broadcast('loading:show');
+//                return config;
+//            },
+//            response: function (response) {
+//                console.log('response',response);
+//                console.groupEnd();
+//                //$rootScope.$broadcast('loading:hide');
+//                return response;
+//            }
+//        }
+//    });
     $httpProvider.defaults.headers.common['Content-Type'] = 'application/json';
 
     $urlRouterProvider.otherwise('/app/home');

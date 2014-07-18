@@ -185,7 +185,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                         $scope.data.location.status = 'Location is unavailable';
                         $scope.data.location.enabled = false;
                         $scope.data.location.unavailable = true;
-                    });
+                    }, {enableHighAccuracy: true, maximumAge: 60000, timeout: 10000});
                 } else {
                     $scope.data.location.status = 'Location is unavailable';
                     $scope.data.location.enabled = false;

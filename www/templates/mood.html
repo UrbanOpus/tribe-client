@@ -10,7 +10,9 @@
                     <google-map center="map.center" zoom="map.zoom" options="map.options" draggable="true">
                         <markers models="map.markers" coords="'self'" fit="true" icon="'icon'"></markers>
                     </google-map>
-
+                    <div class="item">
+                      <h5>green = happy, yellow = neutral, red = unhappy</h5>
+                    </div>
                     <h4 style="text-align: center">History</h4>
                     <div class="list list-inset">
                         <ion-item class="item" ng-repeat="mood in data.moods">
@@ -26,6 +28,9 @@
                     <google-map center="map.center" zoom="map.zoom" options="map.options" refresh="map.changed" draggable="true">
                         <markers models="map.markers" coords="'self'" fit="true" icon="'icon'"></markers>
                     </google-map>
+                    <div class="item">
+                      <h5>green = happy, yellow = neutral, red = unhappy</h5>
+                    </div>
                     <tribe-mood-timeline moods="data.allMoods" timeline="data.timeline" on-scroll="fetchDateRange()"/>
                     test
                     <div class="card">

@@ -20,7 +20,7 @@ angular.module('tribe.settings', ['ionic'])
     }])
 
     .controller('SettingsCtrl', function($scope, $localstorage,
-                                         $localNotificationService, toastService) {
+                                         $localNotificationService, toastService, APIService, UserService, $ionicPopup) {
         var mood_notify_defaults = {
             checked: false,
             time: "9:00"
@@ -40,10 +40,24 @@ angular.module('tribe.settings', ['ionic'])
             }
             
             onSuccess = $scope.mood_notify.checked
-                && $localNotificationService.scheduleMood.bind(this,$scope.mood_notify.time);
+                && function () {$localNotificationService.scheduleMood.bind(this,$scope.mood_notify.time); };
 
             $localNotificationService.cancel(onSuccess);
 
             $localstorage.setObject('mood_notify', $scope.mood_notify);
         };
+
+        $scope.deleteUser = function () {
+            APIService.deleteUser(UserService.get('uuid')).success(function () {
+                $ionicPopup.alert({
+                    title: 'Success',
+                    template: 'User deleted'
+                });
+            }).error(function (error) {
+                $ionicPopup.alert({
+                    title: 'Error',
+                    template: 'User does not exist (already deleted?)'
+                })
+            });
+        }
     });

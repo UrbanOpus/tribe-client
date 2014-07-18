@@ -53,7 +53,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     });
 
     $stateProvider.state('app.qotd', {
-        url: '/qotd',
+        url: '/qotd?date',
         views: {
             'menuContent': {
                 templateUrl: 'templates/qotd.html',
@@ -104,8 +104,8 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
         }
 
         // get device uuid
-        var device = device || {uuid: "browser-test", platform: "browser"};
-        
+        var device = window.device || {uuid: "browser-test", platform: "browser"};
+
         var uuid = device.uuid;
         console.log('uuid');
 

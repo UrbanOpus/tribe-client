@@ -7,7 +7,7 @@ angular.module('tribe.questions', [])
         return function (val) {
             var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             if (val) {
-                return months[val.month] + ' ' + val.day + ', ' + val.year;
+                return months[val.getMonth()] + ' ' + val.getDate() + ', ' + val.getFullYear();
             }
             return '';
         }
@@ -21,7 +21,7 @@ angular.module('tribe.questions', [])
 
     .directive('responseBar', function () {
         function link(scope, element, attrs) {
-            
+
         }
         return {
             link: link,
@@ -29,7 +29,9 @@ angular.module('tribe.questions', [])
         }
     })
 
-    .controller('QuestionCtrl', function($scope, $ionicLoading, APIService, UserService) {
+    .controller('QuestionCtrl', function($scope, $ionicLoading, $stateParams, $location, APIService, UserService) {
+
+
         var uuid = UserService.get('uuid'),
             setAnswered;
         $scope.data = {};
@@ -39,6 +41,43 @@ angular.module('tribe.questions', [])
             value: []
         };
 
+        var today = new Date();
+
+
+        $scope.data.isLatestDay = false;
+
+        $scope.data.qDate = today;
+
+
+        if ($stateParams.date) {
+            $scope.data.qDate = new Date(parseInt($stateParams.date));
+
+            //set 'today' to the currently active day
+        }
+
+
+        console.log('qDate', $scope.data.qDate);
+
+        var yesterday = new Date($scope.data.qDate.getTime() - 1000*60*60*24),
+            tomorrow  = new Date($scope.data.qDate.getTime() + 1000*60*60*24);
+
+        if ($scope.data.qDate.getMonth() === today.getMonth() &&
+            $scope.data.qDate.getDate()   === today.getDate() &&
+            $scope.data.qDate.getFullYear()  === today.getFullYear()) {
+            $scope.data.isLatestDay = true;
+        }
+
+        console.log('today', $scope.data.isLatestDay);
+
+        $scope.goBack = function () {
+            $location.url('/app/qotd?date=' + yesterday.getTime());
+        };
+        $scope.goForward = function () {
+            $location.url('/app/qotd?date=' + tomorrow.getTime());
+        };
+
+        console.log(today);
+
         $scope.data.responses = [];
 
         setAnswered = function(response) {
@@ -47,29 +86,37 @@ angular.module('tribe.questions', [])
             fetchResponses($scope.data.question._id);
         };
 
-        APIService.getQuestion().success(function (result) {
+
+        APIService.getQuestion($scope.data.qDate).success(function (result) {
             var i, l;
             console.log('question', result);
             $scope.data.question = result;
             $scope.data.question.isAnswered = false;
-            l = $scope.data.question.responses.length;
 
-            //determine if answered, and toggle
+            if ($scope.data.question) {
+                l = $scope.data.question.responses.length;
 
-            for (i = 0; i < l; i += 1) {
-                console.log($scope.data.question.responses[i]);
-                if ($scope.data.question.responses[i].userID === uuid) {
-                    console.log('already answered', $scope.data.question.responses[i]);
-                    $scope.data.question.isAnswered = true;
+                //determine if answered, and toggle
 
-                    $scope.data.response = $scope.data.question.responses[i];
-                    $scope.data.location.enabled = !(!$scope.data.response.location);
-                    fetchResponses($scope.data.question._id);
-                    break;
+                for (i = 0; i < l; i += 1) {
+                    console.log($scope.data.question.responses[i]);
+                    if ($scope.data.question.responses[i].userID === uuid) {
+                        console.log('already answered', $scope.data.question.responses[i]);
+                        $scope.data.question.isAnswered = true;
+
+                        $scope.data.response = $scope.data.question.responses[i];
+                        $scope.data.location.enabled = !(!$scope.data.response.location);
+                        fetchResponses($scope.data.question._id);
+                        break;
+                    }
                 }
+
+                console.log($scope.data.question);
+
+            } else {
+                console.log('no question');
             }
 
-            console.log($scope.data.question);
         }).error(function (error) {
             console.log(error);
         });
@@ -176,5 +223,6 @@ angular.module('tribe.questions', [])
                 }
             }
         }
+
 
     });

@@ -41,7 +41,7 @@ angular.module('tribe.services', [])
                 return $http.post(url + 'moods/users/' + mood.uuid, mood);
             },
             getQuestion: function (date) {
-                return $http.get(url + 'questions/date' + ((date) ? ('/' + date) : ''));
+                return $http.get(url + 'questions/date' + ((date) ? ('?date=' + date.getTime()) : ''));
             },
             postQuestion: function (questionID, response) {
                 return $http.post(url + 'questions/' + questionID + '/responses', response);
@@ -51,6 +51,9 @@ angular.module('tribe.services', [])
             },
             getResponses: function (question) {
                 return $http.get(url + 'questions/' + question + '/responses/sorted');
+            },
+            deleteUser: function (uuid) {
+                return $http.delete(url + 'users', uuid);
             }
         };
     })

@@ -43,7 +43,7 @@ angular.module('tribe.settings', ['ionic'])
             }
             
             onSuccess = $scope.mood_notify.checked
-                && function () {$localNotificationService.scheduleMood.bind(this,$scope.mood_notify.time); };
+                && function () { $localNotificationService.scheduleMood($scope.mood_notify.time); };
 
             $localNotificationService.cancel(onSuccess);
 

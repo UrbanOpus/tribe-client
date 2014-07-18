@@ -67,7 +67,6 @@ angular.module('tribe.questions', [])
             $scope.data.isLatestDay = true;
         }
 
-        console.log('today', $scope.data.isLatestDay);
 
         $scope.goBack = function () {
             $location.url('/app/qotd?date=' + yesterday.getTime());
@@ -76,7 +75,6 @@ angular.module('tribe.questions', [])
             $location.url('/app/qotd?date=' + tomorrow.getTime());
         };
 
-        console.log(today);
 
         $scope.data.responses = [];
 
@@ -110,8 +108,6 @@ angular.module('tribe.questions', [])
                         break;
                     }
                 }
-
-                console.log($scope.data.question);
 
             } else {
                 console.log('no question');

@@ -11,6 +11,9 @@
             </div>
             <ul class="list">
                 <li class="item item-toggle">
+                    {{data.rangeValue | asPercentage}}
+                </li>
+                <li class="item item-toggle">
                     {{data.location.status}}
                     <label class="toggle toggle-balanced">
                         <input type="checkbox" ng-disabled="data.location.unavailable" ng-model="data.location.enabled" checked="{{data.location.enabled}}" ng-change="setLocation()">

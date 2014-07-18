@@ -115,7 +115,6 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
         //Cleanup the modal when we're done with it!
         $scope.$on('$destroy', function() {
             $scope.modal.remove();
-            getMoods();
         });
         // Execute action on hide modal
         $scope.$on('modal.hidden', function() {
@@ -153,6 +152,8 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                 $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
                 $scope.modal.hide();
                 console.log('success',result);
+
+                getMoods();
             }).error(function (err) {
                 $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
                 $scope.modal.hide();
@@ -210,6 +211,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
 
         var getMoods = function () {
             APIService.getMoods(uuid).success(function (result) {
+                console.log('getting moods');
                 $scope.data.moods = result;
                 $scope.map.markers = generateMarkers($scope.data.moods, markers);
             }).error(function (error) {
@@ -365,7 +367,6 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
 
         // open modal on #create
 
-        console.log($location.hash())
 
         if ($location.hash() === 'create') {
             // delay to let the modal load

@@ -109,7 +109,7 @@ angular.module('tribe.services', [])
                     id: "moodNotify",
                     date:  getScheduleDate(time),
                     title: "Time to map your mood!",
-                    message: "How about telling us how you're feeling right now?",
+                    message: "How are you feeling right now?",
                     repeat: 'daily',
                     autoCancel: true,
                     ongoing: false

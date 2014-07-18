@@ -28,7 +28,10 @@ angular.module('tribe.settings', ['ionic'])
 
         // attempt to fetch notification time if possible, otherwise
         // get defaults
-        $scope.mood_notify = $localstorage.getObject('mood_notify') || mood_notify_defaults;
+        $scope.mood_notify = $localstorage.getObject('mood_notify');
+        if (!('time' in $scope.mood_notify)) {
+            $scope.mood_notify = mood_notify_defaults;
+        }
 
         $scope.updateSettings = function() {
             var onSuccess;

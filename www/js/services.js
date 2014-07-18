@@ -89,7 +89,7 @@ angular.module('tribe.services', [])
         service.onclick = function(id, state, json) {
             console.log(id, state, json);
             console.log($location.path());
-            window.location = "#/app/mood#createp";
+            window.location = "#/app/mood#create";
         };
 
 //        service.onadd = function(id, state, json) {

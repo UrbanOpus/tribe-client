@@ -253,8 +253,10 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                 latitude: 49.25,
                 longitude: -123.1
             },
+            control: {},
             zoom: 10,
             options: {
+                maxZoom: 15,
                 disableDefaultUI: true,
                 styles: [
                     {
@@ -361,7 +363,12 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             console.log('run');
 
             $scope.map.markers = generateMarkers(getByDateRange($scope.data.allMoods, beginDate, endDate));
-            $scope.map.changed = true;
+            var map = $scope.map.control.getGMap();
+            var latlngbounds = new google.maps.LatLngBounds();
+            $scope.map.markers.forEach(function(n) {
+                latlngbounds.extend(new google.maps.LatLng(n.latitude, n.longitude));
+            });
+            map.fitBounds(latlngbounds);
         }, 500);
 
 

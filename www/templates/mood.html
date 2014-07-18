@@ -25,7 +25,7 @@
             </ion-tab>
             <ion-tab title="All Moods" icon-on="ion-ios7-people" icon-off="ion-ios7-people-outline" on-select="globalTab()">
                 <ion-content animation="slide-left-right">
-                    <google-map center="map.center" zoom="map.zoom" options="map.options" refresh="map.changed" draggable="true">
+                    <google-map center="map.center" zoom="map.zoom" options="map.options" control="map.control" draggable="true">
                         <markers models="map.markers" coords="'self'" fit="true" icon="'icon'"></markers>
                     </google-map>
                     <div class="item">

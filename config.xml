@@ -1,13 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
+<widget id="com.tribe.client" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Tribe</name>
     <description>
-        An Ionic Framework and Cordova project.
+        Discover your local tribes
     </description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+    <author email="info@urbanopus.net" href="http://urbanopus.net/">
+      Urban Opus
     </author>
     <content src="index.html" />
+
+    <icon src="www/img/tribe.png" />
+    <icon src="www/img/tribe.png" platform="android" density="ldpi" />
+    <icon src="www/img/tribe.png" platform="android" density="mdpi" />
+    <icon src="www/img/tribe.png" platform="android" density="hdpi" />
+    <icon src="www/img/tribe.png" platform="android" density="xhdpi" />
+    
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />

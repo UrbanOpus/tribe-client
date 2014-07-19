@@ -41,7 +41,6 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
     .directive('tribeTimelineDay', function () {
         function link(scope, element, attrs) {
 
-            console.log('scope', scope);
             if (scope.$last) {
                 element.css('border-right', '1px solid #DDD');
             }
@@ -232,7 +231,12 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             } else {
                 $scope.data.allMoods = [];
                 APIService.getMoods().success(function (result) {
-                    $scope.data.allMoods = result;
+                    console.log('all moods', result);
+                    $scope.data.allMoods = result.filter(function (mood) {
+                        return mood.location;
+                    });
+                    console.log('all moods with location:', $scope.data.allMoods);
+                    //$scope.data.allMoods = result;
                     generateTimeline();
                     $scope.map.markers = generateMarkers($scope.data.allMoods, allMarkers);
                 }).error(function (err) {
@@ -364,11 +368,16 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
 
             $scope.map.markers = generateMarkers(getByDateRange($scope.data.allMoods, beginDate, endDate));
             var map = $scope.map.control.getGMap();
-            var latlngbounds = new google.maps.LatLngBounds();
-            $scope.map.markers.forEach(function(n) {
-                latlngbounds.extend(new google.maps.LatLng(n.latitude, n.longitude));
-            });
-            map.fitBounds(latlngbounds);
+            if ($scope.map.markers.length) {
+                var latlngbounds = new google.maps.LatLngBounds();
+                $scope.map.markers.forEach(function(n) {
+                    latlngbounds.extend(new google.maps.LatLng(n.latitude, n.longitude));
+                });
+                map.fitBounds(latlngbounds);
+            } else {
+                // refresh the map but don't move the boundaries
+                map.fitBounds(new google.maps.LatLngBounds(new google.maps.LatLng(49.196073,-123.319727), new google.maps.LatLng(49.303868,-122.880273)));
+            }
         }, 500);
 
 

@@ -18,15 +18,13 @@
                   ng-click="updateSettings()">
         Enable Mood Notifications
       </ion-toggle>
-      <div class="item item-text-wrap" ng-show="mood_notify.checked">
-        Schedule Time
-        <span class="item-note">
-          <!-- add time styling -->
-          <input type="time" ng-model="mood_notify.time"
-                 ng-change="updateSettings()"
-                 placeholder="Select Time" />
-        </span>
-      </div>
+      <label class="item item-input item-select item-text-wrap" ng-show="mood_notify.checked">
+        <div class="label">
+            Schedule Time
+        </div>
+          <select name="" id="mood_notify_time" ng-model="data.value" ng-options="time for time in data.times" ng-change="updateSettings()">
+          </select>
+      </label>
       <!--
         <div class="item item-text-wrap">
             <button class="button button-block button-assertive" ng-click="deleteUser()">DELETE USER</button>

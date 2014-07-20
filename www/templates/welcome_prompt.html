@@ -6,10 +6,14 @@
             Please choose the time that suits you the best.
         </div>
         <div class="list">
-            <label class="item item-input">
-                <input type="time" ng-model="data.time" />
+            <label class="item item-input item-select item-text-wrap" >
+                <div class="label">
+                    Schedule Time
+                </div>
+                <select name="" id="mood_notify_time" ng-model="data.time" ng-options="time for time in data.times">
+                </select>
             </label>
-            <button class="button button-block button-positive" ng-click="notifyUser()">Submit</button>
+            <button class="button button-block button-positive" ng-click="notifyUser()">Notify me at {{data.time}}</button>
             <button class="button button-block button-light" ng-click="dontNotifyUser()">I don't want to be notified</button>
     </ion-content>
 </ion-view>

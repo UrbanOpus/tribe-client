@@ -219,32 +219,6 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
         };
         getMoods();
 
-        $scope.userTab = function () {
-            $scope.map.markers = markers;
-            $scope.isLocal = true;
-        };
-
-        $scope.globalTab = function () {
-            $scope.isLocal = false;
-            if ($scope.data.allMoods) {
-                $scope.map.markers = allMarkers;
-            } else {
-                $scope.data.allMoods = [];
-                APIService.getMoods().success(function (result) {
-                    console.log('all moods', result);
-                    $scope.data.allMoods = result.filter(function (mood) {
-                        return mood.location;
-                    });
-                    console.log('all moods with location:', $scope.data.allMoods);
-                    //$scope.data.allMoods = result;
-                    generateTimeline();
-                    $scope.map.markers = generateMarkers($scope.data.allMoods, allMarkers);
-                }).error(function (err) {
-                    console.log(err);
-                });
-            }
-        };
-
 
         // -----------------
         // map functionality
@@ -286,6 +260,35 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                 ]
             },
             markers: []
+        };
+
+
+        $scope.userTab = function () {
+            $scope.map.markers = markers;
+            $scope.isLocal = true;
+            //fitMap();
+
+        };
+
+        $scope.globalTab = function () {
+            $scope.isLocal = false;
+            if ($scope.data.allMoods) {
+                $scope.map.markers = allMarkers;
+            } else {
+                $scope.data.allMoods = [];
+                APIService.getMoods().success(function (result) {
+                    console.log('all moods', result);
+                    $scope.data.allMoods = result.filter(function (mood) {
+                        return mood.location;
+                    });
+                    console.log('all moods with location:', $scope.data.allMoods);
+                    //$scope.data.allMoods = result;
+                    generateTimeline();
+                    $scope.map.markers = generateMarkers($scope.data.allMoods, allMarkers);
+                }).error(function (err) {
+                    console.log(err);
+                });
+            }
         };
 
         var generateMarkers = function (moods, list) {
@@ -357,7 +360,6 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
 
             return allBeforeAndAfter;
         };
-
         $scope.fetchDateRange = ionic.debounce(function () {
             var left = $ionicScrollDelegate.$getByHandle('timeline').getScrollPosition().left,
                 right = left + 500,
@@ -367,19 +369,28 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             console.log('run');
 
             $scope.map.markers = generateMarkers(getByDateRange($scope.data.allMoods, beginDate, endDate));
-            var map = $scope.map.control.getGMap();
-            if ($scope.map.markers.length) {
-                var latlngbounds = new google.maps.LatLngBounds();
-                $scope.map.markers.forEach(function(n) {
-                    latlngbounds.extend(new google.maps.LatLng(n.latitude, n.longitude));
-                });
-                map.fitBounds(latlngbounds);
-            } else {
-                // refresh the map but don't move the boundaries
-                map.fitBounds(new google.maps.LatLngBounds(new google.maps.LatLng(49.196073,-123.319727), new google.maps.LatLng(49.303868,-122.880273)));
-            }
+            fitMap();
         }, 500);
 
+        var fitMap = function () {
+            console.log('fitting map');
+            if ($scope.map) {
+                var minBounds = {
+                    nw: new google.maps.LatLng(49.196073,-123.319727),
+                    se: new google.maps.LatLng(49.303868,-122.880273)
+                };
+
+                var latlngbounds = new google.maps.LatLngBounds(minBounds.nw, minBounds.se);
+
+                var map = $scope.map.control.getGMap();
+                if ($scope.map.markers.length) {
+                    $scope.map.markers.forEach(function(n) {
+                        latlngbounds.extend(new google.maps.LatLng(n.latitude, n.longitude));
+                    });
+                }
+                map.fitBounds(latlngbounds);
+            }
+        };
 
         // open modal on #create
 

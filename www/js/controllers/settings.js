@@ -21,22 +21,8 @@ angular.module('tribe.settings', ['ionic'])
 
     .controller('SettingsCtrl', function($scope, $localstorage,
                                          $localNotificationService, toastService, APIService, UserService, $ionicPopup) {
-        var mood_notify_defaults = {
-            checked: false,
-            time: "9:00"
-        };
-
-        // attempt to fetch notification time if possible, otherwise
-        // get defaults
-        $scope.mood_notify = $localstorage.getObject('mood_notify');
-        if (!('time' in $scope.mood_notify)) {
-            $scope.mood_notify = mood_notify_defaults;
-        }
-
         $scope.data = {};
-
         $scope.data.times = [];
-        $scope.data.value = '12:00 AM';
 
         var i, j, timeCount = 0;;
 
@@ -59,7 +45,6 @@ angular.module('tribe.settings', ['ionic'])
         }
 
         // detect closest time
-
         var now = new Date(),
             nowHour   = now.getHours(),
             nowMinute = now.getMinutes(),
@@ -81,21 +66,25 @@ angular.module('tribe.settings', ['ionic'])
             nowAMPM = (nowAMPM === 'AM') ? 'PM' : 'AM';
         }
 
-        $scope.data.value = nowHour + ':' + nowMinute + ' ' + nowAMPM;
-
         console.log($scope.data.times);
 
+        // attempt to fetch notification time if possible, otherwise
+        // get defaults
+        $scope.mood_notify = $localstorage.getObject('mood_notify');
+        if (!('time' in $scope.mood_notify)) {
+            $scope.mood_notify = nowHour + ':' + nowMinute + ' ' + nowAMPM;
+        }
+        
         $scope.updateSettings = function() {
             var onSuccess;
             // if someone cleared the input -- treat it as an implicit
             // disable by setting it to the default
             if ($scope.mood_notify.time == "") {
-                $scope.mood_notify.checked = mood_notify_defaults.checked;
-                //$scope.mood_notify.time = mood_notify_defaults.time;
+                $scope.mood_notify.checked = false;
             }
             
             onSuccess = $scope.mood_notify.checked
-                && function () { $localNotificationService.scheduleMood($scope.data.value); };
+                && function () { $localNotificationService.scheduleMood($scope.mood_notify.time); };
 
             $localNotificationService.cancel(onSuccess);
 

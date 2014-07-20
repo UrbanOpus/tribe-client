@@ -65,11 +65,9 @@ angular.module('tribe.services', [])
         var services;
 
         // helper method
+        // takes a timestring in format moment format: hh:mm a
         function getScheduleDate(timeString) {
-            var duration = moment.duration(timeString);
-            console.log("duration", timeString, duration);
-
-            return moment().startOf('day').add(duration).toDate();
+            return moment(timeString, "hh:mm a").toDate();
         }
 
         // check if notification is supported, otherwise return a stub implementation
@@ -91,10 +89,6 @@ angular.module('tribe.services', [])
             console.log($location.path());
             window.location = "#/app/mood#create";
         };
-
-//        service.onadd = function(id, state, json) {
-//            console.log("added notication ", id);
-//        };
 
         return {
             cancel: function(callback) {

@@ -74,7 +74,7 @@ angular.module('tribe.services', [])
         if (!$window.plugin || !$window.plugin.notification) {
             console.log("No notification support on device");
             return {
-                cancelAll: function() {},
+                cancel: function() {},
                 scheduleMood: function() {}
             };
         }

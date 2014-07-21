@@ -81,6 +81,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             }
         }
     });
+
+    $stateProvider.state('app.about', {
+        url: '/about',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/about.html'
+            }
+        }
+    });
 });
 
 app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, $location, UserService, APIService, PushProcessingService) {

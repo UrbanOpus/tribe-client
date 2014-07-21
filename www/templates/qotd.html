@@ -2,12 +2,19 @@
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="padding">
-        <div class="button-bar">
-            <button ng-click="goBack()" class="button button-positive">Yesterday</button>
-            <button ng-click="goForward()" ng-disabled="data.isLatestDay" class="button button-positive">Tomorrow</button>
-        </div>
-        <h4 class="title" style="text-align:center;">{{data.qDate | toDate}}</h4>
+    <div class="bar bar-subheader">
+        <button ng-click="goBack()" class="button">
+            <i class="icon ion-arrow-left-b"></i> Prev
+        </button>
+        <h4 class="title" style="text-align:center;">{{data.qDate | toDate}} <span ng-show="data.isLatestDay">(Today)</span></h4>
+        <button ng-click="goForward()" ng-show="!data.isLatestDay" class="button">
+            Next <i class="icon ion-arrow-right-b"></i>
+        </button>
+    </div>
+    <ion-content >
+        <!-- my current hack to make the bar not override -- we should add a refresh thing here to stick with the current app idioms -->
+        <br/>
+        <br/>
         <div ng-show="data.question.isAnswered" class="card">
             <div class="item item-divider">
                 Response distribution

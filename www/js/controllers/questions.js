@@ -31,6 +31,8 @@ angular.module('tribe.questions', [])
 
     .controller('QuestionCtrl', function($scope, $ionicLoading, $stateParams, $location, APIService, UserService) {
 
+        $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Loading...'});
+
 
         var uuid = UserService.get('uuid'),
             setAnswered;
@@ -108,9 +110,14 @@ angular.module('tribe.questions', [])
                         break;
                     }
                 }
+                if (!$scope.data.question.isAnswered) {
+                    $ionicLoading.hide();
+
+                }
 
             } else {
                 console.log('no question');
+                $ionicLoading.hide();
             }
 
         }).error(function (error) {
@@ -179,6 +186,11 @@ angular.module('tribe.questions', [])
             console.log('fetching responses');
             APIService.getResponses(questionID).success(function (result) {
                 $scope.data.responses = result;
+
+
+                // don't double add after a submission
+                $scope.qotd.data = [];
+
                 var r, total = 0, most;
                 for (r in result) {
                     if (result.hasOwnProperty(r)) {
@@ -186,10 +198,19 @@ angular.module('tribe.questions', [])
                             most = r;
                         }
                         total += result[r].length;
+
+
+                        $scope.qotd.data.push({
+                            key: r,
+                            y: result[r].length
+                        });
                     }
                 }
                 $scope.data.totalResponses = total;
                 $scope.data.mostResponses = most;
+
+
+                $ionicLoading.hide();
             }).error(function (error) {
                 console.log(error);
             })
@@ -219,6 +240,42 @@ angular.module('tribe.questions', [])
                 }
             }
         }
+
+        $scope.qotd = {
+            title: "",
+            config: {
+            },
+            options: {
+                chart: {
+                    type: 'pieChart',
+                    height: 250,
+                    x: function (d) {
+                        return d.key;
+                    },
+                    y: function (d) {
+                        return d.y;
+                    },
+                    showLabels: true,
+                    showLegend: false,
+                    transitionDuration: 500,
+                    labelThreshold: 0.01,
+                    legend: {
+                        margin: {
+                            top: 5,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        }
+                    }
+                }
+            },
+            data: [],
+            events: {
+                qotdChart: function (e, scope) {
+                    scope.api.refresh();
+                }
+            }
+        };
 
 
     });

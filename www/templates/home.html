@@ -1,14 +1,25 @@
-<ion-view title="Home">
+<ion-view title="Dashboard">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header padding">
-        <h2 class="title">Welcome to Tribe!</h2>
-
-        <a href="#/app/mood#create" class="button button-block button-energized">Report Your Mood</a>
-        <a href="#/app/qotd" class="button button-block button-positive">Answer the Question of the Day</a>
-
-        This is a very early alpha, if you have feedback, check out our
-        <a onclick="window.open('https://github.com/UrbanOpus/tribe-client/issues', '_blank', 'location=yes'); return false" href="#">Github issue tracker.</a>        
+        <div class="padding">
+            <h4>Question of the Day</h4>
+            <div ng-show="qotd.answered">
+                <div class="card padding">
+                    <h4>{{qotd.title}}</h4>
+                </div>
+                <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>
+            </div>
+            <div ng-hide="qotd.answered">
+                You haven't answered today's question yet!
+                <a href="#/app/qotd" class="button button-block button-positive">Answer the Question of the Day</a>
+            </div>
+        </div>
+        <div class="padding">
+            <h4>Mood Timeline (last 24 hours)</h4>
+            <a href="#/app/mood#create" class="button button-block button-energized">Report Your Mood</a>
+            <tribe-mood-timeline moods="data.allMoods" timeline="data.timeline"/>
+        </div>
     </ion-content>
 </ion-view>

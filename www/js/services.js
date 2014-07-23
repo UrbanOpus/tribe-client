@@ -37,6 +37,24 @@ angular.module('tribe.services', [])
                     return $http.get(url + 'moods');
                 }
             },
+            getMoodRange: function (uuid, timeStart, timeEnd) {
+                var urlString = url + 'moods';
+                if (uuid) {
+                    urlString += '/users/' + uuid;
+                }
+                if (timeStart) {
+                    urlString += '?timeStart=' + timeStart;
+                }
+                if (timeEnd) {
+                    if (timeStart) {
+                        urlString += '&'
+                    } else {
+                        urlString += '?'
+                    }
+                    urlString += 'timeEnd=' + timeEnd;
+                }
+                return $http.get(urlString);
+            },
             postMood: function (mood) {
                 return $http.post(url + 'moods/users/' + mood.uuid, mood);
             },

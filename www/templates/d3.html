@@ -5,7 +5,7 @@
     <ion-tabs class="tabs-dark tabs-icon-top">
         <ion-tab title="QotD" icon-on="ion-ios7-pie" icon-off="ion-ios7-pie-outline" on-select="qotdTab()">
             <ion-content class="has-header padding" animation="slide-left-right">
-                <div class="card">
+                <div class="card padding">
                     <h4>{{qotd.title}}</h4>
                 </div>
                 <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>

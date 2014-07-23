@@ -10,6 +10,7 @@ Install dependencies by running
 
 ```
 npm install
+bower install angular-nvd3   # this has to be manually installed
 gulp install
 ```
 

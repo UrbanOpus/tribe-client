@@ -2,7 +2,7 @@ var app = angular.module('tribe',
                          ['ionic',
                           'tribe.home', 'tribe.moods','tribe.questions', 'tribe.welcome',
                           'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
-                          'angular-datepicker', 'angularMoment', 'tribe.d3']);
+                          'angular-datepicker', 'angularMoment']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -105,16 +105,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         views: {
             'menuContent': {
                 templateUrl: 'templates/about.html'
-            }
-        }
-    });
-
-    $stateProvider.state('app.d3test', {
-        url: '/d3',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/d3.html',
-                controller: 'D3Controller'
             }
         }
     });

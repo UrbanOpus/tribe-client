@@ -56,6 +56,24 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         url: '/qotd?date',
         views: {
             'menuContent': {
+                resolve: {
+                    'qotd': function($stateParams, $ionicLoading, APIService) {
+                        var date = new Date();
+
+                        if ($stateParams.date) {
+                            date = new Date(parseInt($stateParams.date));
+                        }
+
+                        $ionicLoading.show({
+                            template: '<i class="icon ion-loading-c"></i><br />Loading Question',
+                            duration: 5000
+                        });
+                        return APIService.getQuestion(date);
+                    },
+                    'uuid': function(UserService) {
+                        return UserService.get('uuid');
+                    }
+                },
                 templateUrl: 'templates/qotd.html',
                 controller: 'QuestionCtrl'
             }

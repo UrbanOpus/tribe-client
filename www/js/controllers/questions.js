@@ -1,3 +1,5 @@
+/** jshint global angular **/
+
 /**
  * Created by faide on 2014-07-14.
  */
@@ -29,31 +31,76 @@ angular.module('tribe.questions', [])
         }
     })
 
-    .controller('QuestionCtrl', function($scope, $ionicLoading, $stateParams, $location, APIService, UserService) {
+    .controller('QuestionCtrl', function($scope, $ionicLoading, $stateParams, $location,
+                                         APIService, uuid, qotd) {
 
-        $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Loading...'});
-
-
-        var uuid = UserService.get('uuid'),
-            setAnswered;
-        $scope.data = {};
-
-        $scope.data.question = {};
-        $scope.data.response = {
-            value: []
-        };
+        // TODO: remove this, won't be loading until this anyhow
+        $ionicLoading.hide();
 
         var today = new Date();
+        var setAnswered = function(response) {
+            $scope.data.question.isAnswered = true;
+            $scope.data.response = response;
+            fetchResponses($scope.data.question._id);
+        };
+        
+        $scope.data = {
+            question: null,
+            response: {
+                value: []
+            },
+            responses: [],
+            isLatestDay: false,
+            isAnswered: false,
+            qDate: new Date(),
+            location: {
+                status: 'Use location',
+                enabled: false,
+                unavailable: false,
+                coords: null
+            }
+        };
 
+        // TODO: rename this to piechart 
+        $scope.qotd = {
+            title: "",
+            config: {
+            },
+            options: {
+                chart: {
+                    type: 'pieChart',
+                    height: 250,
+                    x: function (d) {
+                        return d.key;
+                    },
+                    y: function (d) {
+                        return d.y;
+                    },
+                    showLabels: true,
+                    showLegend: false,
+                    transitionDuration: 500,
+                    labelThreshold: 0.01,
+                    legend: {
+                        margin: {
+                            top: 5,
+                            right: 0,
+                            bottom: 0,
+                            left: 0
+                        }
+                    }
+                }
+            },
+            data: [],
+            events: {
+                qotdChart: function (e, scope) {
+                    scope.api.refresh();
+                }
+            }
+        };
 
-        $scope.data.isLatestDay = false;
-
-        $scope.data.qDate = today;
-
-
+        
         if ($stateParams.date) {
             $scope.data.qDate = new Date(parseInt($stateParams.date));
-
             //set 'today' to the currently active day
         }
 
@@ -77,62 +124,61 @@ angular.module('tribe.questions', [])
             $location.url('/app/qotd?date=' + tomorrow.getTime());
         };
 
+//        APIService.getQuestion($scope.data.qDate).success(function (result) {
+        // TODO: remove this IIFE, not sure whether we need to isolate
+        if (qotd.data) {
+            console.log('question', qotd.data);
+            $scope.data.question = qotd.data;
 
-        $scope.data.responses = [];
-
-        setAnswered = function(response) {
-            $scope.data.question.isAnswered = true;
-            $scope.data.response = response;
-            fetchResponses($scope.data.question._id);
-        };
-
-
-        APIService.getQuestion($scope.data.qDate).success(function (result) {
-            var i, l;
-            console.log('question', result);
-            $scope.data.question = result;
-            $scope.data.question.isAnswered = false;
-
+            var userResponse;
             if ($scope.data.question) {
-                l = $scope.data.question.responses.length;
-
-                //determine if answered, and toggle
-
-                for (i = 0; i < l; i += 1) {
-                    console.log($scope.data.question.responses[i]);
-                    if ($scope.data.question.responses[i].userID === uuid) {
-                        console.log('already answered', $scope.data.question.responses[i]);
-                        $scope.data.question.isAnswered = true;
-
-                        $scope.data.response = $scope.data.question.responses[i];
-                        $scope.data.location.enabled = !(!$scope.data.response.location);
-                        fetchResponses($scope.data.question._id);
-                        break;
-                    }
-                }
-                if (!$scope.data.question.isAnswered) {
-                    $ionicLoading.hide();
-
-                }
-
-            } else {
-                console.log('no question');
-                $ionicLoading.hide();
+                userResponse = _.chain($scope.data.question.responses)
+                    .map(function(userResponses) {
+                        return _.findWhere(userResponses, {userID: uuid});
+                    })
+                    .compact().first().value();
             }
 
-        }).error(function (error) {
-            console.log(error);
-        });
-
-        // location
-
-
-        $scope.data.location = {
-            status: 'Use location',
-            enabled: false,
-            unavailable: false,
-            coords: null
-        };
+            //determine if answered, if it is -- set the response fields
+            if (userResponse) {
+                console.log('already answered', userResponse);
+                $scope.data.question.isAnswered = true;
+                        
+                $scope.data.response = userResponse;
+                $scope.data.location.enabled = !(!$scope.data.response.location);
+                        
+                // since we've answered it already, load the responses
+                // TODO: load the responses when Michael sorts
+                // using the API
+                (function(responses) {
+                    var result = responses;
+                    $scope.data.responses = result;
+                    
+                    // don't double add after a submission
+                    
+                    var r, total = 0, most;
+                    for (r in result) {
+                        if (result.hasOwnProperty(r)) {
+                            if (most === undefined || result[most].length < result[r].length) {
+                                most = r;
+                            }
+                            total += result[r].length;
+                            
+                            
+                            $scope.qotd.data.push({
+                                key: r,
+                                y: result[r].length
+                            });
+                        }
+                    }
+                    $scope.data.totalResponses = total;
+                    $scope.data.mostResponses = most;
+                    
+                })(qotd.data.responses);
+            }
+        } else {
+            console.log('no question');
+        }
 
         $scope.setLocation = function () {
             console.log('setting location');
@@ -175,13 +221,13 @@ angular.module('tribe.questions', [])
                 console.log(result);
                 $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
                 setAnswered(submission);
-                fetchResponses($scope.data.question._id);
             }).error(function (error) {
                 $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
                 console.log(error);
             });
         };
 
+        
         function fetchResponses(questionID) {
             console.log('fetching responses');
             APIService.getResponses(questionID).success(function (result) {
@@ -240,42 +286,5 @@ angular.module('tribe.questions', [])
                 }
             }
         }
-
-        $scope.qotd = {
-            title: "",
-            config: {
-            },
-            options: {
-                chart: {
-                    type: 'pieChart',
-                    height: 250,
-                    x: function (d) {
-                        return d.key;
-                    },
-                    y: function (d) {
-                        return d.y;
-                    },
-                    showLabels: true,
-                    showLegend: false,
-                    transitionDuration: 500,
-                    labelThreshold: 0.01,
-                    legend: {
-                        margin: {
-                            top: 5,
-                            right: 0,
-                            bottom: 0,
-                            left: 0
-                        }
-                    }
-                }
-            },
-            data: [],
-            events: {
-                qotdChart: function (e, scope) {
-                    scope.api.refresh();
-                }
-            }
-        };
-
 
     });

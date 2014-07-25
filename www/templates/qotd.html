@@ -67,10 +67,10 @@
                     </div>
                 </label>
             </div>
+            <button ng-disabled="data.question.isAnswered" ng-show="data.question" class="button button-block button-assertive" ng-click="submitResponse()">Submit</button>
         </div>
         <div class="card" ng-hide="data.question" style="text-align: center">
             <h4>Sorry, there's no question available yet for today!</h4>
         </div>
-        <button ng-disabled="data.question.isAnswered" ng-show="data.question" class="button button-block button-assertive" ng-click="submitResponse()">Submit</button>
     </ion-content>
 </ion-view>

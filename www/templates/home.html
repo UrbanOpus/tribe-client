@@ -2,24 +2,73 @@
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header padding">
-        <div class="padding">
-            <h4>Question of the Day</h4>
-            <div ng-show="qotd.answered">
-                <div class="card padding">
-                    <h4>{{qotd.title}}</h4>
-                </div>
-                <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>
+    <ion-content class="has-header">
+        <div class="card">
+            <div class="item item-divider">
+                Mood Map
             </div>
-            <div ng-hide="qotd.answered">
-                You haven't answered today's question yet!
-                <a href="#/app/qotd" class="button button-block button-positive">Answer the Question of the Day</a>
+            <div class="item">
+                <google-map center="map.center" zoom="map.zoom" options="map.options" draggable="true">
+                    <markers models="map.markers" coords="'self'" fit="true" icon="'icon'"></markers>
+                </google-map>
+            </div>
+            <div class="item item-divider">
+                Last 24 hours
+            </div>
+            <div class="item">
+                <tribe-dashboard-timeline moods="data.allMoods"/>
+            </div>
+            <div class="item item-divider">
+                Tell us how you're feeling
+            </div>
+            <div class="item">
+                <form ng-hide="mood.submitted">
+                    <div class="range {{mood.rangeColor}}">
+                        <i class="icon ion-sad"></i>
+                        <input type="range" name="volume" ng-model="mood.rangeValue" value="{{mood.rangeValue}}" ng-change="setColor()" min="-100" max="100">
+                        <i class="icon ion-happy"></i>
+                    </div>
+                    <ul class="list">
+                        <li class="item item-toggle">
+                            {{mood.rangeValue | asPercentage}}
+                        </li>
+                        <li class="item item-toggle">
+                            {{mood.location.status}}
+                            <label class="toggle toggle-balanced">
+                                <input type="checkbox" ng-disabled="mood.location.unavailable" ng-model="mood.location.enabled" checked="{{mood.location.enabled}}" ng-change="setLocation()">
+                                <div class="track">
+                                    <div class="handle"></div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                    <button on-hold="submit()" class="button button-block button-positive">Hold to Submit</button>
+                </form>
+                <a href="#/app/mood" class="button button-block button-balanced" ng-show="mood.submitted">Thank you!  Tap here to see your mood history.</a>
             </div>
         </div>
-        <div class="padding">
-            <h4>Mood Timeline (last 24 hours)</h4>
-            <a href="#/app/mood#create" class="button button-block button-energized">Report Your Mood</a>
-            <tribe-mood-timeline moods="data.allMoods" timeline="data.timeline"/>
+        <div class="card">
+            <div class="item item-divider">
+                Question of the Day
+            </div>
+            <div class="item" ng-show="hasQotD">
+                <div ng-show="qotd.answered">
+                    <div class="card padding">
+                        <h4>{{qotd.title}}</h4>
+                    </div>
+                    <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>
+                </div>
+                <div ng-hide="qotd.answered">
+                    You haven't answered today's question yet!
+                    <a href="#/app/qotd" class="button button-block button-positive">Answer the Question of the Day</a>
+                </div>
+            </div>
+            <div class="item" ng-hide="hasQotD">
+                There is no question available yet for today!
+            </div>
+            <div class="item" ng-show="qotd.answered">
+                <a href="#/app/qotd" class="button button-block button-balanced">See more questions</a>
+            </div>
         </div>
     </ion-content>
 </ion-view>

@@ -1,0 +1,12 @@
+<div class="dashboard-timeline">
+    <div class="hours-container" style="left: {{data.hour_offset}}%">
+        <div class="hour-div" ng-repeat="hour in data.hours">
+                <span class="hour-text">
+                    {{hour | majorHoursOnly}}
+                </span>
+            <span class="hour-marker {{hour.value | asAlpha}}">
+            </span>
+        </div>
+    </div>
+    <div class="mood-marker" ng-repeat="mood in moods"></div>
+</div>

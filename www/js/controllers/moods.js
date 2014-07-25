@@ -55,7 +55,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
 
     .directive('tribeMood', function ($ionicScrollDelegate) {
         function link(scope, element, attrs) {
-            var offset, scroller,offsetX,
+            var offsetY, scroller,offsetX,
                 originTime = new Date(scope.timeline.origin).getTime();
             // first is the oldest, so we offset by that amount
             if (scope.$first) {
@@ -63,7 +63,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             }
 
 
-            offset = ((scope.mood.value + 100) / 4) + 25;
+            offsetY = ((scope.mood.value + 100) / 4) + 25;
             offsetX = scope.timeline.widthPX * (new Date(scope.mood.createdAt).getTime() - scope.$parent.origin) / scope.timeline.widthMS;
 
             var yellow = "#fcf357",
@@ -72,7 +72,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
 
             element
                 .css('position', 'absolute')
-                .css('bottom', offset + 'px')
+                .css('bottom', offsetY + 'px')
                 .css('left', offsetX + 'px')
                 .css('border', '2px solid ' + ((scope.mood.value < -33) ? red : (scope.mood.value > 33) ? green : yellow));
 

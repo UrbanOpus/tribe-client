@@ -102,6 +102,9 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
     });
 
     $ionicPlatform.ready(function() {
+
+
+
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -117,7 +120,6 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
 
         var uuid = device.uuid;
         console.log('uuid');
-
 
         UserService.set('uuid', uuid);
 

@@ -58,8 +58,23 @@ angular.module('tribe.services', [])
             postMood: function (mood) {
                 return $http.post(url + 'moods/users/' + mood.uuid, mood);
             },
-            getQuestion: function (date) {
-                return $http.get(url + 'questions/date' + ((date) ? ('?date=' + date.getTime()) : ''));
+            getQuestion: function (date, sortResponses) {
+                var urlString = url + 'questions/date';
+                if (date) {
+                    urlString += '?date=' + date.getTime();
+                }
+                if (sortResponses) {
+                    if (date) {
+                        urlString += '&';
+                    } else {
+                        urlString += '?';
+                    }
+
+                    urlString += 'sorted=true';
+                }
+
+                console.log('urlString', urlString);
+                return $http.get(urlString);
             },
             postQuestion: function (questionID, response) {
                 return $http.post(url + 'questions/' + questionID + '/responses', response);

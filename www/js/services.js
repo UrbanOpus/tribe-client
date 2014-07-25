@@ -59,7 +59,7 @@ angular.module('tribe.services', [])
                 return $http.post(url + 'moods/users/' + mood.uuid, mood);
             },
             getQuestion: function (date) {
-                return $http.get(url + 'questions/date' + ((date) ? ('?date=' + date.getTime()) : ''));
+                return $http.get(url + 'questions/date?sorted=true' + ((date) ? ('&date=' + date.getTime()) : ''));
             },
             postQuestion: function (questionID, response) {
                 return $http.post(url + 'questions/' + questionID + '/responses', response);

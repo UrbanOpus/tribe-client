@@ -130,8 +130,14 @@ angular.module('tribe.questions', [])
             console.log('question', qotd.data);
             $scope.data.question = qotd.data;
 
-            var userResponse = $scope.data.question
-                    && _.findWhere($scope.data.question.responses, {userID: uuid});
+            var userResponse;
+            if ($scope.data.question) {
+                userResponse = _.chain($scope.data.question.responses)
+                    .map(function(userResponses) {
+                        return _.findWhere(userResponses, {userID: uuid});
+                    })
+                    .compact().first().value();
+            }
 
             //determine if answered, if it is -- set the response fields
             if (userResponse) {
@@ -145,7 +151,7 @@ angular.module('tribe.questions', [])
                 // TODO: load the responses when Michael sorts
                 // using the API
                 (function(responses) {
-                    var result = _.groupBy(responses, 'value');
+                    var result = responses;
                     $scope.data.responses = result;
                     
                     // don't double add after a submission

@@ -26,6 +26,9 @@ angular.module('tribe.services', [])
         console.log('api service init');
 
         return {
+            handshake: function (uuid, timeout) {
+                return $http.get(url, {timeout: timeout});
+            },
             getUser: function (uuid) {
                 console.log('getting user', uuid);
                 return $http.get(url + 'users/' + uuid);

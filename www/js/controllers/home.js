@@ -87,99 +87,14 @@ angular.module('tribe.home', ['nvd3'])
         };
     })
 
-    .controller('HomeCtrl', function($scope, $q, APIService, UserService, $ionicLoading, asPercentageFilter) {
-
-        $scope.hasQotD = true;
-
-        $scope.qotd = {
-            title: "",
-            config: {
-            },
-            options: {
-                chart: {
-                    type: 'pieChart',
-                    height: 250,
-                    x: function (d) {
-                        return d.key;
-                    },
-                    y: function (d) {
-                        return d.y;
-                    },
-                    showLabels: true,
-                    transitionDuration: 500,
-                    labelThreshold: 0.01,
-                    legend: {
-                        margin: {
-                            top: 5,
-                            right: 0,
-                            bottom: 0,
-                            left: 0
-                        }
-                    }
-                }
-            },
-            data: [],
-            events: {
-                qotdChart: function (e, scope) {
-                    scope.api.refresh();
-                }
-            },
-            answered: false
-        };
-
-        $scope.data = {};
-        $scope.data.timeline = {
-            days: []
-        };
-
-        function fetchQotDDistribution() {
-            if (typeof UserService.get('uuid') === 'undefined') {
-                console.log('no uuid yet, trying again in 1 second');
-                return setTimeout(fetchQotDDistribution, 1000);
-            }
-            APIService.getQuestion(new Date(), true).success(function (question) {
-
-                console.log('question');
-                console.log(!!question);
-                if (question) {
-
-                    $scope.qotd.title = question.content;
-
-                    // determine if question has been answered
-                    var answer, i, l;
-
-                    console.log('question', question);
-
-                    for (answer in question.responses) {
-                        if (question.responses.hasOwnProperty(answer)) {
-                            l = question.responses[answer].length;
-
-                            for (i = 0; i < l; i += 1) {
-                                if (question.responses[answer][i].userID === UserService.get('uuid')) {
-                                    $scope.qotd.answered = true;
-                                    console.log('answered');
-                                }
-                            }
-
-                            $scope.qotd.data.push({
-                                key: answer,
-                                y: question.responses[answer].length
-                            });
-
-                        }
-                    }
-
-                } else {
-                    $scope.qotd.title = "No question available";
-                    $scope.hasQotD = false;
-                }
-            });
-        }
-
+    .controller('HomeCtrl', function($scope, $q, APIService, UserService, $ionicLoading, $ionicPopup, asPercentageFilter) {
 
 
         var backgroundBlue = '#2d3947';
 
+
+        // the map has to be declared outside of the loading scope, or it won't draw.
+        // no data is being fetched so it won't hang before the handshake
         $scope.map = {
             center: {
                 latitude: 49.25,
@@ -217,117 +132,225 @@ angular.module('tribe.home', ['nvd3'])
         };
 
 
+        APIService.handshake().success(function () {
 
+            $ionicLoading.hide();
 
-        // ---------------------------
-        // mood creation functionality
-        // ---------------------------
+            $scope.hasQotD = true;
 
-        $scope.mood = {};
-
-        $scope.mood.submitted = false;
-        $scope.mood.rangeColor = "range-energized";
-        $scope.mood.rangeValue = 0;
-        $scope.mood.location = {
-            status: 'Use location',
-            enabled: false,
-            unavailable: false,
-            coords: null
-        };
-
-        $scope.submit = function () {
-            $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Submitting...'})
-            var toSubmit = {
-                uuid: UserService.get('uuid'),
-                location: $scope.mood.location.coords,
-                value: $scope.mood.rangeValue
+            $scope.qotd = {
+                title: "",
+                config: {
+                },
+                options: {
+                    chart: {
+                        type: 'pieChart',
+                        height: 250,
+                        x: function (d) {
+                            return d.key;
+                        },
+                        y: function (d) {
+                            return d.y;
+                        },
+                        showLabels: true,
+                        transitionDuration: 500,
+                        labelThreshold: 0.01,
+                        legend: {
+                            margin: {
+                                top: 5,
+                                right: 0,
+                                bottom: 0,
+                                left: 0
+                            }
+                        }
+                    }
+                },
+                data: [],
+                events: {
+                    qotdChart: function (e, scope) {
+                        scope.api.refresh();
+                    }
+                },
+                answered: false
             };
 
-            APIService.postMood(toSubmit).success(function (result) {
-                $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
-                console.log('success',result);
-                $scope.data.allMoods.push(result);
+            $scope.data = {};
+            $scope.data.timeline = {
+                days: []
+            };
 
-                $scope.mood.submitted = true;
+            function fetchQotDDistribution() {
+                if (typeof UserService.get('uuid') === 'undefined') {
+                    console.log('no uuid yet, trying again in 1 second');
+                    return setTimeout(fetchQotDDistribution, 1000);
+                }
+                APIService.getQuestion(new Date(), true).success(function (question) {
 
-            }).error(function (err) {
-                $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
-                console.log('error', err);
-            });
-        };
+                    console.log('question');
+                    console.log(!!question);
+                    if (question) {
 
-        $scope.setColor = function () {
-            var value = $scope.mood.rangeValue;
-            if (value < -33) {
-                $scope.mood.rangeColor = "range-assertive";
-            } else if (value > 33) {
-                $scope.mood.rangeColor = "range-balanced";
-            } else {
-                $scope.mood.rangeColor = "range-energized";
+                        $scope.qotd.title = question.content;
+
+                        // determine if question has been answered
+                        var answer, i, l;
+
+                        console.log('question', question);
+
+                        for (answer in question.responses) {
+                            if (question.responses.hasOwnProperty(answer)) {
+                                l = question.responses[answer].length;
+
+                                for (i = 0; i < l; i += 1) {
+                                    if (question.responses[answer][i].userID === UserService.get('uuid')) {
+                                        $scope.qotd.answered = true;
+                                        console.log('answered');
+                                    }
+                                }
+
+                                $scope.qotd.data.push({
+                                    key: answer,
+                                    y: question.responses[answer].length
+                                });
+
+                            }
+                        }
+
+                    } else {
+                        $scope.qotd.title = "No question available";
+                        $scope.hasQotD = false;
+                    }
+                });
             }
-        };
 
-        $scope.setLocation = function () {
-            console.log('setting location');
-            var timeout = 20000;
-            if ($scope.mood.location.enabled) {
-                if ('geolocation' in navigator) {
-                    $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Getting location', duration: timeout});
-                    navigator.geolocation.getCurrentPosition(function (pos) {
-                        console.log('success');
-                        $ionicLoading.hide();
-                        $scope.mood.location.coords = pos.coords;
-                    }, function () {
-                        console.log('timeout');
-                        $ionicLoading.hide();
+
+
+
+
+
+            // ---------------------------
+            // mood creation functionality
+            // ---------------------------
+
+            $scope.mood = {};
+
+            $scope.mood.submitted = false;
+            $scope.mood.rangeColor = "range-energized";
+            $scope.mood.rangeValue = 0;
+            $scope.mood.location = {
+                status: 'Use location',
+                enabled: false,
+                unavailable: false,
+                coords: null
+            };
+
+            $scope.submit = function () {
+                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Submitting...'})
+                var toSubmit = {
+                    uuid: UserService.get('uuid'),
+                    location: $scope.mood.location.coords,
+                    value: $scope.mood.rangeValue
+                };
+
+                APIService.postMood(toSubmit).success(function (result) {
+                    $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
+                    console.log('success',result);
+                    $scope.data.allMoods.push(result);
+
+                    $scope.mood.submitted = true;
+
+                }).error(function (err) {
+                    $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
+                    console.log('error', err);
+                });
+            };
+
+            $scope.setColor = function () {
+                var value = $scope.mood.rangeValue;
+                if (value < -33) {
+                    $scope.mood.rangeColor = "range-assertive";
+                } else if (value > 33) {
+                    $scope.mood.rangeColor = "range-balanced";
+                } else {
+                    $scope.mood.rangeColor = "range-energized";
+                }
+            };
+
+            $scope.setLocation = function () {
+                console.log('setting location');
+                var timeout = 20000;
+                if ($scope.mood.location.enabled) {
+                    if ('geolocation' in navigator) {
+                        $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Getting location', duration: timeout});
+                        navigator.geolocation.getCurrentPosition(function (pos) {
+                            console.log('success');
+                            $ionicLoading.hide();
+                            $scope.mood.location.coords = pos.coords;
+                        }, function () {
+                            console.log('timeout');
+                            $ionicLoading.hide();
+                            $scope.mood.location.status = 'Location is unavailable';
+                            $scope.mood.location.enabled = false;
+                            $scope.mood.location.unavailable = true;
+                        }, {enableHighAccuracy: true, maximumAge: 60000, timeout: timeout});
+                    } else {
                         $scope.mood.location.status = 'Location is unavailable';
                         $scope.mood.location.enabled = false;
                         $scope.mood.location.unavailable = true;
-                    }, {enableHighAccuracy: true, maximumAge: 60000, timeout: timeout});
+                    }
                 } else {
-                    $scope.mood.location.status = 'Location is unavailable';
-                    $scope.mood.location.enabled = false;
-                    $scope.mood.location.unavailable = true;
+                    $scope.mood.location.coords = null;
                 }
-            } else {
-                $scope.mood.location.coords = null;
-            }
-        };
+            };
 
 
-        var allMarkers = [];
-        var generateMarkers = function (moods, list) {
-            var i, l = moods.length, mood;
+            var allMarkers = [];
+            var generateMarkers = function (moods, list) {
+                var i, l = moods.length, mood;
 
-            list = list || [];
+                list = list || [];
 
-            for (i = 0; i < l; i += 1) {
-                mood = moods[i];
-                if (mood.location) {
-                    list.push({
-                        id: mood._id,
-                        latitude: mood.location.latitude,
-                        longitude: mood.location.longitude,
-                        title: asPercentageFilter(mood.value),
-                        icon: (mood.value < -33) ? 'img/red-dot.png' : (mood.value > 33) ? 'img/green-dot.png' : 'img/yellow-dot.png',
-                    });
+                for (i = 0; i < l; i += 1) {
+                    mood = moods[i];
+                    if (mood.location) {
+                        list.push({
+                            id: mood._id,
+                            latitude: mood.location.latitude,
+                            longitude: mood.location.longitude,
+                            title: asPercentageFilter(mood.value),
+                            icon: (mood.value < -33) ? 'img/red-dot.png' : (mood.value > 33) ? 'img/green-dot.png' : 'img/yellow-dot.png',
+                        });
+                    }
                 }
-            }
 
-            console.log('generated markers:', list);
+                console.log('generated markers:', list);
 
-            return list;
-        };
+                return list;
+            };
 
-        APIService.getMoodRange(null, moment().subtract(24, 'hours')).success(function (result) {
-            console.log('all moods', result);
-            $scope.data.allMoods = result;
-            //generateTimeline();
-            $scope.map.markers = generateMarkers($scope.data.allMoods);
-        }).error(function (err) {
-            console.log(err);
-        });
+            APIService.getMoodRange(null, moment().subtract(24, 'hours')).success(function (result) {
+                console.log('all moods', result);
+                $scope.data.allMoods = result;
+                //generateTimeline();
+                $scope.map.markers = generateMarkers($scope.data.allMoods);
+            }).error(function (err) {
+                console.log(err);
+            });
 
-        fetchQotDDistribution();
+            fetchQotDDistribution();
+
+        }).error(function () {
+            $ionicLoading.hide();
+
+            $ionicPopup.alert({
+                title: 'Connection error',
+                template: 'Server could not be reached.  Please check your internet connection.',
+                okText: 'Close App',
+                okType: 'button-assertive'
+            }).then(function (res) {
+                navigator.app.exitApp();
+            })
+        })
+
 
     });

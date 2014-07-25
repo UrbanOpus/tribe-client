@@ -45,12 +45,13 @@ angular.module('tribe.questions', [])
         };
         
         $scope.data = {
-            question: {},
+            question: null,
             response: {
                 value: []
             },
             responses: [],
             isLatestDay: false,
+            isAnswered: false,
             qDate: new Date(),
             location: {
                 status: 'Use location',
@@ -97,7 +98,6 @@ angular.module('tribe.questions', [])
             }
         };
 
-
         
         if ($stateParams.date) {
             $scope.data.qDate = new Date(parseInt($stateParams.date));
@@ -126,60 +126,53 @@ angular.module('tribe.questions', [])
 
 //        APIService.getQuestion($scope.data.qDate).success(function (result) {
         // TODO: remove this IIFE, not sure whether we need to isolate
-        //the variables i,l
-        (function(result) {
-            var i, l;
-            console.log('question', result);
-            $scope.data.question = result;
-            $scope.data.question.isAnswered = false;
-            
-            if ($scope.data.question) {
-                l = $scope.data.question.responses.length;
-                
-                //determine if answered, and toggle
-                
-                for (i = 0; i < l; i += 1) {
-                    console.log($scope.data.question.responses[i]);
-                    if ($scope.data.question.responses[i].userID === uuid) {
-                        console.log('already answered', $scope.data.question.responses[i]);
-                        $scope.data.question.isAnswered = true;
+        if (qotd.data) {
+            console.log('question', qotd.data);
+            $scope.data.question = qotd.data;
+
+            var userResponse = $scope.data.question
+                    && _.findWhere($scope.data.question.responses, {userID: uuid});
+
+            //determine if answered, if it is -- set the response fields
+            if (userResponse) {
+                console.log('already answered', userResponse);
+                $scope.data.question.isAnswered = true;
                         
-                        $scope.data.response = $scope.data.question.responses[i];
-                        $scope.data.location.enabled = !(!$scope.data.response.location);
+                $scope.data.response = userResponse;
+                $scope.data.location.enabled = !(!$scope.data.response.location);
                         
-                        // since we've answered it already, load the responses
-                        (function(result) {
-                            $scope.data.responses = result;
-                            
-                            // don't double add after a submission
-                            
-                            var r, total = 0, most;
-                            for (r in result) {
-                                if (result.hasOwnProperty(r)) {
-                                    if (most === undefined || result[most].length < result[r].length) {
-                                        most = r;
-                                    }
-                                    total += result[r].length;
-                                    
-                                    
-                                    $scope.qotd.data.push({
-                                        key: r,
-                                        y: result[r].length
-                                    });
-                                }
+                // since we've answered it already, load the responses
+                // TODO: load the responses when Michael sorts
+                // using the API
+                (function(responses) {
+                    var result = _.groupBy(responses, 'value');
+                    $scope.data.responses = result;
+                    
+                    // don't double add after a submission
+                    
+                    var r, total = 0, most;
+                    for (r in result) {
+                        if (result.hasOwnProperty(r)) {
+                            if (most === undefined || result[most].length < result[r].length) {
+                                most = r;
                             }
-                            $scope.data.totalResponses = total;
-                            $scope.data.mostResponses = most;
+                            total += result[r].length;
                             
-                        })(result.responses);
-                        
-                        break;
+                            
+                            $scope.qotd.data.push({
+                                key: r,
+                                y: result[r].length
+                            });
+                        }
                     }
-                }
-            } else {
-                console.log('no question');
+                    $scope.data.totalResponses = total;
+                    $scope.data.mostResponses = most;
+                    
+                })(qotd.data.responses);
             }
-        }(qotd.data));
+        } else {
+            console.log('no question');
+        }
 
         $scope.setLocation = function () {
             console.log('setting location');
@@ -222,7 +215,6 @@ angular.module('tribe.questions', [])
                 console.log(result);
                 $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
                 setAnswered(submission);
-                fetchResponses($scope.data.question._id);
             }).error(function (error) {
                 $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
                 console.log(error);

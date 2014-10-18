@@ -7281,18 +7281,32 @@ a.button {
   height: 1px; }
 
 .dashboard-qotd {
-  margin-top: 25%;
   width: 100%;
   text-align: center;
   font-size: 16px; }
   .dashboard-qotd .answer-button {
     margin-top: 5%; }
+  .dashboard-qotd .qotd-notanswered {
+    position: absolute;
+    top: 30%; }
+
+.qotd-notavailable {
+  position: absolute;
+  text-align: center;
+  font-size: 16px;
+  top: 30%;
+  width: 100%; }
 
 .dashboard-selectors {
-  margin-top: 40%;
+  position: absolute;
   text-align: center;
-  font-size: 48px; }
+  bottom: 10%;
+  width: 100%; }
   .dashboard-selectors .row {
-    padding-top: 10px; }
+    padding-top: 10px;
+    font-size: 48px; }
+    .dashboard-selectors .row .col a {
+      text-decoration: none;
+      color: #000; }
   .dashboard-selectors .selector-text {
     font-size: 20px; }

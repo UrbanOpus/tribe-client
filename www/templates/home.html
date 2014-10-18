@@ -2,24 +2,21 @@
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header">
+    <ion-content class="has-header" scroll="false">
         <div class="dashboard-qotd" ng-show="hasQotD">
-            <div ng-show="qotd.answered">
-                <div class="card padding">
-                   d <h4>{{qotd.title}}</h4>
+            <div class="qotd-answered" ng-show="qotd.answered">
+                <div class="padding">
+                  {{qotd.title}}
                 </div>
-                <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>
+                <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>                
             </div>
-            <div ng-hide="qotd.answered">
+            <div ng-hide="qotd.answered" class="qotd-notanswered">
                 You haven't answered today's question yet!
                 <a href="#/app/qotd" class="button button-positive answer-button">Answer the Question of the Day</a>
             </div>
         </div>
-        <div class="item" ng-hide="hasQotD">
+        <div class="qotd-notavailable" ng-hide="hasQotD">
             There is no question available yet for today!
-        </div>
-        <div class="item" ng-show="qotd.answered">
-            <a href="#/app/qotd" class="button button-block button-balanced">See more questions</a>
         </div>
 
         <div class="dashboard-selectors">
@@ -38,11 +35,11 @@
             <div class="col"><i class="icon ion-ribbon-b"></i>
               <div class="selector-text">Badges</div>
             </div>
-            <div class="col"><i class="icon ion-settings"></i>
-              <div class="selector-text">Settings</div>
+            <div class="col"><a href="#/app/settings"><i class="icon ion-settings"></i>
+              <div class="selector-text">Settings</div></a>
             </div>
-            <div class="col"><i class="icon ion-help-buoy"></i>
-              <div class="selector-text">About</div>
+            <div class="col"><a href="#/app/about"><i class="icon ion-help-buoy"></i>
+              <div class="selector-text">About</div></a>
             </div>
           </div>
         </div>

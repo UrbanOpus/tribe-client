@@ -5,6 +5,8 @@
 # node auto-install magic
 node_modules/
 www/lib/
+www/css/ionic.app.css
+www/css/ionic.app.min.css
 
 # build files/plugins
 platforms/

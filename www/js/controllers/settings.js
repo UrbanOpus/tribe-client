@@ -24,7 +24,7 @@ angular.module('tribe.settings', ['ionic'])
         $scope.data = {};
         $scope.data.times = [];
 
-        var i, j, timeCount = 0;;
+        var i, j, timeCount = 0;
 
         // AM times
 
@@ -86,12 +86,11 @@ angular.module('tribe.settings', ['ionic'])
             var onSuccess;
             // if someone cleared the input -- treat it as an implicit
             // disable by setting it to the default
-            if ($scope.mood_notify.time == "") {
+            if ($scope.mood_notify.time === "") {
                 $scope.mood_notify.checked = false;
             }
             
-            onSuccess = $scope.mood_notify.checked
-                && function () { $localNotificationService.scheduleMood($scope.mood_notify.time); };
+            onSuccess = $scope.mood_notify.checked && function () { $localNotificationService.scheduleMood($scope.mood_notify.time); };
 
             $localNotificationService.cancel(onSuccess);
 
@@ -108,7 +107,7 @@ angular.module('tribe.settings', ['ionic'])
                 $ionicPopup.alert({
                     title: 'Error',
                     template: 'User does not exist (already deleted?)'
-                })
+                });
             });
-        }
+        };
     });

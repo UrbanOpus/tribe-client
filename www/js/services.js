@@ -1,4 +1,4 @@
-/* jshint global moment, angular */
+/* global moment, angular */
 angular.module('tribe.services', [])
 
     .factory('UserService', function () {
@@ -50,9 +50,9 @@ angular.module('tribe.services', [])
                 }
                 if (timeEnd) {
                     if (timeStart) {
-                        urlString += '&'
+                        urlString += '&';
                     } else {
-                        urlString += '?'
+                        urlString += '?';
                     }
                     urlString += 'timeEnd=' + timeEnd;
                 }
@@ -113,8 +113,7 @@ angular.module('tribe.services', [])
 
         return {
             cancel: function(callback) {
-                callback = callback
-                    || toastService.toast.bind(null, "Disabled mood mapping notifications", "short", "bottom");
+                callback = callback || toastService.toast.bind(null, "Disabled mood mapping notifications", "short", "bottom");
 
                 console.log("removing moodNotify task");
                 service.cancel("moodNotify", callback);

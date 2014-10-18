@@ -12,13 +12,13 @@ angular.module('tribe.questions', [])
                 return months[val.getMonth()] + ' ' + val.getDate() + ', ' + val.getFullYear();
             }
             return '';
-        }
+        };
     })
 
     .filter('answered', function () {
         return function (val) {
             return (val) ? '(answered)' : '';
-        }
+        };
     })
 
     .directive('responseBar', function () {
@@ -28,7 +28,7 @@ angular.module('tribe.questions', [])
         return {
             link: link,
             restrict: 'A'
-        }
+        };
     })
 
     .controller('QuestionCtrl', function($scope, $ionicLoading, $stateParams, $location,
@@ -221,10 +221,10 @@ angular.module('tribe.questions', [])
 
                 APIService.postQuestion($scope.data.question._id, submission).success(function (result) {
                     console.log(result);
-                    $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
+                    $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'});
                     setAnswered(submission);
                 }).error(function (error) {
-                    $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
+                    $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'});
                     console.log(error);
                 });
             };
@@ -261,7 +261,7 @@ angular.module('tribe.questions', [])
                     $ionicLoading.hide();
                 }).error(function (error) {
                     console.log(error);
-                })
+                });
             }
 
             $scope.isAnswer = function (r) {
@@ -270,12 +270,9 @@ angular.module('tribe.questions', [])
                     console.log('r', r);
                     console.log('response', $scope.data.response);
                     console.log('possibleAnswers', $scope.data.question.possibleAnswers);
-                    return (($scope.data.response.value == r) ||
-                        ($scope.data.response.indexOf
-                            && $scope.data.question.possibleAnswers.indexOf(r) !== -1
-                            && $scope.data.response.value[$scope.data.question.possibleAnswers.indexOf(r)] !== null));
+                    return (($scope.data.response.value == r) || ($scope.data.response.indexOf && $scope.data.question.possibleAnswers.indexOf(r) !== -1 && $scope.data.response.value[$scope.data.question.possibleAnswers.indexOf(r)] !== null));
                 }
-            }
+            };
 
             $scope.getResponseClass = function (r) {
                 console.log('response class ',r);
@@ -287,7 +284,7 @@ angular.module('tribe.questions', [])
                         return 'badge badge-stable';
                     }
                 }
-            }
+            };
 
         }).error(function () {
             $ionicLoading.hide();
@@ -299,6 +296,6 @@ angular.module('tribe.questions', [])
                 okType: 'button-assertive'
             }).then(function (res) {
                 navigator.app.exitApp();
-            })
-        })
+            });
+        });
     });

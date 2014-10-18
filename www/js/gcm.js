@@ -33,7 +33,7 @@ angular.module('tribe.gcm', [])
                     // success
                 });
             }
-        }
+        };
     });
 
 function onNotificationGCM(e) {

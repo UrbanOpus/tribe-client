@@ -15,7 +15,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
     .filter('reverse', function () {
         return function (array) {
             return array.slice().reverse();
-        }
+        };
     })
 
     .directive('tribeMoodTimeline', function () {
@@ -35,7 +35,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             },
             transclude: true,
             templateUrl: 'templates/timeline.html'
-        }
+        };
     })
 
     .directive('tribeTimelineDay', function () {
@@ -50,7 +50,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             link: link,
             restrict: 'E',
             templateUrl: 'templates/dayItem.html'
-        }
+        };
     })
 
     .directive('tribeMood', function ($ionicScrollDelegate) {
@@ -59,7 +59,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                 originTime = new Date(scope.timeline.origin).getTime();
             // first is the oldest, so we offset by that amount
             if (scope.$first) {
-                scope.$parent.origin = originTime
+                scope.$parent.origin = originTime;
             }
 
 
@@ -87,7 +87,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             restrict: 'E',
             template: '<div class="mood-timeline-entry"></div>',
             transclude: true
-        }
+        };
     })
 
     .controller('MoodCtrl', function($scope, $ionicLoading, $ionicModal, $ionicScrollDelegate, $location, $timeout, APIService, UserService, asPercentageFilter) {
@@ -145,7 +145,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
             };
 
             $scope.submit = function () {
-                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Submitting...'})
+                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Submitting...'});
                 var toSubmit = {
                     uuid: UserService.get('uuid'),
                     location: $scope.data.location.coords,
@@ -153,13 +153,13 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                 };
 
                 APIService.postMood(toSubmit).success(function (result) {
-                    $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
+                    $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'});
                     $scope.modal.hide();
                     console.log('success',result);
 
                     getMoods();
                 }).error(function (err) {
-                    $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
+                    $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'});
                     $scope.modal.hide();
                     console.log('error', err);
                 });
@@ -420,7 +420,7 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                 okType: 'button-assertive'
             }).then(function (res) {
                 navigator.app.exitApp();
-            })
-        })
+            });
+        });
 
     });

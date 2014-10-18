@@ -33,14 +33,14 @@ gulp.task('watch', function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src('./www/js/**/*.js')
+  return gulp.src(['./www/js/**/*.js', '!./www/js/angular-datepicker.js'])
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });
 
 gulp.task('format-js', function() {
-  gulp.src('./src/foo.js', './src/bar.json')
-    .pipe(prettify({config: '.jsbeautifyrc', mode: 'VERIFY_AND_WRITE'}));
+  gulp.src('./www/js/**/*.js')
+    .pipe(prettify({indentSize: 2, mode: 'VERIFY_AND_WRITE'}));
 });
 
 gulp.task('install', ['git-check'], function() {

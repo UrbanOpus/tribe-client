@@ -8,7 +8,7 @@ angular.module('tribe.welcome', [])
         $scope.data.times = [];
         $scope.data.time = '12:00 PM';
 
-        var i, j, timeCount = 0;;
+        var i, j, timeCount = 0;
 
         // AM times
 
@@ -29,8 +29,8 @@ angular.module('tribe.welcome', [])
         }
 
         $scope.logTime = function () {
-            console.log($scope.data.time)
-        }
+            console.log($scope.data.time);
+        };
 
         // detect closest time
 
@@ -116,5 +116,5 @@ angular.module('tribe.welcome', [])
             });
 
             $location.path('/app/home');
-        }
+        };
     });

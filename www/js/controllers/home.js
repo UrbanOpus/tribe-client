@@ -8,7 +8,7 @@ angular.module('tribe.home', ['nvd3'])
             var alphas = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'twentyone', 'twentytwo', 'twentythree'
             ];
             return alphas[num];
-        }
+        };
     })
 
     .filter('majorHoursOnly', function () {
@@ -16,7 +16,7 @@ angular.module('tribe.home', ['nvd3'])
             if (hour.value % 6 === 0) {
                 return hour.text;
             }
-        }
+        };
     })
 
     .directive('moodMarker', function () {
@@ -45,7 +45,7 @@ angular.module('tribe.home', ['nvd3'])
             link: link,
             restrict: 'C',
             transclude: true
-        }
+        };
     })
 
     .directive('tribeDashboardTimeline', function () {
@@ -245,7 +245,7 @@ angular.module('tribe.home', ['nvd3'])
             };
 
             $scope.submit = function () {
-                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Submitting...'})
+                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Submitting...'});
                 var toSubmit = {
                     uuid: UserService.get('uuid'),
                     location: $scope.mood.location.coords,
@@ -253,14 +253,14 @@ angular.module('tribe.home', ['nvd3'])
                 };
 
                 APIService.postMood(toSubmit).success(function (result) {
-                    $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'})
+                    $ionicLoading.show({template: '<i class="icon ion-checkmark"></i><br />Success!', duration:'500'});
                     console.log('success',result);
                     $scope.data.allMoods.push(result);
 
                     $scope.mood.submitted = true;
 
                 }).error(function (err) {
-                    $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'})
+                    $ionicLoading.show({template: '<i class="icon ion-alert"></i><br />Error: Something went wrong', duration:'1000'});
                     console.log('error', err);
                 });
             };
@@ -349,8 +349,8 @@ angular.module('tribe.home', ['nvd3'])
                 okType: 'button-assertive'
             }).then(function (res) {
                 navigator.app.exitApp();
-            })
-        })
+            });
+        });
 
 
     });

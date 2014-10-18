@@ -130,12 +130,21 @@
   margin-top: 25%;
   width: 100%;
   text-align: center;
+  font-size: 16px;
+
+  .answer-button {
+    margin-top: 5%;
+  }
 }
 
 .dashboard-selectors {
   margin-top: 40%;
   text-align: center;
-  font-size: 24px;
+  font-size: 48px;
+
+  .row {
+    padding-top: 10px;
+  }
 
   .selector-text {
     font-size: 20px;

@@ -8,3 +8,4 @@ www/lib/
 
 # build files/plugins
 platforms/
+hooks/after_prepare/

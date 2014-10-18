@@ -5,6 +5,9 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
+var prettify = require('gulp-jsbeautifier');
 var sh = require('shelljs');
 
 var paths = {
@@ -27,6 +30,17 @@ gulp.task('sass', function(done) {
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
+});
+
+gulp.task('lint', function() {
+  return gulp.src('./www/js/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish));
+});
+
+gulp.task('format-js', function() {
+  gulp.src('./src/foo.js', './src/bar.json')
+    .pipe(prettify({config: '.jsbeautifyrc', mode: 'VERIFY_AND_WRITE'}));
 });
 
 gulp.task('install', ['git-check'], function() {

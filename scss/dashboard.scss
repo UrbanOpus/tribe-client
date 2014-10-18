@@ -1,0 +1,143 @@
+.angular-google-map-container {
+    height: 15em;
+}
+
+.wide-as-needed {
+    position: relative;
+    overflow: scroll;
+    white-space: nowrap;
+    height: 80px;
+
+}
+
+.timeline-day {
+    position: relative;
+    top: 0;
+    display: inline-block;
+    height: 50px;
+    margin: auto;
+
+    border-top: 1px solid #DDD;
+    border-left: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+}
+
+.mood-timeline-entry {
+    width:  1px;
+    height: 1px;
+}
+
+.day-item {
+    position: relative;
+    top: 55px;
+    text-align: center;
+    color: #AAA;
+    font-size: 14px;
+}
+
+.median {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    border-top: 1px dashed #DDD;
+}
+
+.date-now {
+    height: 100%;
+    width: 1px;
+    border-left: 1px solid #BBB;
+}
+
+.dashboard-timeline {
+    width: 100%;
+    height: 100px;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.dashboard-timeline:after {
+    display: block;
+    width: 100%;
+    height: 50%;
+    border-bottom: 1px solid #ddd;
+}
+
+.hour-div{
+    display: inline-block;
+    height: 100px;
+    width: 4.166%;
+    text-align: left;
+    line-height: 100px;
+    position: relative;
+}
+
+.hours-container {
+    position: relative;
+}
+
+.hour-marker {
+    display: block;
+    position: relative;
+    top: 50%;
+}
+
+.hour-marker:after {
+    content: '';
+    margin-top: -8px; /* half of the height */
+    display: block;
+    width: 1px;
+    height: 16px;
+    border-right: 1px solid #ddd;
+}
+
+.hour-marker.zero:after {
+    height: 100px;
+    margin-top: -50px;
+}
+.hour-marker.twelve:after {
+    height: 50px;
+    margin-top: -25px;
+}
+
+.hour-marker.six:after, .hour-marker.eighteen:after {
+    height: 30px;
+    margin-top: -15px;
+}
+
+.hour-text {
+    line-height: 18px;
+    position: absolute;
+    top: 100%;
+    color: #999;
+    margin-top: -20px;
+    margin-left: -100%;
+    background-color: #fff;
+    z-index: 1;
+    /*margin-top: -50px;*/
+}
+
+.mood-marker {
+    position: absolute;
+    width:  1px;
+    height: 1px;
+}
+
+.dashboard-qotd {
+  margin-top: 25%;
+  width: 100%;
+  text-align: center;
+}
+
+.dashboard-selectors {
+  margin-top: 40%;
+  text-align: center;
+  font-size: 24px;
+
+  .selector-text {
+    font-size: 20px;
+  }
+}

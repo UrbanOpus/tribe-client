@@ -20,7 +20,7 @@ angular.module('tribe.services', [])
 
     .factory('APIService', function ($http) {
         // dev; comment out when commiting
-        var url = 'http://192.168.1.103:3000/api/';
+        var url = 'http://192.168.1.112:3000/api/';
         // var url = 'http://108.59.80.64:3000/api/';
 
         console.log('api service init');
@@ -72,6 +72,15 @@ angular.module('tribe.services', [])
             },
             getResponses: function (question) {
                 return $http.get(url + 'questions/' + question + '/responses/sorted');
+            },
+            getTribes: function (uuid) {
+                return $http.get(url + 'usertribe/' + uuid);
+            },
+            getAllTribes: function () {
+                return $http.get(url + 'tribes/');
+            },
+            getTribeInfo: function (tribeID) {
+                return $http.get(url + 'tribes/' + tribeID);
             },
             deleteUser: function (uuid) {
                 return $http.delete(url + 'users', uuid);

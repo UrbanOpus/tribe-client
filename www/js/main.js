@@ -2,6 +2,7 @@ var app = angular.module('tribe',
                          ['ionic',
                           'tribe.home', 'tribe.moods','tribe.questions', 'tribe.welcome',
                           'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
+                          'tribe.tribes', 'tribe.search', 'tribe.tribeinfo',
                           'angular-datepicker', 'angularMoment']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -80,6 +81,50 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         }
     });
 
+    $stateProvider.state('app.tribes', {
+        url: '/tribes',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/tribes.html',
+                controller: 'TribeCtrl'
+            }
+        }
+    });
+
+
+    $stateProvider.state('app.search', {
+        url: '/search',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/searchtribe.html',
+                controller: 'SearchCtrl'
+            }
+        }
+    });
+
+    $stateProvider.state('app.tribeInfo', {
+        url: '/tribe?id',
+        views: {
+            'menuContent': {
+                resolve: {
+                    'tribe': function($stateParams, $ionicLoading, APIService) {
+                        if ($stateParams.id) {
+                            var id = $stateParams.id;
+                        }
+
+                        $ionicLoading.show({
+                            template: '<i class="icon ion-loading-c"></i><br />Loading Question'
+                        });
+
+                        return APIService.getTribeInfo(id);
+                    }
+                },
+                templateUrl: 'templates/tribeinfo.html',
+                controller: 'TribeInfoCtrl'
+            }
+        }
+    });
+
     $stateProvider.state('app.welcome', {
         url: '/welcome',
         views: {
@@ -124,7 +169,7 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
 
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-        // for form inputs)
+        // for form inputs)an
         if(window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
@@ -137,18 +182,19 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
         var device = window.device || {uuid: "browser-test", platform: "browser"};
 
         var uuid = device.uuid;
-        console.log('uuid');
 
         UserService.set('uuid', uuid);
 
         APIService.getUser(uuid).success(function (data) {
             $location.path('/app/home');
-            console.log('home');
         }).error(function () {
-            if (device.platform === 'android' || device.platform === 'Android') {
+            if (device.platform === 'android' || device.platform === 'Android' || device.platform === 'browser') {
                 $location.path('/app/welcome');
 
-                PushProcessingService.initialize();
+                if (device.platform !== 'browser') {
+                    PushProcessingService.initialize();
+                }
+
             } else {
                 UserService.set('registrationID', 'testRegid');
                 $location.path('/app/home');
@@ -156,15 +202,11 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
 
             }
         });
-
-
         // get gcm registration id
 
         if (device.platform === 'android' || device.platform === 'Android') {
             PushProcessingService.initialize();
         }
-        console.log('regid');
-
     });
 
 

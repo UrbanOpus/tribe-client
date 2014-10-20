@@ -1,0 +1,26 @@
+<ion-view title="{{tribe.name}}">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header padding">
+        <img ng-src="{{tribe.imgsrc}}" alt="" class="tribe-info-logo">
+        <p>Name: {{tribe.name}}</p>
+        <p>Category: {{tribe.category}}</p>
+        <p>Summary: {{tribe.summary}}</p>
+        <p>Created: {{tribe.createdAt}}</p>
+        <p>Members: {{tribe.members.length}} </p>
+        
+    </ion-content>
+
+    <div class="tabs">
+      <a class="tab-item active" ng-href="#/app/tribe?id={{tribe._id}}">
+        Overview
+      </a>
+      <a class="tab-item">
+        Results
+      </a>
+      <a class="tab-item">
+        Mood
+      </a>
+    </div>
+</ion-view>

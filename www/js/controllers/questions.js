@@ -35,7 +35,6 @@ angular.module('tribe.questions', [])
                                          APIService, uuid, qotd) {
 
         APIService.handshake().success(function () {
-
             // TODO: remove this, won't be loading until this anyhow
             $ionicLoading.hide();
 

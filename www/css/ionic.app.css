@@ -7310,3 +7310,7 @@ a.button {
       color: #000; }
   .dashboard-selectors .selector-text {
     font-size: 20px; }
+
+.tribe-info-logo {
+  height: 150px;
+  width: 150px; }

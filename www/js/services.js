@@ -12,7 +12,7 @@ angular.module('tribe.services', [])
             get: function (attr) {
                 return user[attr];
             },
-            getUser: function (user) {
+            getUser: function () {
                 return user;
             }
         };
@@ -81,6 +81,12 @@ angular.module('tribe.services', [])
             },
             getTribeInfo: function (tribeID) {
                 return $http.get(url + 'tribes/' + tribeID);
+            },
+            joinTribe: function (tribeID, uuid) {
+                return $http.post(url + 'jointribe/' + tribeID, uuid);
+            },
+            leaveTribe: function (tribeID, uuid) {
+                return $http.post(url + 'leavetribe/' + tribeID, uuid);
             },
             deleteUser: function (uuid) {
                 return $http.delete(url + 'users', uuid);

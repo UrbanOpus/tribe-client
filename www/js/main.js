@@ -117,6 +117,14 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                         });
 
                         return APIService.getTribeInfo(id);
+                    },
+                    'uuid': function(UserService) {
+                        return UserService.get('uuid');
+                    },
+                    'user': function(APIService, UserService) {
+                        uuid = UserService.get('uuid');
+
+                        return APIService.getUser(uuid);
                     }
                 },
                 templateUrl: 'templates/tribeinfo.html',

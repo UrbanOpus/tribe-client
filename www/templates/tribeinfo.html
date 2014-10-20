@@ -9,7 +9,13 @@
         <p>Summary: {{tribe.summary}}</p>
         <p>Created: {{tribe.createdAt}}</p>
         <p>Members: {{tribe.members.length}} </p>
-        
+
+        <div ng-hide="memberOf">
+            <button class="button button-assertive" ng-click="joinTribe()">Join Tribe</button>
+        </div>
+        <div ng-show="memberOf">
+            <button class="button button-positive" ng-click="leaveTribe()">Leave Tribe</button>
+        </div>
     </ion-content>
 
     <div class="tabs">

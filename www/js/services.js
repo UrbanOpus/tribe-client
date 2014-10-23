@@ -17,7 +17,7 @@ angular.module('tribe.services', [])
             }
         };
     })
-
+    
     .factory('APIService', function ($http) {
         // dev; comment out when commiting
         var url = 'http://192.168.1.112:3000/api/';

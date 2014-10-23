@@ -16,8 +16,9 @@
         <br/>
         <br/>
         <div ng-show="data.question.isAnswered" class="card">
-            <div class="item item-divider">
-                Response distribution
+
+            <div class="item item-divider item-body">
+                {{data.question.content}}
             </div>
 
             <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>
@@ -37,8 +38,7 @@
                 <span class="badge badge-assertive">Most Popular</span>
             </div>
         </div>
-        <h5 class="title" style="text-align:center;">{{data.question.isAnswered | answered}}</h5>
-        <div class="card" ng-switch="data.question.type" ng-show="data.question">
+        <div class="card" ng-switch="data.question.type" ng-show="data.question && !data.question.isAnswered">
             <div class="item item-divider item-body">
                 {{data.question.content}}
             </div>

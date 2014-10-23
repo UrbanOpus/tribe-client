@@ -1,19 +1,10 @@
 <ion-view title="Welcome">
     <ion-content class="has-header padding">
-        <h2 class="title">Hello</h2>
-        <div class="card padding">
-            We'd like to notify you when new questions are available.
-            Please choose the time that suits you the best.
-        </div>
+        <h4 class="title">Where Do You Fit In?</h4>
+        <h4 class="title">Choose Up To 5 Tribes.</h4>
         <div class="list">
-            <label class="item item-input item-select item-text-wrap" >
-                <div class="label">
-                    Schedule Time
-                </div>
-                <select name="" id="mood_notify_time" ng-model="data.time" ng-options="time for time in data.times">
-                </select>
-            </label>
-            <button class="button button-block button-positive" ng-click="notifyUser()">Notify me at {{data.time}}</button>
-            <button class="button button-block button-light" ng-click="dontNotifyUser()">I don't want to be notified</button>
+          <ion-checkbox ng-repeat="tribe in data.tribes" ng-model="tribe.selected" ng-change="change(tribe)">{{tribe.name}}</ion-checkbox>
+        </div>
+        <button ng-click="next()" class="button button-block button-positive">Next</button>
     </ion-content>
 </ion-view>

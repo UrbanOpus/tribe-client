@@ -2,7 +2,7 @@ var app = angular.module('tribe',
                          ['ionic',
                           'tribe.home', 'tribe.moods','tribe.questions', 'tribe.welcome',
                           'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
-                          'tribe.tribes', 'tribe.search', 'tribe.tribeinfo',
+                          'tribe.tribes', 'tribe.search', 'tribe.tribeinfo', 'tribe.demographic',
                           'angular-datepicker', 'angularMoment']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -91,18 +91,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         }
     });
 
-
-    $stateProvider.state('app.search', {
-        url: '/search',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/searchtribe.html',
-                controller: 'SearchCtrl'
-            }
-        }
-    });
-
-    $stateProvider.state('app.tribeInfo', {
+    $stateProvider.state('app.tribeinfo', {
         url: '/tribe?id',
         views: {
             'menuContent': {
@@ -113,7 +102,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                         }
 
                         $ionicLoading.show({
-                            template: '<i class="icon ion-loading-c"></i><br />Loading Question'
+                           template: '<i class="icon ion-loading-c"></i><br />Loading Question'
                         });
 
                         return APIService.getTribeInfo(id);
@@ -133,12 +122,34 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         }
     });
 
+
+
+    $stateProvider.state('app.search', {
+        url: '/search',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/searchtribe.html',
+                controller: 'SearchCtrl'
+            }
+        }
+    });
+
     $stateProvider.state('app.welcome', {
         url: '/welcome',
         views: {
             'menuContent': {
                 templateUrl: 'templates/welcome_prompt.html',
                 controller: 'WelcomeCtrl'
+            }
+        }
+    });
+
+    $stateProvider.state('app.demographics', {
+        url: '/demographics',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/demographics.html',
+                controller: 'DemographicCtrl'
             }
         }
     });
@@ -201,6 +212,8 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
 
                 if (device.platform !== 'browser') {
                     PushProcessingService.initialize();
+                } else {
+                  UserService.set('registrationID', 'testRegid');
                 }
 
             } else {

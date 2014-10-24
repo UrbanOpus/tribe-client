@@ -3,6 +3,7 @@ var app = angular.module('tribe',
                           'tribe.home', 'tribe.moods','tribe.questions', 'tribe.welcome',
                           'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
                           'tribe.tribes', 'tribe.search', 'tribe.tribeinfo', 'tribe.demographic',
+                          'tribe.tribeQuestion',
                           'angular-datepicker', 'angularMoment']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -121,6 +122,34 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             }
         }
     });
+
+$stateProvider.state('app.triberesult', {
+    url: '/triberesult?date&id',
+    views: {
+        'menuContent': {
+            resolve: {
+                'qotd': function($stateParams, $ionicLoading, APIService) {
+                    var date = new Date();
+
+                    if ($stateParams.date) {
+                        date = new Date(parseInt($stateParams.date));
+                    }
+
+                    $ionicLoading.show({
+                        template: '<i class="icon ion-loading-c"></i><br />Loading Question',
+                        duration: 5000
+                    });
+                    return APIService.getQuestion(date);
+                },
+                'uuid': function(UserService) {
+                    return UserService.get('uuid');
+                }
+            },
+            templateUrl: 'templates/triberesult.html',
+            controller: 'TribeQuestionCtrl'
+        }
+    }
+});
 
 
 

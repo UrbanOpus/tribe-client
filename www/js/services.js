@@ -73,6 +73,9 @@ angular.module('tribe.services', [])
             getResponses: function (question) {
                 return $http.get(url + 'questions/' + question + '/responses/sorted');
             },
+            getTribeResponses: function (question, tribeID) {
+                return $http.get(url + 'questions/' + question + '/' + tribeID + '/responses');
+            },
             getTribes: function (uuid) {
                 return $http.get(url + 'usertribe/' + uuid);
             },

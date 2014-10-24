@@ -1,0 +1,85 @@
+<ion-view title="Question of the Day">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader">
+        <button ng-click="goBack()" class="button">
+            <i class="icon ion-arrow-left-b"></i> Prev
+        </button>
+        <h4 class="title" style="text-align:center;">{{data.qDate | toDate}} <span ng-show="data.isLatestDay">(Today)</span></h4>
+        <button ng-click="goForward()" ng-show="!data.isLatestDay" class="button">
+            Next <i class="icon ion-arrow-right-b"></i>
+        </button>
+    </div>
+    <ion-content >
+        <!-- my current hack to make the bar not override -- we should add a refresh thing here to stick with the current app idioms -->
+        <br/>
+        <br/>
+        <div ng-show="data.question.isAnswered" class="card">
+
+            <div class="item item-divider item-body">
+                {{data.question.content}}
+            </div>
+
+            <nvd3 options="qotd.options" data="qotd.data" config="qotd.config" events="qotd.events" api="api"></nvd3>
+
+            <div class="item" ng-repeat="(value, responses) in data.responses">
+                <i class="icon ion-person" ng-if="isAnswer(value)"></i>
+                <strong>{{value}}</strong>
+                <span ng-class="getResponseClass(value)">{{(responses.length * 100 / data.totalResponses).toFixed(0 )}}%</span>
+            </div>
+            <div class="item item-divider" style="text-align:right">
+                &nbsp;
+                <i class="icon ion-person"></i> Your Response
+            </div>
+
+            <div class="item item-divider" style="text-align:center">
+                &nbsp;
+                <span class="badge badge-assertive">Most Popular</span>
+            </div>
+        </div>
+        <div class="card" ng-switch="data.question.type" ng-show="data.question && !data.question.isAnswered">
+            <div class="item item-divider item-body">
+                {{data.question.content}}
+            </div>
+            <div ng-switch-when="mc">
+                <ion-checkbox ng-disabled="data.question.isAnswered" ng-repeat="answer in data.question.possibleAnswers track by $index" ng-model="data.response.value[$index]">{{answer}}</ion-checkbox>
+            </div>
+            <div ng-switch-when="emc">
+                <ion-radio ng-disabled="data.question.isAnswered" ng-repeat="answer in data.question.possibleAnswers" ng-model="data.response.value" value="{{answer}}">{{answer}}</ion-radio>
+            </div>
+            <div ng-switch-when="num">
+                <div class="item range range-positive">
+                    {{data.question.possibleAnswers.min}}
+                    <input type="range" ng-disabled="data.question.isAnswered" ng-model="data.response.value" min="{{data.question.possibleAnswers.min}}" max="{{data.question.possibleAnswers.max}}">
+                    {{data.question.possibleAnswers.max}}
+                </div>
+                <div class="item item-divider">
+                    Response: {{data.response.value}}
+                </div>
+            </div>
+            <div class="item item-toggle">
+                {{data.location.status}}
+                <label class="toggle toggle-balanced">
+                    <input type="checkbox" ng-disabled="data.location.unavailable || data.question.isAnswered" ng-model="data.location.enabled" ng-change="setLocation()">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
+            <button ng-disabled="data.question.isAnswered" ng-show="data.question" class="button button-block button-assertive" ng-click="submitResponse()">Submit</button>
+        </div>
+        <div class="card" ng-hide="data.question" style="text-align: center">
+            <h4>Sorry, there's no question available yet for today!</h4>
+        </div>
+    </ion-content>
+
+    <div class="tabs">
+      <a class="tab-item" ng-href="#/app/tribe?id={{tribe}}">
+        Overview
+      </a>
+      <a class="tab-item active" ng-href="#/app/triberesult?id={{tribe}}">
+        Results
+      </a>
+    </div>
+</ion-view>

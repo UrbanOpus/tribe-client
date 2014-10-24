@@ -3,8 +3,6 @@ angular.module('tribe.tribeinfo', [])
         APIService.handshake().success(function () {
           $ionicLoading.hide();
 
-          console.log("What");
-
           tribe.data.createdAt = moment(tribe.data.createdAt).format('l');
 
           $scope.usertribe = user.data.tribe;

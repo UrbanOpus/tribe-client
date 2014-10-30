@@ -144,6 +144,27 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                 coords: null
             };
 
+            var timeout = 20000;
+
+            if ('geolocation' in navigator) {
+                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Getting location', duration: timeout});
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    console.log('success');
+                    $ionicLoading.hide();
+                    $scope.data.location.coords = pos.coords;
+                }, function () {
+                    console.log('timeout');
+                    $ionicLoading.hide();
+                    $scope.data.location.status = 'Location is unavailable';
+                    $scope.data.location.enabled = false;
+                    $scope.data.location.unavailable = true;
+                }, {enableHighAccuracy: true, maximumAge: 60000, timeout: timeout});
+            } else {
+                $scope.data.location.status = 'Location is unavailable';
+                $scope.data.location.enabled = false;
+                $scope.data.location.unavailable = true;
+            }
+
             $scope.submit = function () {
                 $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Submitting...'});
                 var toSubmit = {
@@ -175,35 +196,6 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                     $scope.data.rangeColor = "range-energized";
                 }
             };
-
-            $scope.setLocation = function () {
-                console.log('setting location');
-                var timeout = 20000;
-                if ($scope.data.location.enabled) {
-                    if ('geolocation' in navigator) {
-                        $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Getting location', duration: timeout});
-                        navigator.geolocation.getCurrentPosition(function (pos) {
-                            console.log('success');
-                            $ionicLoading.hide();
-                            $scope.data.location.coords = pos.coords;
-                        }, function () {
-                            console.log('timeout');
-                            $ionicLoading.hide();
-                            $scope.data.location.status = 'Location is unavailable';
-                            $scope.data.location.enabled = false;
-                            $scope.data.location.unavailable = true;
-                        }, {enableHighAccuracy: true, maximumAge: 60000, timeout: timeout});
-                    } else {
-                        $scope.data.location.status = 'Location is unavailable';
-                        $scope.data.location.enabled = false;
-                        $scope.data.location.unavailable = true;
-                    }
-                } else {
-                    console.log('just kidding');
-                    $scope.data.location.coords = null;
-                }
-            };
-
 
             // ---------------------------
             // mood fetching functionality
@@ -291,8 +283,12 @@ angular.module('tribe.moods', ['ionic', 'google-maps'])
                         });
                         console.log('all moods with location:', $scope.data.allMoods);
                         //$scope.data.allMoods = result;
-                        generateTimeline();
-                        $scope.map.markers = generateMarkers($scope.data.allMoods, allMarkers);
+
+                        if ($scope.data.allMoods.length) {
+                          generateTimeline();
+                          $scope.map.markers = generateMarkers($scope.data.allMoods, allMarkers);
+                        }
+
                     }).error(function (err) {
                         console.log(err);
                     });

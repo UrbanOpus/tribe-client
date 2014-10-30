@@ -13,15 +13,6 @@
                 <li class="item item-toggle">
                     {{data.rangeValue | asPercentage}}
                 </li>
-                <li class="item item-toggle">
-                    {{data.location.status}}
-                    <label class="toggle toggle-balanced">
-                        <input type="checkbox" ng-disabled="data.location.unavailable" ng-model="data.location.enabled" checked="{{data.location.enabled}}" ng-change="setLocation()">
-                        <div class="track">
-                            <div class="handle"></div>
-                        </div>
-                    </label>
-                </li>
             </ul>
             <button ng-click="submit()" class="button button-block button-positive">Submit</button>
             <button ng-click="closeModal()" class="button button-block button-light">Cancel</button>

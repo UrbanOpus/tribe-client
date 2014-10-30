@@ -3,7 +3,7 @@
 /**
  * Created by faide on 2014-07-14.
  */
-angular.module('tribe.tribeQuestion', [])
+angular.module('tribe.tribeQuestion', ['angularMoment'])
 
     .filter('toDate', function () {
         return function (val) {
@@ -40,7 +40,7 @@ angular.module('tribe.tribeQuestion', [])
 
             $scope.tribe = $stateParams.id;
 
-            var today = new Date();
+            var today = moment();
             var setAnswered = function(response) {
                 $scope.data.question.isAnswered = true;
                 $scope.data.response = response;
@@ -55,7 +55,7 @@ angular.module('tribe.tribeQuestion', [])
                 responses: [],
                 isLatestDay: false,
                 isAnswered: false,
-                qDate: new Date(),
+                qDate: moment(),
                 location: {
                     status: 'Use location',
                     enabled: false,
@@ -101,33 +101,53 @@ angular.module('tribe.tribeQuestion', [])
                 }
             };
 
-
             if ($stateParams.date) {
-                $scope.data.qDate = new Date(parseInt($stateParams.date));
+                $scope.data.qDate = moment(parseInt($stateParams.date));
                 //set 'today' to the currently active day
             }
 
-            var yesterday = new Date($scope.data.qDate.getTime() - 1000*60*60*24),
-                tomorrow  = new Date($scope.data.qDate.getTime() + 1000*60*60*24);
+            var yesterday = moment($scope.data.qDate).subtract(1, 'd'),
+                tomorrow  = moment($scope.data.qDate).add(1, 'd');
 
-            if ($scope.data.qDate.getMonth() === today.getMonth() &&
-                $scope.data.qDate.getDate()   === today.getDate() &&
-                $scope.data.qDate.getFullYear()  === today.getFullYear()) {
+            if ($scope.data.qDate.month() === today.month() &&
+                $scope.data.qDate.date()   === today.date() &&
+                $scope.data.qDate.year()  === today.year()) {
                 $scope.data.isLatestDay = true;
             }
 
-
             $scope.goBack = function () {
-                $location.url('/app/triberesult?date=' + yesterday.getTime() + '&id=' + $scope.tribe);
+                $location.url('/app/triberesult?date=' + yesterday.valueOf() + '&id=' + $scope.tribe);
             };
             $scope.goForward = function () {
-                $location.url('/app/triberesult?date=' + tomorrow.getTime() + '&id=' + $scope.tribe);
+                $location.url('/app/triberesult?date=' + tomorrow.valueOf() + '&id=' + $scope.tribe);
             };
+
+            
+            if ('geolocation' in navigator) {
+                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Getting location', duration: 5000});
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    $ionicLoading.hide();
+                    $scope.data.location.coords = pos.coords;
+                }, function () {
+                    $ionicLoading.hide();
+                    $scope.data.location.status = 'Location is unavailable';
+                    $scope.data.location.enabled = false;
+                    $scope.data.location.unavailable = true;
+                });
+            } else {
+                $scope.data.location.status = 'Location is unavailable';
+                $scope.data.location.enabled = false;
+                $scope.data.location.unavailable = true;
+            }
 
 //        APIService.getQuestion($scope.data.qDate).success(function (result) {
             // TODO: remove this IIFE, not sure whether we need to isolate
             if (qotd.data) {
                 $scope.data.question = qotd.data;
+
+                if (moment($scope.data.question.expireOn) < moment()) {
+                  $scope.data.expired = true;
+                }
 
                 var userResponse;
                 if ($scope.data.question) {
@@ -179,32 +199,6 @@ angular.module('tribe.tribeQuestion', [])
             } else {
                 console.log('no question');
             }
-
-            $scope.setLocation = function () {
-                console.log('setting location');
-                if ($scope.data.location.enabled) {
-                    if ('geolocation' in navigator) {
-                        $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Getting location', duration: 5000});
-                        navigator.geolocation.getCurrentPosition(function (pos) {
-                            $ionicLoading.hide();
-                            $scope.data.location.coords = pos.coords;
-                        }, function () {
-                            $ionicLoading.hide();
-                            $scope.data.location.status = 'Location is unavailable';
-                            $scope.data.location.enabled = false;
-                            $scope.data.location.unavailable = true;
-                        });
-                    } else {
-                        $scope.data.location.status = 'Location is unavailable';
-                        $scope.data.location.enabled = false;
-                        $scope.data.location.unavailable = true;
-                    }
-                } else {
-                    console.log('just kidding');
-                    $scope.data.location.coords = null;
-                }
-            };
-
 
             $scope.submitResponse = function () {
                 $ionicLoading.show({

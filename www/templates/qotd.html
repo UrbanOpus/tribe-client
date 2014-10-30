@@ -6,7 +6,7 @@
         <button ng-click="goBack()" class="button">
             <i class="icon ion-arrow-left-b"></i> Prev
         </button>
-        <h4 class="title" style="text-align:center;">{{data.qDate | toDate}} <span ng-show="data.isLatestDay">(Today)</span></h4>
+        <h4 class="title" style="text-align:center;">{{data.qDate.format('ll')}} <span ng-show="data.isLatestDay">(Today)</span></h4>
         <button ng-click="goForward()" ng-show="!data.isLatestDay" class="button">
             Next <i class="icon ion-arrow-right-b"></i>
         </button>
@@ -38,7 +38,7 @@
                 <span class="badge badge-assertive">Most Popular</span>
             </div>
         </div>
-        <div class="card" ng-switch="data.question.type" ng-show="data.question && !data.question.isAnswered">
+        <div class="card" ng-switch="data.question.type" ng-show="data.question && !data.question.isAnswered && !data.expired">
             <div class="item item-divider item-body">
                 {{data.question.content}}
             </div>
@@ -58,19 +58,13 @@
                     Response: {{data.response.value}}
                 </div>
             </div>
-            <div class="item item-toggle">
-                {{data.location.status}}
-                <label class="toggle toggle-balanced">
-                    <input type="checkbox" ng-disabled="data.location.unavailable || data.question.isAnswered" ng-model="data.location.enabled" ng-change="setLocation()">
-                    <div class="track">
-                        <div class="handle"></div>
-                    </div>
-                </label>
-            </div>
             <button ng-disabled="data.question.isAnswered" ng-show="data.question" class="button button-block button-assertive" ng-click="submitResponse()">Submit</button>
         </div>
         <div class="card" ng-hide="data.question" style="text-align: center">
-            <h4>Sorry, there's no question available yet for today!</h4>
+            <h4>Sorry, there's no question available yet for <span ng-hide="data.isLatestDay">on {{data.qDate.format('YYYY/MM/DD')}}</span><span ng-show="data.isLatestDay">today</span>!</h4>
+        </div>
+        <div class="card" ng-show="data.expired && data.question && !data.question.isAnswered" style="text-align: center">
+            <h4>You missed answering the question of the day <span ng-hide="data.isLatestDay">on {{data.qDate.format('YYYY/MM/DD')}}.</span><span ng-show="data.isLatestDay">today. Come back Tommorrow!</span></h4>
         </div>
     </ion-content>
 </ion-view>

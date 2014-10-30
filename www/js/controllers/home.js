@@ -1,7 +1,7 @@
 /**
  * Created by faide on 2014-07-14.
  */
-angular.module('tribe.home', ['nvd3'])
+angular.module('tribe.home', ['angularMoment'])
 
     .filter('asAlpha', function () {
         return function (num) {
@@ -71,36 +71,42 @@ angular.module('tribe.home', ['nvd3'])
                 days: []
             };
 
+            $scope.data.expired = false;
+
             function fetchQotDDistribution() {
                 if (typeof UserService.get('uuid') === 'undefined') {
                     console.log('no uuid yet, trying again in 1 second');
                     return setTimeout(fetchQotDDistribution, 1000);
                 }
-                APIService.getQuestion(new Date(), true).success(function (question) {
+                APIService.getQuestion(moment(), true).success(function (question) {
                     if (question) {
 
-                        $scope.qotd.title = question.content;
+                      if (moment(question.expireOn) < moment()) {
+                        $scope.data.expired = true;
+                      }
 
-                        // determine if question has been answered
-                        var answer, i, l;
+                      $scope.qotd.title = question.content;
 
-                        for (answer in question.responses) {
-                            if (question.responses.hasOwnProperty(answer)) {
-                                l = question.responses[answer].length;
+                      // determine if question has been answered
+                      var answer, i, l;
 
-                                _.each(question.responses[answer], function(answer) {
-                                  if (answer.userID === UserService.get('uuid')) {
-                                      $scope.qotd.answered = true;
-                                  }
-                                });
+                      for (answer in question.responses) {
+                          if (question.responses.hasOwnProperty(answer)) {
+                              l = question.responses[answer].length;
 
-                                $scope.qotd.data.push({
-                                    key: answer,
-                                    y: question.responses[answer].length
-                                });
+                              _.each(question.responses[answer], function(answer) {
+                                if (answer.userID === UserService.get('uuid')) {
+                                    $scope.qotd.answered = true;
+                                }
+                              });
 
-                            }
-                        }
+                              $scope.qotd.data.push({
+                                  key: answer,
+                                  y: question.responses[answer].length
+                              });
+
+                          }
+                      }
 
                     } else {
                         $scope.qotd.title = "No question available";

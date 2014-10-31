@@ -30,8 +30,6 @@ angular.module('tribe.home', ['angularMoment'])
 
             $scope.hasQotD = true;
 
-            $scope.tribeEnabled = UserService.get('tribeEnabled');
-
             $scope.qotd = {
                 title: "",
                 config: {
@@ -81,6 +79,8 @@ angular.module('tribe.home', ['angularMoment'])
                     return setTimeout(fetchQotDDistribution, 1000);
                 }
                 APIService.getQuestion(moment(), true).success(function (question) {
+                    $scope.tribeEnabled = UserService.get('tribeEnabled');
+
                     if (question) {
 
                       if (moment(question.expireOn) < moment()) {

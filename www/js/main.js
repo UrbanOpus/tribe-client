@@ -38,11 +38,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         url: '/home',
         views: {
             'menuContent': {
-                resolve: {
-                  'uuid': function(UserService) {
-                      return UserService.get('uuid');
-                  }
-                },
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl'
             }
@@ -249,7 +244,6 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
 
         APIService.getUser(uuid).success(function (data) {
             UserService.set('tribeEnabled', data.tribeEnabled);
-
             $rootScope.tribeEnabled = data.tribeEnabled;
             $location.path('/app/home');
         }).error(function () {

@@ -14,12 +14,17 @@
                       <h5>green = happy, yellow = neutral, red = unhappy</h5>
                     </div>
                     <h4 style="text-align: center">History</h4>
-                    <div class="list list-inset">
+                    <div class="list list-inset" ng-show="data.moods.length">
                         <ion-item class="item" ng-repeat="mood in data.moods">
                             {{mood.value | asPercentage}}
 
                             <span class="item-note"><i ng-if="mood.location" class="icon ion-location"></i> {{mood.createdAt | date:'short'}}</span>
                         </ion-item>
+                    </div>
+                    <div class="item" style="text-align: center" ng-hide="data.moods.length">
+                      You have no mood history! Submit one Now!
+                      <br>
+                      <button class="button button-positive button-block" ng-show="isLocal" ng-click="openModal()">Add a New Mood</button>
                     </div>
                 </ion-content>
             </ion-tab>
@@ -31,7 +36,11 @@
                     <div class="item">
                       <h5>green = happy, yellow = neutral, red = unhappy</h5>
                     </div>
-                    <tribe-mood-timeline moods="data.allMoods" timeline="data.timeline" on-scroll="fetchDateRange()"/>
+                    <div class="item" style="text-align: center" ng-hide="data.allMoods.length">
+                      <h2>There is no mood history.</h2>
+                    </div>
+                    <tribe-mood-timeline moods="data.allMoods" timeline="data.timeline" on-scroll="fetchDateRange()" ng-show="data.allMoods.length"/>
+
                 </ion-content>
 
 

@@ -9,6 +9,7 @@
   "dependencies": {
     "d3": "~3.3.13",
     "angular-moment": "~0.7.1",
-    "angular-nvd3": "~0.0.8"
+    "angular-nvd3": "~0.0.8",
+    "angulartics": "*"
   }
 }

@@ -4,7 +4,7 @@ var app = angular.module('tribe',
                           'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
                           'tribe.tribes', 'tribe.search', 'tribe.tribeinfo', 'tribe.demographic',
                           'tribe.tribeQuestion',
-                          'angular-datepicker', 'angularMoment']);
+                          'angular-datepicker', 'angularMoment','angulartics', 'angulartics.google.analytics']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 

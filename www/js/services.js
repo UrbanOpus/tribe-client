@@ -113,8 +113,7 @@ angular.module('tribe.services', [])
         if (!$window.plugin || !$window.plugin.notification) {
             console.log("No notification support on device");
             return {
-                cancel: function() {},
-                scheduleMood: function() {}
+                cancel: function() {}
             };
         }
 
@@ -135,21 +134,6 @@ angular.module('tribe.services', [])
 
                 console.log("removing moodNotify task");
                 service.cancel("moodNotify", callback);
-            },
-            scheduleMood: function(time) {
-                var msg =  {
-                    id: "moodNotify",
-                    date:  getScheduleDate(time),
-                    title: "Time to map your mood!",
-                    message: "How are you feeling right now?",
-                    repeat: 'daily',
-                    autoCancel: true,
-                    ongoing: false
-                };
-
-                service.add(msg, function() {
-                    toastService.toast("Scheduled notifications for "+ time, "long", "bottom");
-                });
             }
         };
     }])

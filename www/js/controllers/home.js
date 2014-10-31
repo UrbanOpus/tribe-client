@@ -19,7 +19,7 @@ angular.module('tribe.home', ['angularMoment'])
         };
     })
 
-    .controller('HomeCtrl', function($scope, $q, APIService, UserService, $ionicLoading, $ionicPopup, asPercentageFilter) {
+    .controller('HomeCtrl', function($scope, $q, APIService, UserService, $ionicLoading, $ionicPopup) {
 
 
         var backgroundBlue = '#2d3947';
@@ -29,6 +29,8 @@ angular.module('tribe.home', ['angularMoment'])
             $ionicLoading.hide();
 
             $scope.hasQotD = true;
+
+            $scope.tribeEnabled = UserService.get('tribeEnabled');
 
             $scope.qotd = {
                 title: "",

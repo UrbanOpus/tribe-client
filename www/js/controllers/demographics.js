@@ -16,6 +16,13 @@ angular.module('tribe.demographic', ['angular-datepicker'])
 
         submission.registrationID = UserService.get('registrationID');
 
+        if (UserService.get('tribes')) {
+          submission.tribeEnabled = true;
+          UserService.set('tribeEnabled', true);
+        } else {
+          UserService.set('tribeEnabled', false);
+        };
+
         APIService.createUser(submission).success(function (u) {
             $ionicPopup.alert({
                 title: 'Success!',

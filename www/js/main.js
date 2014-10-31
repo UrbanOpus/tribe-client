@@ -38,6 +38,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         url: '/home',
         views: {
             'menuContent': {
+                resolve: {
+                  'uuid': function(UserService) {
+                      return UserService.get('uuid');
+                  }
+                },
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl'
             }
@@ -164,11 +169,20 @@ $stateProvider.state('app.triberesult', {
     });
 
     $stateProvider.state('app.welcome', {
-        url: '/welcome',
+        url: '/welcomeTribe',
         views: {
             'menuContent': {
                 templateUrl: 'templates/welcome_prompt.html',
                 controller: 'WelcomeCtrl'
+            }
+        }
+    });
+
+    $stateProvider.state('app.versionSelection', {
+        url: '/welcome',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/version_selection.html'
             }
         }
     });
@@ -234,6 +248,9 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
         UserService.set('uuid', uuid);
 
         APIService.getUser(uuid).success(function (data) {
+            UserService.set('tribeEnabled', data.tribeEnabled);
+
+            $rootScope.tribeEnabled = data.tribeEnabled;
             $location.path('/app/home');
         }).error(function () {
             if (device.platform === 'android' || device.platform === 'Android' || device.platform === 'browser') {
@@ -248,8 +265,6 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
             } else {
                 UserService.set('registrationID', 'testRegid');
                 $location.path('/app/home');
-
-
             }
         });
         // get gcm registration id

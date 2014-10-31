@@ -23,28 +23,42 @@
         </div>
 
         <div class="dashboard-selectors">
-          <div class="row">
-            <div class="col"><a href="#/app/tribes"><i class="icon ion-android-friends"></i>
-              <div class="selector-text">Tribes</div></a>
+          <div ng-show="tribeEnabled">
+            <div class="row">
+              <div class="col"><a href="#/app/tribes"><i class="icon ion-android-friends"></i>
+                <div class="selector-text">Tribes</div></a>
+              </div>
+              <div class="col"><a href="#/app/qotd"><i class="icon ion-help-circled"></i>
+                <div class="selector-text">Questions</div></a>
+              </div>
+  <!--             <div class="col"><a href="#/app/mood"><i class="icon ion-happy"></i>
+                <div class="selector-text">Mood</div></a>
+              </div> -->
             </div>
-            <div class="col"><a href="#/app/qotd"><i class="icon ion-help-circled"></i>
-              <div class="selector-text">Questions</div></a>
-            </div>
-            <div class="col"><a href="#/app/mood"><i class="icon ion-happy"></i>
-              <div class="selector-text">Mood</div></a>
+            <div class="row">
+              <div class="col"><a href="#/app/settings"><i class="icon ion-settings"></i>
+                <div class="selector-text">Settings</div></a>
+              </div>
+              <div class="col"><a href="#/app/about"><i class="icon ion-help-buoy"></i>
+                <div class="selector-text">About</div></a>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col"><i class="icon ion-ribbon-b"></i>
-              <div class="selector-text">Badges</div>
-            </div>
-            <div class="col"><a href="#/app/settings"><i class="icon ion-settings"></i>
-              <div class="selector-text">Settings</div></a>
-            </div>
-            <div class="col"><a href="#/app/about"><i class="icon ion-help-buoy"></i>
-              <div class="selector-text">About</div></a>
+
+          <div ng-hide="tribeEnabled">
+            <div class="row">
+              <div class="col"><a href="#/app/qotd"><i class="icon ion-help-circled"></i>
+                <div class="selector-text">Questions</div></a>
+              </div>
+              <div class="col"><a href="#/app/settings"><i class="icon ion-settings"></i>
+                <div class="selector-text">Settings</div></a>
+              </div>
+              <div class="col"><a href="#/app/about"><i class="icon ion-help-buoy"></i>
+                <div class="selector-text">About</div></a>
+              </div>
             </div>
           </div>
+
         </div>
     </ion-content>
 </ion-view>

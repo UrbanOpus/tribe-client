@@ -122,24 +122,6 @@ angular.module('tribe.tribeQuestion', ['angularMoment'])
                 $location.url('/app/triberesult?date=' + tomorrow.valueOf() + '&id=' + $scope.tribe);
             };
 
-            
-            if ('geolocation' in navigator) {
-                $ionicLoading.show({template: '<i class="icon ion-loading-c"></i><br />Getting location', duration: 5000});
-                navigator.geolocation.getCurrentPosition(function (pos) {
-                    $ionicLoading.hide();
-                    $scope.data.location.coords = pos.coords;
-                }, function () {
-                    $ionicLoading.hide();
-                    $scope.data.location.status = 'Location is unavailable';
-                    $scope.data.location.enabled = false;
-                    $scope.data.location.unavailable = true;
-                });
-            } else {
-                $scope.data.location.status = 'Location is unavailable';
-                $scope.data.location.enabled = false;
-                $scope.data.location.unavailable = true;
-            }
-
 //        APIService.getQuestion($scope.data.qDate).success(function (result) {
             // TODO: remove this IIFE, not sure whether we need to isolate
             if (qotd.data) {
@@ -204,6 +186,23 @@ angular.module('tribe.tribeQuestion', ['angularMoment'])
                 $ionicLoading.show({
                     template:'<i class="icon ion-loading-c"></i><br />Getting location'
                 });
+
+                if ('geolocation' in navigator) {
+                        navigator.geolocation.getCurrentPosition(function (pos) {
+                        $ionicLoading.hide();
+                        $scope.data.location.coords = pos.coords;
+                    }, function () {
+                        $ionicLoading.hide();
+                        $scope.data.location.status = 'Location is unavailable';
+                        $scope.data.location.enabled = false;
+                        $scope.data.location.unavailable = true;
+                    });
+                } else {
+                    $scope.data.location.status = 'Location is unavailable';
+                    $scope.data.location.enabled = false;
+                    $scope.data.location.unavailable = true;
+                }
+
                 var submission = {
                     userID: uuid,
                     value: $scope.data.response.value,

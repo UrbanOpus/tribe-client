@@ -44,8 +44,6 @@ angular.module('tribe.tribeinfo', [])
                   okType: 'button-assertive'
               })
             }
-
-
           };
 
         }).error(function () {

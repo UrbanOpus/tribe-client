@@ -1,0 +1,30 @@
+<ion-view title="Search For Tribe">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header padding">
+      <div class="list">
+          <div class="item" ng-repeat="msg in messages">
+            [<em>{{msg.from}}</em>] Msg: {{msg.body}}</li>
+          </div>
+      </div>
+
+      <div class="list">
+        <input type="text" ng-model="message.name" placeholder="Name">
+        <input type="text" ng-model="message.content" ng-keydown="addMessage($event)" placeholder="Message...">
+      </div>
+      <button class="button button-positive" ng-click="sendMsg()">  Send  </button>
+
+    </ion-content>
+    <div class="tabs" ng-show="globalchat">
+      <a class="tab-item" ng-href="#/app/tribe?id={{tribe}}">
+        Overview
+      </a>
+      <a class="tab-item" ng-href="#/app/triberesult?id={{tribe}}">
+        Results
+      </a>
+      <a class="tab-item active" ng-href="#/app/messages?id={{tribe}}">
+        Chat
+      </a>
+    </div>
+</ion-view>

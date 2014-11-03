@@ -3,7 +3,7 @@ var app = angular.module('tribe',
                           'tribe.home', 'tribe.moods','tribe.questions', 'tribe.welcome',
                           'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
                           'tribe.tribes', 'tribe.search', 'tribe.tribeinfo', 'tribe.demographic',
-                          'tribe.tribeQuestion',
+                          'tribe.tribeQuestion', 'tribe.tribeMessages', 'firebase',
                           'angular-datepicker', 'angularMoment','angulartics', 'angulartics.google.analytics']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -103,7 +103,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                         }
 
                         $ionicLoading.show({
-                           template: '<i class="icon ion-loading-c"></i><br />Loading Question'
+                           template: '<i class="icon ion-loading-c"></i><br />Loading Tribe'
                         });
 
                         return APIService.getTribeInfo(id);
@@ -119,6 +119,16 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 },
                 templateUrl: 'templates/tribeinfo.html',
                 controller: 'TribeInfoCtrl'
+            }
+        }
+    });
+
+    $stateProvider.state('app.messages', {
+        url: '/messages?id',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/message.html',
+                controller: 'TribeMessageCtrl'
             }
         }
     });

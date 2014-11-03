@@ -12,7 +12,6 @@
         </button>
     </div>
     <ion-content >
-        <!-- my current hack to make the bar not override -- we should add a refresh thing here to stick with the current app idioms -->
         <br/>
         <br/>
         <div ng-show="data.question.isAnswered" class="card">
@@ -68,12 +67,16 @@
         </div>
     </ion-content>
 
+
     <div class="tabs">
       <a class="tab-item" ng-href="#/app/tribe?id={{tribe}}">
         Overview
       </a>
       <a class="tab-item active" ng-href="#/app/triberesult?id={{tribe}}">
         Results
+      </a>
+      <a class="tab-item" ng-href="#/app/messages?id={{tribe}}">
+        Chat
       </a>
     </div>
 </ion-view>

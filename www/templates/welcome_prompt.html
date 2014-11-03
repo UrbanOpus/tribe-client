@@ -5,6 +5,9 @@
         <div class="list">
           <ion-checkbox ng-repeat="tribe in data.tribes" ng-model="tribe.selected" ng-change="change(tribe)">{{tribe.name}}</ion-checkbox>
         </div>
-        <button ng-click="next()" class="button button-block button-positive">Next</button>
     </ion-content>
+    <ion-footer-bar class="bar bar-footer bar-positive" ng-click="next()">
+      <button class="button-block button-positive button" style="margin-top: 0px; border: none;">Next</button>
+      <br>
+    </ion-footer-bar>
 </ion-view>

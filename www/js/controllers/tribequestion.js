@@ -3,7 +3,7 @@
 /**
  * Created by faide on 2014-07-14.
  */
-angular.module('tribe.tribeQuestion', ['angularMoment'])
+angular.module('tribe.tribeQuestion', [])
 
     .filter('toDate', function () {
         return function (val) {

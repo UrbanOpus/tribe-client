@@ -3,6 +3,7 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header padding">
+      <div class="list">
         <div class= "tribe-info">
           <img ng-src="{{tribe.imgsrc}}" alt="" class="tribe-info-logo">
           <div><span class="tribe-label">Name:</span> {{tribe.name}}</div>
@@ -20,6 +21,7 @@
         <div>
           <p><span class="tribe-label">Summary:</span> {{tribe.summary}}</p>
         </div>
+      </div>
     </ion-content>
 
     <div class="tabs">

@@ -1,6 +1,7 @@
-angular.module('tribe.tribeMessages', [])
+angular.module('tribe.tribeMessages', ['angularMoment'])
     .controller('TribeMessageCtrl', function($scope, $ionicLoading, $ionicModal, $ionicPopup, $ionicScrollDelegate, $stateParams, $firebase, APIService, UserService) {
         APIService.handshake().success(function () {
+          var MESSAGELIMIT = 1000;
           $ionicLoading.hide();
 
           $scope.nickname = UserService.get('nickname');
@@ -21,7 +22,7 @@ angular.module('tribe.tribeMessages', [])
 
           var ref = new Firebase("https://glaring-torch-9281.firebaseio.com/" + $scope.tribe);
 
-          $scope.messages = $firebase(ref);
+          $scope.messages = $firebase(ref.limit(MESSAGELIMIT));
 
            $scope.addMessage = function(e) {
               $scope.sendMsg = function() {

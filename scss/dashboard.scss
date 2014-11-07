@@ -187,9 +187,30 @@
   }
 }
 
-.tribe-info-logo {
-  height: 150px;
-  width: 150px;
+.tribe-info {
+  height: 220px;
+  padding-top: 10px;
+
+  div {
+    padding: 7px 5px;
+  }
+
+  button {
+    margin-top: 5px;
+    float: right;
+  }
+
+  .tribe-info-logo {
+    height: 150px;
+    width: 150px;
+    margin-top: 25px;
+    float: left;
+    margin-right: 20px;
+  }
+}
+
+.tribe-label {
+  font-weight: 700;
 }
 
 .version-selectors {
@@ -271,6 +292,8 @@
   border: none;
   padding:5px;
   background-color: transparent;
+  white-space: normal;
+  word-break: break-all;
 
   .from {
     font-size: 0.9em;

@@ -7318,9 +7318,23 @@ a.button {
   .dashboard-selectors .selector-text {
     font-size: 20px; }
 
-.tribe-info-logo {
-  height: 150px;
-  width: 150px; }
+.tribe-info {
+  height: 220px;
+  padding-top: 10px; }
+  .tribe-info div {
+    padding: 7px 5px; }
+  .tribe-info button {
+    margin-top: 5px;
+    float: right; }
+  .tribe-info .tribe-info-logo {
+    height: 150px;
+    width: 150px;
+    margin-top: 25px;
+    float: left;
+    margin-right: 20px; }
+
+.tribe-label {
+  font-weight: 700; }
 
 .version-selectors {
   position: absolute;
@@ -7381,7 +7395,9 @@ a.button {
 .msg {
   border: none;
   padding: 5px;
-  background-color: transparent; }
+  background-color: transparent;
+  white-space: normal;
+  word-break: break-all; }
   .msg .from {
     font-size: 0.9em; }
   .msg .body {

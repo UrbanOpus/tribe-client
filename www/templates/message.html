@@ -3,14 +3,11 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header padding message-view">
-      <div class="list">
-        <div class="item msg" style="width: 100%" ng-repeat="msg in messages">
-          <div ng-class="{selfmsg: msg.uuid === userid}">
-            <div class="from" ng-hide="msg.uuid === userid">{{msg.from}}</div>
-            <div class="body">{{msg.body}}</div>
-          </div>
+      <div class="item msg" style="width: 100%" ng-repeat="msg in messages">
+        <div ng-class="{selfmsg: msg.uuid === userid}">
+          <div class="from" ng-hide="msg.uuid === userid">{{msg.from}}</div>
+          <div class="body"><span>{{msg.body}}</span></div>
         </div>
-
       </div>
 
     </ion-content>

@@ -3,18 +3,22 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header padding">
-        <img ng-src="{{tribe.imgsrc}}" alt="" class="tribe-info-logo">
-        <p>Name: {{tribe.name}}</p>
-        <p>Category: {{tribe.category}}</p>
-        <p>Summary: {{tribe.summary}}</p>
-        <p>Created: {{tribe.createdAt}}</p>
-        <p>Members: {{tribe.members.length}} </p>
-
-        <div ng-hide="memberOf">
-            <button class="button button-assertive" ng-click="joinTribe()">Join Tribe</button>
+        <div class= "tribe-info">
+          <img ng-src="{{tribe.imgsrc}}" alt="" class="tribe-info-logo">
+          <div><span class="tribe-label">Name:</span> {{tribe.name}}</div>
+          <div><span class="tribe-label">Category:</span> {{tribe.category}}</div>
+          <div><span class="tribe-label">Created:</span> {{tribe.createdAt}}</div>
+          <div><span class="tribe-label">Members:</span>  {{tribe.members.length}} </div>
+          <div ng-hide="memberOf">
+              <button class="button button-assertive" ng-click="joinTribe()">Join Tribe</button>
+          </div>
+          <div ng-show="memberOf">
+              <button class="button button-positive" ng-click="leaveTribe()">Leave Tribe</button>
+          </div>
         </div>
-        <div ng-show="memberOf">
-            <button class="button button-positive" ng-click="leaveTribe()">Leave Tribe</button>
+
+        <div>
+          <p><span class="tribe-label">Summary:</span> {{tribe.summary}}</p>
         </div>
     </ion-content>
 

@@ -232,9 +232,6 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
     });
 
     $ionicPlatform.ready(function() {
-
-
-
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)an
         if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -254,9 +251,13 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
 
         APIService.getUser(uuid).success(function (data) {
             UserService.set('tribeEnabled', data.tribeEnabled);
+            UserService.set('nickname', data.nickname);
             $rootScope.tribeEnabled = data.tribeEnabled;
             $location.path('/app/home');
         }).error(function () {
+            if ('splashscreen' in navigator) {
+              navigator.splashscreen.hide();
+            }
             if (device.platform === 'android' || device.platform === 'Android' || device.platform === 'browser') {
                 $location.path('/app/welcome');
 

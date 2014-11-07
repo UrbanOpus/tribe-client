@@ -1,9 +1,12 @@
 <ion-view title="Welcome">
     <ion-content class="has-header padding">
         <h4 class="title">Where Do You Fit In?</h4>
-        <h4 class="title">Choose Up To 5 Tribes.</h4>
+        <h4 class="title">Choose Up To 5 Tribes ({{selected}}/{{limit}}).</h4>
         <div class="list">
-          <ion-checkbox ng-repeat="tribe in data.tribes" ng-model="tribe.selected" ng-change="change(tribe)">{{tribe.name}}</ion-checkbox>
+          <ion-checkbox ng-repeat="tribe in data.tribes" ng-model="tribe.selected" ng-change="change(tribe)" class="tribe-selector" ng-class="{chosen: tribe.selected}">
+          <img ng-src="{{tribe.imgsrc}}" class="welcome-tribe-image"/>
+          <div class="tribe-name">{{tribe.name}}</div>
+          </ion-checkbox>
         </div>
     </ion-content>
     <ion-footer-bar class="bar bar-footer bar-positive" ng-click="next()">

@@ -3,15 +3,20 @@ angular.module('tribe.tribeMessages', [])
         APIService.handshake().success(function () {
           $ionicLoading.hide();
 
+          $scope.nickname = UserService.get('nickname');
+
+          $scope.userid = UserService.get('uuid');
+
           $scope.tribe = $stateParams.id;
 
           if ($stateParams.id === "global") {
-            $scope.globalchat === true;
+            $scope.globalchat = true;
           }
 
           $scope.message = {
-            name: "",
-            content: ""
+            name: $scope.nickname,
+            content: "",
+            uuid: ""
           }
 
           var ref = new Firebase("https://glaring-torch-9281.firebaseio.com/" + $scope.tribe);
@@ -20,8 +25,7 @@ angular.module('tribe.tribeMessages', [])
 
            $scope.addMessage = function(e) {
               $scope.sendMsg = function() {
-                $scope.messages.$add({from: $scope.message.name, body: $scope.message.content});
-                $scope.message.name = "";
+                $scope.messages.$add({from: $scope.message.name, body: $scope.message.content, uuid: $scope.userid});
                 $scope.message.content = "";
               }
            }

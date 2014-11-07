@@ -6,7 +6,7 @@
       <div class="list">
           <a class="item item-thumbnail-left" href="#/app/tribe?id={{tribe._id}}" ng-repeat="tribe in data.tribes">
             <img ng-src="{{tribe.imgsrc}}"/>
-            <h2>{{tribe.name}}</h2>
+            <div><h2 class="search-name">{{tribe.name}}</h2></div>
           </a>
       </div>
     </ion-content>

@@ -5,6 +5,8 @@ angular.module('tribe.welcome', [])
         var TRIBE_LIMIT = 5;
 
         $scope.data = {};
+        $scope.limit = TRIBE_LIMIT;
+        $scope.selected = 0;
 
         var getTribes = function () {
             APIService.getAllTribes().success(function (result) {
@@ -20,13 +22,15 @@ angular.module('tribe.welcome', [])
         getTribes();
 
         $scope.change = function(tribe) {
-          if (_.where($scope.data.tribes, {selected: true}).length >= TRIBE_LIMIT) {
+          if ($scope.selected >= TRIBE_LIMIT) {
             tribe.selected = false;
           }
+            
+          $scope.selected = _.where($scope.data.tribes, {selected: true}).length;
         };
 
         $scope.next = function(tribe) {
-          if (_.where($scope.data.tribes, {selected: true}).length < 1 ) {
+          if ($scope.selected < 1 ) {
             $ionicPopup.alert({
                 title: 'Leave Tribe',
                 template: 'You must be in at least one Tribe!!!',

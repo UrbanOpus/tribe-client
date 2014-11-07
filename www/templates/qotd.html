@@ -28,14 +28,10 @@
                 <strong>{{value}}</strong>
                 <span ng-class="getResponseClass(value)">{{(responses.length * 100 / data.totalResponses).toFixed(0 )}}%</span>
             </div>
-            <div class="item item-divider" style="text-align:right">
+            <div class="item item-divider">
+                <span class="badge badge-assertive">Most Popular</span>
                 &nbsp;
                 <i class="icon ion-person"></i> Your Response
-            </div>
-
-            <div class="item item-divider" style="text-align:center">
-                &nbsp;
-                <span class="badge badge-assertive">Most Popular</span>
             </div>
         </div>
         <div class="card" ng-switch="data.question.type" ng-show="data.question && !data.question.isAnswered && !data.expired">

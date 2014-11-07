@@ -14,8 +14,21 @@
     <icon src="www/img/tribe.png" platform="android" density="mdpi" />
     <icon src="www/img/tribe.png" platform="android" density="hdpi" />
     <icon src="www/img/tribe.png" platform="android" density="xhdpi" />
+
+
+    <splash src="www/img/screen/splash-land-hdpi.png" platform="android" density="land-hdpi"/>
+    <splash src="www/img/screen/splash-land-ldpi.png" platform="android" density="land-ldpi"/>
+    <splash src="www/img/screen/splash-land-mdpi.png" platform="android" density="land-mdpi"/>
+    <splash src="www/img/screen/splash-land-xhdpi.png" platform="android" density="land-xhdpi"/>
+
+    <splash src="www/img/screen/splash-port-hdpi.png" platform="android" density="port-hdpi"/>
+    <splash src="www/img/screen/splash-port-ldpi.png" platform="android" density="port-ldpi"/>
+    <splash src="www/img/screen/splash-port-mdpi.png" platform="android" density="port-mdpi"/>
+    <splash src="www/img/screen/splash-port-xhdpi.png" platform="android" density="port-xhdpi"/>
     
     <access origin="*" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />

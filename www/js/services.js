@@ -70,6 +70,16 @@ angular.module('tribe.services', [])
             createUser: function (user) {
                 return $http.post(url + 'users', user);
             },
+            changeNickName: function (user, nickname) {
+                var data = {
+                  uuid: user,
+                  nickname: nickname
+                };
+
+                console.log(data);
+
+                return $http.post(url + 'changenickname', data);
+            },
             getResponses: function (question) {
                 return $http.get(url + 'questions/' + question + '/responses/sorted');
             },

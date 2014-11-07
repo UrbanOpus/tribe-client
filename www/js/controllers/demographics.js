@@ -7,6 +7,10 @@ angular.module('tribe.demographic', ['angular-datepicker'])
         selectYears: true
       }
 
+      $scope.user = {
+        birthyear: ''
+      }
+
       $scope.createUser = function(user) {
         validateForm(user);
 
@@ -45,7 +49,7 @@ angular.module('tribe.demographic', ['angular-datepicker'])
       }
 
       function validateForm (user) {
-        if (parseInt(user.year) > parseInt(moment().format('YYYY'))) {
+        if (parseInt(user.birthyear) > parseInt(moment().format('YYYY'))) {
           $ionicPopup.alert({
               title: 'Invalid Year',
               template: 'Enter a valid year',

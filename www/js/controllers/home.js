@@ -1,7 +1,7 @@
 /**
  * Created by faide on 2014-07-14.
  */
-angular.module('tribe.home', ['angularMoment'])
+angular.module('tribe.home', ['nvd3','angularMoment'])
 
     .filter('asAlpha', function () {
         return function (num) {

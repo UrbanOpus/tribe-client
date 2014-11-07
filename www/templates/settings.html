@@ -5,26 +5,12 @@
   <ion-content class="padding">
     <div class="card">
       <div class="item item-divider">
-        Mood Mapping Notifications
+          Change Nickname
       </div>
-      <div class="item item-text-wrap">
-        <p>
-          We're really interested in knowing how you feel. Enable this
-          notification feature so you're prompted every day at a
-          specified time to record your mood.
-        </p>
-      </div>
-      <ion-toggle ng-model="mood_notify.checked"
-                  ng-click="updateSettings()">
-        Enable Mood Notifications
-      </ion-toggle>
-      <label class="item item-select item-text-wrap" ng-show="mood_notify.checked">
-        <div class="label">
-            Schedule Time
-        </div>
-          <select name="" id="mood_notify_time" ng-model="mood_notify.time" ng-options="time for time in data.times" ng-change="updateSettings()">
-          </select>
-      </label>
+
+      <div class="item">
+          <input type="text" ng-model="data.nickname" placeholder="enter nickname" ng-value="{{nickname}}">
+      </div>    
       <!--
         <div class="item item-text-wrap">
             <button class="button button-block button-assertive" ng-click="deleteUser()">DELETE USER</button>
@@ -32,4 +18,8 @@
         -->
     </div>
   </ion-content>
+  <ion-footer-bar class="bar bar-footer bar-positive" ng-click="updateSettings()">
+    <button class="button button-block button-positive" style="margin-top: 0px; border: none;">Save Settings</button>
+    <br>
+  </ion-footer-bar>
 </ion-view>

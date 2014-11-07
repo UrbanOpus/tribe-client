@@ -82,15 +82,7 @@ angular.module('tribe.tribeQuestion', [])
                         showLabels: true,
                         showLegend: false,
                         transitionDuration: 500,
-                        labelThreshold: 0.01,
-                        legend: {
-                            margin: {
-                                top: 5,
-                                right: 0,
-                                bottom: 0,
-                                left: 0
-                            }
-                        }
+                        labelThreshold: 0.01
                     }
                 },
                 data: [],

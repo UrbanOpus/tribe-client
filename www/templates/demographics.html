@@ -4,7 +4,7 @@
         <div>
           <label class="item item-input">
             <span class="input-label">Birth Year</span>
-            <input type="text" placeholder="yyyy" ng-model="user.year">
+            <input type="number" ng-model="user.birthyear">
           </label>
           <label class="item item-input item-select">
             <span class="input-label">Gender</span>
@@ -28,7 +28,9 @@
           </label>
         </div>
         
-
-        <button ng-click="createUser(user)" class="button button-block button-positive">Done</button>
     </ion-content>
+    <ion-footer-bar class="bar bar-footer bar-positive" ng-click="createUser(user)">
+      <button class="button button-block button-positive" style="margin-top: 0px; border: none;">Done</button>
+      <br>
+    </ion-footer-bar>
 </ion-view>

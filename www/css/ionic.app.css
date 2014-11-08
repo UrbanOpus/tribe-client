@@ -7416,3 +7416,8 @@ a.button {
 .message-view {
   background-color: #FFEDE3;
   bottom: 87px; }
+
+.sorry {
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 25px; }

@@ -11,10 +11,10 @@
           <div><span class="tribe-label">Created:</span> {{tribe.createdAt}}</div>
           <div><span class="tribe-label">Members:</span>  {{tribe.members.length}} </div>
           <div ng-hide="memberOf">
-              <button class="button button-assertive" ng-click="joinTribe()">Join Tribe</button>
+              <button class="button button-assertive" ng-click="joinTribe()" analytics-on="click" analytics-category="Tribe" analytics-event="Join">Join Tribe</button>
           </div>
           <div ng-show="memberOf">
-              <button class="button button-positive" ng-click="leaveTribe()">Leave Tribe</button>
+              <button class="button button-positive" ng-click="leaveTribe()" analytics-on="click" analytics-category="Tribe" analytics-event="Leave">Leave Tribe</button>
           </div>
         </div>
 

@@ -24,12 +24,19 @@ angular.module('tribe.tribeMessages', ['angularMoment'])
 
           $scope.messages = $firebase(ref.limit(MESSAGELIMIT));
 
-           $scope.addMessage = function(e) {
-              $scope.sendMsg = function() {
-                $scope.messages.$add({from: $scope.message.name, body: $scope.message.content, uuid: $scope.userid});
-                $scope.message.content = "";
-              }
-           }
+          $scope.messages.$on('change', function() {
+            $ionicScrollDelegate.scrollBottom();
+          });
+          
+          $ionicScrollDelegate.scrollBottom();
+
+          $scope.addMessage = function(e) {
+            $scope.sendMsg = function() {
+              $scope.messages.$add({from: $scope.message.name, body: $scope.message.content, uuid: $scope.userid});
+              $scope.message.content = "";
+              $ionicScrollDelegate.scrollBottom();
+            }
+          }
 
         }).error(function () {
             $ionicLoading.hide();

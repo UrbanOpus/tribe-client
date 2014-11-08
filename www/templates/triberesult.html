@@ -56,7 +56,8 @@
             <button ng-disabled="data.question.isAnswered" ng-show="data.question" class="button button-block button-assertive" ng-click="submitResponse()" analytics-on="click" analytics-category="QOTD" analytics-event="Answer">Submit</button>
         </div>
         <div class="card" ng-hide="data.question" style="text-align: center">
-            <h4>Sorry, there's no question available <span ng-show="data.isLatestDay">yet </span>for <span ng-hide="data.isLatestDay">{{data.qDate.format('YYYY/MM/DD')}}</span><span ng-show="data.isLatestDay">today</span>!</h4>
+            <h4 ng-show="data.isLatestDay" class="sorry">Sorry, there's no question available yet for today!</h4>
+            <h4 ng-hide="data.isLatestDay" class="sorry">Sorry, there's no question available for {{data.qDate.format('YYYY/MM/DD')}}!</h4>
         </div>
         <div class="card" ng-show="data.expired && data.question && !data.question.isAnswered" style="text-align: center">
             <h4>You missed answering the question of the day <span ng-hide="data.isLatestDay">on {{data.qDate.format('YYYY/MM/DD')}}.</span><span ng-show="data.isLatestDay">today. Come back Tommorrow!</span></h4>

@@ -3,7 +3,7 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
     <ion-content class="has-header" scroll="false">
-        <div class="dashboard-qotd" ng-show="hasQotD && qotd.answered || !data.expired">
+        <div class="dashboard-qotd" ng-show="hasQotD && qotd.answered && !data.expired">
             <div class="qotd-answered" ng-show="qotd.answered">
                 <div class="padding qotd-title">
                   {{qotd.title}}
@@ -15,7 +15,7 @@
                 <a href="#/app/qotd" class="button button-positive answer-button">Answer the Question of the Day</a>
             </div>
         </div>
-        <div class="qotd-notavailable" ng-hide="hasQotD">
+        <div class="qotd-notavailable" ng-hide="hasQotD && !data.expired">
             There is no question available yet for today!
         </div>
         <div class="qotd-notavailable" ng-show="hasQotD && data.expired && !qotd.answered">

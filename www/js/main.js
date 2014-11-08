@@ -249,6 +249,10 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
 
         UserService.set('uuid', uuid);
 
+        ga('set', 'dimension1', uuid);
+
+        ga("set", "&uid", uuid);
+
         APIService.getUser(uuid).success(function (data) {
             UserService.set('tribeEnabled', data.tribeEnabled);
             UserService.set('nickname', data.nickname);

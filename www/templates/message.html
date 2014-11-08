@@ -14,7 +14,7 @@
     <div class="bar bar-subfooter message-input">
       <div class="msg-name">{{nickname}}:</div>
       <input type="text" ng-model="message.content" ng-keydown="addMessage($event)" placeholder="Message...">
-      <button class="button button-positive" ng-click="sendMsg()">  Send  </button>
+      <button class="button button-positive" ng-click="sendMsg()" analytics-on="click" analytics-category="Messages" analytics-event="Post">Send</button>
     </div>
 
     <div class="tabs" ng-hide="globalchat">

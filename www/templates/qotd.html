@@ -54,7 +54,7 @@
                     Response: {{data.response.value}}
                 </div>
             </div>
-            <button ng-disabled="data.question.isAnswered" ng-show="data.question" class="button button-block button-assertive" ng-click="submitResponse()">Submit</button>
+            <button ng-disabled="data.question.isAnswered" ng-show="data.question" class="button button-block button-assertive" ng-click="submitResponse()" analytics-on="click" analytics-category="QOTD" analytics-event="Answer">Submit</button>
         </div>
         <div class="card" ng-hide="data.question" style="text-align: center">
             <h4>Sorry, there's no question available <span ng-show="data.isLatestDay">yet </span>for <span ng-hide="data.isLatestDay">{{data.qDate.format('YYYY/MM/DD')}}</span><span ng-show="data.isLatestDay">today</span>!</h4>

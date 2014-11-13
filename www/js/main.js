@@ -138,6 +138,17 @@ $stateProvider.state('app.triberesult', {
     views: {
         'menuContent': {
             resolve: {
+                'tribe': function($stateParams, $ionicLoading, APIService) {
+                    if ($stateParams.id) {
+                        var id = $stateParams.id;
+                    }
+
+                    $ionicLoading.show({
+                       template: '<i class="icon ion-loading-c"></i><br />Loading Tribe'
+                    });
+
+                    return APIService.getTribeInfo(id);
+                },
                 'qotd': function($stateParams, $ionicLoading, APIService) {
                     var date = new Date();
 

@@ -32,11 +32,13 @@ angular.module('tribe.tribeQuestion', [])
     })
 
     .controller('TribeQuestionCtrl', function($scope, $ionicLoading, $stateParams, $location,
-                                         APIService, uuid, qotd) {
+                                         APIService, uuid, qotd, tribe) {
 
         APIService.handshake().success(function () {
             // TODO: remove this, won't be loading until this anyhow
             $ionicLoading.hide();
+            
+            $scope.memberOf = _.contains(tribe.data.members, uuid);
 
             $scope.tribe = $stateParams.id;
 

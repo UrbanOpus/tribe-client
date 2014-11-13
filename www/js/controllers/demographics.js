@@ -12,8 +12,6 @@ angular.module('tribe.demographic', ['angular-datepicker'])
       }
 
       $scope.createUser = function(user) {
-        validateForm(user);
-
         var submission = user;
 
         submission.uuid = UserService.get('uuid');
@@ -27,25 +25,29 @@ angular.module('tribe.demographic', ['angular-datepicker'])
           UserService.set('tribeEnabled', false);
         };
 
-        APIService.createUser(submission).success(function (u) {
-            $ionicPopup.alert({
-                title: 'Success!',
-                template: 'User created'
-            }).then(function () {
-                _.each(UserService.get('tribes'), function (t) {
-                  var toSubmit = {
-                    uuid: user.uuid
-                  };
-                  APIService.joinTribe(t, toSubmit);
-                })
-                $location.path('/app/home');
-            });
-        }).error(function (error) {
-            $ionicPopup.alert({
-                title: 'Error',
-                template: 'Could not connect to the server.  Please check your network connection.'
-            });
-        });
+        if (validateForm(user)) {
+          APIService.createUser(submission).success(function (u) {
+              $ionicPopup.alert({
+                  title: 'Success!',
+                  template: 'User created'
+              }).then(function () {
+                  _.each(UserService.get('tribes'), function (t) {
+                    var toSubmit = {
+                      uuid: user.uuid
+                    };
+                    APIService.joinTribe(t, toSubmit);
+                  })
+                  $location.path('/app/home');
+              });
+          }).error(function (error) {
+              $ionicPopup.alert({
+                  title: 'Error',
+                  template: 'Could not connect to the server.  Please check your network connection.'
+              });
+          });
+        } 
+
+
       }
 
       function validateForm (user) {
@@ -55,7 +57,40 @@ angular.module('tribe.demographic', ['angular-datepicker'])
               template: 'Enter a valid year',
               okText: 'Close',
               okType: 'button-assertive'
-          })
+          });
+          return false;
         }
+
+        if (!user.gender) {
+          $ionicPopup.alert({
+              title: 'Empty Field',
+              template: 'Choose a gender',
+              okText: 'Close',
+              okType: 'button-assertive'
+          });
+          return false;
+        }
+
+        if (!user.income) {
+          $ionicPopup.alert({
+              title: 'Empty Field',
+              template: 'Choose an income range',
+              okText: 'Close',
+              okType: 'button-assertive'
+          });
+          return false;
+        }
+
+        if (!user.nickname) {
+          $ionicPopup.alert({
+              title: 'Empty Field',
+              template: 'Choose a handle',
+              okText: 'Close',
+              okType: 'button-assertive'
+          });
+          return false;
+        }
+
+        return true;
       }
     });

@@ -10,6 +10,10 @@ angular.module('tribe.tribeMessages', ['angularMoment'])
 
           $scope.tribe = $stateParams.id;
 
+          APIService.getTribeInfo($stateParams.id).success(function(tribeInfo) {
+            $scope.tribename = tribeInfo.name;
+          })
+
           if ($stateParams.id === "global") {
             $scope.globalchat = true;
           }
@@ -32,7 +36,7 @@ angular.module('tribe.tribeMessages', ['angularMoment'])
 
           $scope.addMessage = function(e) {
             $scope.sendMsg = function() {
-              $scope.messages.$add({from: $scope.message.name, body: $scope.message.content, uuid: $scope.userid});
+              $scope.messages.$add({from: $scope.nickname, body: $scope.message.content, uuid: $scope.userid});
               $scope.message.content = "";
               $ionicScrollDelegate.scrollBottom();
             }

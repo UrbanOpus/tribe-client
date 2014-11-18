@@ -3,17 +3,19 @@
  */
 angular.module('tribe.gcm', [])
 
-.factory('PushProcessingService', function (UserService, $ionicPopup) {
+.factory('PushProcessingService', function (APIService, UserService, $ionicPopup) {
         function onDeviceReady() {
-            var pushNotification = window.plugins.pushNotification;
+          var pushNotification = window.plugins.pushNotification;
+          pushNotification.unregister(function () {
             pushNotification.register(gcmSuccessHandler, gcmErrorHandler, {
-                "senderID": "676761242212",
+                "senderID": "428350448350",
                 "ecb": "onNotificationGCM"
             });
+          });
         }
 
         function gcmSuccessHandler(result) {
-            console.log(result);
+            console.log(result);   
         }
 
         function gcmErrorHandler(error) {
@@ -25,7 +27,8 @@ angular.module('tribe.gcm', [])
                 onDeviceReady();
             },
             registerID: function (id) {
-                UserService.set('registrationID', id);
+              APIService.registerUser(UserService.get('uuid'), id);
+              UserService.set('registrationID', id);
             },
             unregister: function () {
                 var push = window.plugins.pushNotification;

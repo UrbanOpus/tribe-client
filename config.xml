@@ -41,4 +41,8 @@
     <feature name="StatusBar">
       <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
+
+    <feature name="GAPlugin" >
+        <param name="android-package" value="com.adobe.plugins.GAPlugin"/>
+    </feature>
 </widget>

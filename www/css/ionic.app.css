@@ -7421,3 +7421,9 @@ a.button {
   width: 80%;
   margin-left: 10%;
   margin-bottom: 25px; }
+
+.global-chat {
+  bottom: -1px; }
+
+.global-content {
+  bottom: 44px; }

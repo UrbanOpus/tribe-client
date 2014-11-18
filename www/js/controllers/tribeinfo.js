@@ -1,8 +1,6 @@
 angular.module('tribe.tribeinfo', [])
     .controller('TribeInfoCtrl', function($scope, $ionicLoading, $ionicModal, $ionicPopup, $ionicScrollDelegate, APIService, UserService, tribe, uuid, user) {
         APIService.handshake().success(function () {
-          $ionicLoading.hide();
-
           tribe.data.createdAt = moment(tribe.data.createdAt).format('l');
 
           $scope.usertribe = user.data.tribe;
@@ -10,6 +8,8 @@ angular.module('tribe.tribeinfo', [])
           $scope.memberOf = _.contains(tribe.data.members, uuid);
 
           $scope.tribe = tribe.data;
+
+          $ionicLoading.hide();
 
           $scope.joinTribe = function () {
             var toSubmit = {

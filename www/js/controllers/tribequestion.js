@@ -82,6 +82,7 @@ angular.module('tribe.tribeQuestion', [])
                             return d.y;
                         },
                         showLabels: true,
+                        tooltips: false,
                         showLegend: false,
                         transitionDuration: 500,
                         labelThreshold: 0.01

@@ -40,6 +40,7 @@ angular.module('tribe.demographic', ['angular-datepicker'])
                   $location.path('/app/home');
               });
           }).error(function (error) {
+              console.log(error);
               $ionicPopup.alert({
                   title: 'Error',
                   template: 'Could not connect to the server.  Please check your network connection.'

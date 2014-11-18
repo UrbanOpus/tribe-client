@@ -20,7 +20,7 @@ angular.module('tribe.services', [])
     
     .factory('APIService', function ($http) {
         // dev; comment out when commiting
-        var url = 'https://tribe-backend.herokuapp.com/api/';
+        var url = 'http://192.168.1.112:3000/api/';
         // var url = 'http://108.59.80.64:3000/api/';
 
         console.log('api service init');
@@ -103,7 +103,13 @@ angular.module('tribe.services', [])
             },
             deleteUser: function (uuid) {
                 return $http.delete(url + 'users', uuid);
-            }
+            },
+            unregisterUser: function (uuid) {
+                return $http.delete(url + 'users/' + uuid + '/gcm');
+            },
+            registerUser: function (uuid, regid) {
+                return $http.post(url + 'users/' + uuid + '/gcm', {registrationID: regid});
+            },
         };
     })
 

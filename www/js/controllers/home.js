@@ -26,8 +26,6 @@ angular.module('tribe.home', ['nvd3','angularMoment'])
 
         APIService.handshake().success(function () {
 
-            $ionicLoading.hide();
-
             $scope.hasQotD = true;
 
             $scope.qotd = {
@@ -44,9 +42,10 @@ angular.module('tribe.home', ['nvd3','angularMoment'])
                         y: function (d) {
                             return d.y;
                         },
-                        showLabels: true,
+                        showLabels: false,
                         transitionDuration: 500,
                         labelThreshold: 0.01,
+                        tooltips: false,
                         legend: {
                             margin: {
                                 top: 5,
@@ -114,6 +113,8 @@ angular.module('tribe.home', ['nvd3','angularMoment'])
                         $scope.qotd.title = "No question available";
                         $scope.hasQotD = false;
                     }
+
+                    $ionicLoading.hide();
                 });
             }
 

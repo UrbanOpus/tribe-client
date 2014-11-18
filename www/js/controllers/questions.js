@@ -80,6 +80,7 @@ angular.module('tribe.questions', ['angularMoment'])
                         },
                         showLabels: true,
                         showLegend: false,
+                        tooltips: false,
                         transitionDuration: 500,
                         labelThreshold: 0.01,
                         legend: {

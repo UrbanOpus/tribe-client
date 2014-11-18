@@ -267,8 +267,12 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
         APIService.getUser(uuid).success(function (data) {
             UserService.set('tribeEnabled', data.tribeEnabled);
             UserService.set('nickname', data.nickname);
+            if (!data.refreshed && device.platform !== 'browser') {
+              PushProcessingService.initialize();
+            }
             $rootScope.tribeEnabled = data.tribeEnabled;
             $location.path('/app/home');
+
         }).error(function () {
             if ('splashscreen' in navigator) {
               navigator.splashscreen.hide();
@@ -277,7 +281,7 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
                 $location.path('/app/welcome');
 
                 if (device.platform !== 'browser') {
-                    PushProcessingService.initialize();
+                  PushProcessingService.initialize();
                 } else {
                   UserService.set('registrationID', 'testRegid');
                 }
@@ -289,9 +293,7 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
         });
         // get gcm registration id
 
-        if (device.platform === 'android' || device.platform === 'Android') {
-            PushProcessingService.initialize();
-        }
+
     });
 
 

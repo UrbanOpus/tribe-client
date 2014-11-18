@@ -1,8 +1,8 @@
-<ion-view title="Messages">
+<ion-view title="{{tribename}} Messages">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header padding message-view">
+    <ion-content class="has-header padding message-view" ng-class="{'global-content': globalchat}">
       <div class="item msg" style="width: 100%" ng-repeat="msg in messages">
         <div ng-class="{selfmsg: msg.uuid === userid}">
           <div class="from" ng-hide="msg.uuid === userid">{{msg.from}}</div>
@@ -11,9 +11,8 @@
       </div>
 
     </ion-content>
-    <div class="bar bar-subfooter message-input">
-      <div class="msg-name">{{nickname}}:</div>
-      <input type="text" ng-model="message.content" ng-keydown="addMessage($event)" placeholder="Message...">
+    <div class="bar bar-subfooter message-input" ng-class="{'global-chat': globalchat}">
+      <input type="text" ng-model="message.content" ng-keydown="addMessage($event)" placeholder="{{nickname}}: Message...">
       <button class="button button-positive" ng-click="sendMsg()" analytics-on="click" analytics-category="Messages" analytics-event="Post">Send</button>
     </div>
 

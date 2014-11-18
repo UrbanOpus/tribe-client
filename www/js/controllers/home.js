@@ -21,7 +21,6 @@ angular.module('tribe.home', ['nvd3','angularMoment'])
 
     .controller('HomeCtrl', function($scope, $q, APIService, UserService, $ionicLoading, $ionicPopup) {
 
-
         var backgroundBlue = '#2d3947';
 
         APIService.handshake().success(function () {

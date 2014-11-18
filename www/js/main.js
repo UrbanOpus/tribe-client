@@ -4,7 +4,7 @@ var app = angular.module('tribe',
                           'tribe.settings', 'tribe.services', 'tribe.gcm', 'tribe.filters',
                           'tribe.tribes', 'tribe.search', 'tribe.tribeinfo', 'tribe.demographic',
                           'tribe.tribeQuestion', 'tribe.tribeMessages', 'firebase',
-                          'angular-datepicker', 'angularMoment','angulartics', 'angulartics.google.analytics']);
+                          'angular-datepicker', 'angularMoment']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -259,10 +259,6 @@ app.run(function($rootScope, $ionicLoading, $ionicPopup, $ionicPlatform, $http, 
         var uuid = device.uuid;
 
         UserService.set('uuid', uuid);
-
-        ga('set', 'dimension1', uuid);
-
-        ga("set", "&uid", uuid);
 
         APIService.getUser(uuid).success(function (data) {
             UserService.set('tribeEnabled', data.tribeEnabled);

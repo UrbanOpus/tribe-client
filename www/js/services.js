@@ -20,7 +20,7 @@ angular.module('tribe.services', [])
     
     .factory('APIService', function ($http) {
         // dev; comment out when commiting
-        var url = 'https://tribe-backend.herokuapp.com/api/';
+        var url = 'http://localhost:3000/api/';
         // var url = 'http://108.59.80.64:3000/api/';
 
         console.log('api service init');

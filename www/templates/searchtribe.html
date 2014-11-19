@@ -6,7 +6,11 @@
       <div class="list">
           <a class="item item-thumbnail-left" href="#/app/tribe?id={{tribe._id}}" ng-repeat="tribe in data.tribes">
             <img ng-src="{{tribe.imgsrc}}"/>
-            <div><h2 class="search-name">{{tribe.name}}</h2></div>
+            <h2 class="search-name">{{tribe.name}}</h2>
+            <div>Average Mood: {{tribe.averageMood}}
+              <i class="icon ion-happy" ng-show="{{tribe.averageMood}} > 0" style="color: green"></i>
+              <i class="icon ion-sad" ng-show="{{tribe.averageMood}} < 0" style="color: red"></i>
+            </div>
           </a>
       </div>
     </ion-content>

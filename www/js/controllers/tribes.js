@@ -9,6 +9,7 @@ angular.module('tribe.tribes', [])
 
             var getTribes = function () {
                 APIService.getTribes(uuid).success(function (result) {
+                    console.log(result);
                     $scope.data.tribes = result;
                 }).error(function (error) {
                     console.log(error);

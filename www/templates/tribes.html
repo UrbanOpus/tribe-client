@@ -3,13 +3,17 @@
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>    
     <ion-nav-buttons side="right">
-      <a href="#/app/search" class="button button-icon icon ion-search"></a>
+      <a href="#/app/search" class="button button-icon icon ion-search">View All</a>
     </ion-nav-buttons>
     <ion-content class="has-header padding">
         <div class="list">
             <a class="item item-avatar" ng-href="#/app/tribe?id={{tribe._id}}" ng-repeat="tribe in data.tribes">
               <img ng-src="{{tribe.imgsrc}}" />
               <h2>{{tribe.name}}</h2>
+              <div>Average Mood: {{tribe.averageMood}}
+                <i class="icon ion-happy" ng-show="{{tribe.averageMood}} > 0" style="color: green"></i>
+                <i class="icon ion-sad" ng-show="{{tribe.averageMood}} < 0" style="color: red"></i>
+              </div>
             </a>
         </div>        
     </ion-content>
